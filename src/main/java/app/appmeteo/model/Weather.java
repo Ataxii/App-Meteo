@@ -3,6 +3,7 @@ package app.appmeteo.model;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
@@ -35,6 +36,10 @@ public class Weather {
         humidity = obj.get("main").getAsJsonObject().get("humidity").getAsInt();
         windSpeed = obj.get("wind").getAsJsonObject().get("speed").getAsDouble();
         windDeg = obj.get("wind").getAsJsonObject().get("deg").getAsInt();
+    }
+
+    public Weather(File file) throws FileNotFoundException {
+        this(file.getPath());
     }
 
     public String getId() {
