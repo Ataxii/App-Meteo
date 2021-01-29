@@ -2,10 +2,16 @@ package app.appmeteo.model;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
+/**
+ * Represents a weather at a certain time
+ * Instantiated by City's constructor
+ * @see City
+ * @version 1.0
+ * @since 1.0
+ */
 public class Weather {
     private final String id;
     private final String main;
@@ -21,6 +27,11 @@ public class Weather {
     private final int windDeg;
 
 
+    /**
+     * Called by City's constructor, reads the JSON file in parameter and initializes all attributes
+     * @param filename the name of a JSON file returned by an API query
+     * @throws FileNotFoundException if wrong file name is passed in argument
+     */
     public Weather(String filename) throws FileNotFoundException {
         JsonObject obj = JsonParser.parseReader(new FileReader(filename)).getAsJsonObject();
         id = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("id").getAsString();
