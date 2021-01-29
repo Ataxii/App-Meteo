@@ -2,6 +2,7 @@ package app.appmeteo;
 
 import app.appmeteo.controller.APIQuery;
 import app.appmeteo.model.City;
+import app.appmeteo.model.Favourite;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ public class AppMeteoCLI {
         Scanner scanner = new Scanner(System.in);
         String cityName = scanner.nextLine();
 
+        Favourite.deleteFavourite(cityName);
         scanner.close();
         System.out.println(cityName);
         APIQuery.QueryWithCity(cityName);
