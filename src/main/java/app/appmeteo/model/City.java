@@ -3,6 +3,7 @@ package app.appmeteo.model;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
@@ -24,6 +25,10 @@ public class City {
         latitude = obj.get("coord").getAsJsonObject().get("lat").getAsDouble();
         timezone = obj.get("timezone").getAsLong();
         wheatherNow = new Weather(filename);
+    }
+
+    public City(File file) throws FileNotFoundException {
+        this(file.getPath());
     }
 
     public double getLongitude() {
