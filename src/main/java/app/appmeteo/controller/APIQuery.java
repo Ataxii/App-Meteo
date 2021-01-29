@@ -36,4 +36,27 @@ public class APIQuery {
         w.write(r.readLine());
         w.close();
     }
+
+    /**
+     * Creates a query for the API asking for current weather in the city passed in parameter
+     * Creates and returns a string containing all .json infos from the API answer
+     * @param city the String corresponding to city's name
+     * @throws IOException if the URL sent is not valid
+     * @since 1.0
+     */
+    public static String QueryStringWithCity(String city) throws IOException {
+        // API Query
+        String StrUrl = "http://api.openweathermap.org/data/2.5/weather?q="+ city +"&units=metric&appid=" + key;
+
+        URL url = new URL(StrUrl);
+        // URL connection
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+        // Buffer creation
+        InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
+        BufferedReader r = new BufferedReader(new InputStreamReader(inputStream));
+
+        // return string
+        return r.readLine();
+    }
 }

@@ -22,11 +22,14 @@ public class AppMeteoCLI {
         System.out.println("What's the weather like in : ");
         Scanner scanner = new Scanner(System.in);
         String cityName = scanner.nextLine();
-
         scanner.close();
-        APIQuery.QueryWithCity(cityName);
 
-        City city = new City("Data.json");
+
+        // APIQuery.QueryWithCity(cityName);
+        // City city = new City("Data.json");
+        String datas = APIQuery.QueryStringWithCity(cityName);
+        City city = new City(datas);
+
         // Prediction time
         System.out.print("Time : ");
         System.out.println(LocalDateTime.ofEpochSecond(city.getWeatherNow().getTime() + city.getTimezone()

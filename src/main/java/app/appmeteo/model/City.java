@@ -24,23 +24,36 @@ public class City {
     /**
      * Reads the JSON file in parameter and initializes all attributes
      * Creates a Weather object weatherNow corresponding to city's current weather
-     * @param filename the name of a JSON file returned by an API query
+     * @param file the JSON file returned by an API query
      * @throws FileNotFoundException if wrong file name is passed in argument
      * @since 1.0
      */
-    public City(String filename) throws FileNotFoundException {
-        JsonObject obj = JsonParser.parseReader(new FileReader(filename)).getAsJsonObject();
+    public City(File file) throws FileNotFoundException {
+        JsonObject obj = JsonParser.parseReader(new FileReader(file)).getAsJsonObject();
         id = obj.get("id").getAsString();
         name = obj.get("name").getAsString();
         country = obj.get("sys").getAsJsonObject().get("country").getAsString();
         longitude = obj.get("coord").getAsJsonObject().get("lon").getAsDouble();
         latitude = obj.get("coord").getAsJsonObject().get("lat").getAsDouble();
         timezone = obj.get("timezone").getAsLong();
-        weatherNow = new Weather(filename);
+        weatherNow = new Weather(file);
     }
 
-    public City(File file) throws FileNotFoundException {
-        this(file.getPath());
+    /**
+     * Reads the String in parameter and initializes all attributes
+     * Creates a Weather object weatherNow corresponding to city's current weather
+     * @param datas the string returned by an API query
+     * @since 1.0
+     */
+    public City(String datas) {
+        JsonObject obj = JsonParser.parseString(datas).getAsJsonObject();
+        id = obj.get("id").getAsString();
+        name = obj.get("name").getAsString();
+        country = obj.get("sys").getAsJsonObject().get("country").getAsString();
+        longitude = obj.get("coord").getAsJsonObject().get("lon").getAsDouble();
+        latitude = obj.get("coord").getAsJsonObject().get("lat").getAsDouble();
+        timezone = obj.get("timezone").getAsLong();
+        weatherNow = new Weather(datas);
     }
 
     public double getLongitude() {
