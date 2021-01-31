@@ -1,10 +1,13 @@
 package app.appmeteo;
 
 import app.appmeteo.controller.APIQuery;
+import app.appmeteo.controller.AppMeteoController;
+import app.appmeteo.controller.Query;
 import app.appmeteo.model.City;
 import app.appmeteo.model.Favourite;
 
 import java.io.IOException;
+import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Scanner;
@@ -17,23 +20,37 @@ public class AppMeteoCLI {
 
         System.out.println("Input your command: ");
         Scanner scanner = new Scanner(System.in);
-        String cityName = scanner.nextLine();
+        Query query = new Query(scanner);
+        AppMeteoController.setStopControl(false);
+        while(!AppMeteoController.hasToStop()) {
+            System.out.println("Input your command: ");
+            query.next();
+            try {
+                AppMeteoController.TreatQuery(query);
+            } catch (InvalidParameterException e) {
+                AppMeteoController.setStopControl(true);
+                System.out.println("Invalid Query");
+            } finally {
+                if (AppMeteoController.hasToStop())
+                    System.out.println("Thanks to use our app");
+                else {
+                    System.out.println("Another request? Type it ! ");
+                    System.out.println("Else type quit. ");
+                }
+            }
+        }
 
-        Favourite.deleteFavourite(cityName);
+
         scanner.close();
-        System.out.println(cityName);
-        APIQuery.QueryWithCity(cityName);
 
-        City city = new City("Data.json");
-        // Prediction time
-        System.out.println(LocalDateTime.ofEpochSecond(city.getWheatherNow().getTime() + city.getTimezone()
-                ,0, ZoneOffset.UTC));
-        // Weather
-        System.out.println(city.getWheatherNow().getMain());
-        // Temperature Celsius
-        System.out.println(city.getWheatherNow().getTemp() - 273.15);
-        // Wind speed meter/sec
-        System.out.println(city.getWheatherNow().getWindSpeed());
+
+
+        //Favourite.deleteFavourite(cityName);
+
+        //System.out.println(cityName);
+
+
+
     }
 
 
@@ -41,4 +58,6 @@ public class AppMeteoCLI {
         return kelvin - 273.15;
     }
 }
+
+
 
