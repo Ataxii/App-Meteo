@@ -6,58 +6,26 @@ public class Commands {
      * Commands types, first thing to check when the user does a query
      * if a command type does not begin with one of those, then it's a weather query
      */
-    enum CommandTypes {
-
-        FAV("fav"),
-        HELP("help"),
-        QUIT("quit");
-
-        private final String commandName;
-
-        CommandTypes(String commandName) {
-            this.commandName = commandName;
-        }
-
-        public String toString() {
-            return this.commandName;
-        }
+    public class CommandType {
+        public static final String FAV = "fav";
+        public static final String HELP = "help";
+        public static final String QUIT = "quit";
     }
 
     /**
      * weather related commands, for no commandtype case
      */
-    enum Weather {
-        TEMP("-temp"),
-        WIND("-wind");
-
-        private final String commandName;
-
-        Weather(String commandName) {
-            this.commandName = commandName;
-        }
-
-        public String toString() {
-            return this.commandName;
-        }
-
+    public class WeatherCommands {
+        public static final String TEMP = "-temp";
+        public static final String WIND = "-wind";
     }
 
     /**
      * favourites
      */
-    enum Favourites {
-        ADD("-add"),
-        DEL("del");
-
-        private final String commandName;
-
-        Favourites(String commandName) {
-            this.commandName = commandName;
-        }
-
-        public String toString() {
-            return this.commandName;
-        }
+    public class FavouritesCommands {
+        public static final String ADD = "-add";
+        public static final String DEL = "-del";
     }
 
 

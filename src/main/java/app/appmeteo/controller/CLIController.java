@@ -1,6 +1,7 @@
 package app.appmeteo.controller;
 
 import java.util.ArrayList;
+import app.appmeteo.controller.Commands.*;
 
 public class CLIController {
 
@@ -25,7 +26,12 @@ public class CLIController {
 
     // fav help quit, YOAN
     private void treatCommandQuery() {
+        String command = query.getCommandType();
 
+        switch (command) {
+            case Commands.CommandType.FAV:
+
+        }
     }
 
     private void treatWeatherQuery() {
