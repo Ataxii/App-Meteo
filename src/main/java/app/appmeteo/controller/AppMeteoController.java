@@ -42,6 +42,7 @@ public class AppMeteoController implements Initializable {
             helloWorldButton.setVisible(true);
     }
 
+    /*
     public static void TreatQuery(Query query) throws PatternSyntaxException, IOException, InvalidParameterException {
         if (query.isValid()){
             if(query.getParameter().isEmpty()) {
@@ -93,4 +94,5 @@ public class AppMeteoController implements Initializable {
     public static boolean hasToStop() {
         return stopControl;
     }
+     */
 }

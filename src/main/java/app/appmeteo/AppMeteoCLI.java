@@ -1,15 +1,6 @@
 package app.appmeteo;
 
-import app.appmeteo.controller.APIQuery;
-import app.appmeteo.controller.AppMeteoController;
-import app.appmeteo.controller.Query;
-import app.appmeteo.model.City;
-import app.appmeteo.model.Favourite;
-
 import java.io.IOException;
-import java.security.InvalidParameterException;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.Scanner;
 
 /**
@@ -24,6 +15,8 @@ public class AppMeteoCLI {
 
         System.out.println("Input your command: ");
         Scanner scanner = new Scanner(System.in);
+
+        /*
         Query query = new Query(scanner);
         AppMeteoController.setStopControl(false);
         while(!AppMeteoController.hasToStop()) {
@@ -43,10 +36,9 @@ public class AppMeteoCLI {
                 }
             }
         }
-
+        */
 
         scanner.close();
-
 
 
         //Favourite.deleteFavourite(cityName);
