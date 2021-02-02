@@ -1,9 +1,13 @@
 package app.appmeteo;
 
 import app.appmeteo.controller.APIQuery;
+import app.appmeteo.controller.AppMeteoController;
+import app.appmeteo.controller.Query;
 import app.appmeteo.model.City;
+import app.appmeteo.model.Favourite;
 
 import java.io.IOException;
+import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Scanner;
@@ -16,35 +20,46 @@ public class AppMeteoCLI {
     public static void main(String[] args) throws IOException {
         System.out.println("Welcome to the weather app");
 
-//        System.out.println("You requested command '" + args[0] + "' with parameter '" + args[1] + "'");
-//
-//        System.out.println("Input your command: ");
-        System.out.println("What's the weather like in : ");
+        System.out.println("You requested command '" + args[0] + "' with parameter '" + args[1] + "'");
+
+        System.out.println("Input your command: ");
         Scanner scanner = new Scanner(System.in);
-        String cityName = scanner.nextLine();
+        Query query = new Query(scanner);
+        AppMeteoController.setStopControl(false);
+        while(!AppMeteoController.hasToStop()) {
+            System.out.println("Input your command: ");
+            query.next();
+            try {
+                AppMeteoController.TreatQuery(query);
+            } catch (InvalidParameterException e) {
+                AppMeteoController.setStopControl(true);
+                System.out.println("Invalid Query");
+            } finally {
+                if (AppMeteoController.hasToStop())
+                    System.out.println("Thanks to use our app");
+                else {
+                    System.out.println("Another request? Type it ! ");
+                    System.out.println("Else type quit. ");
+                }
+            }
+        }
+
+
         scanner.close();
 
 
-        // APIQuery.QueryWithCity(cityName);
-        // City city = new City("Data.json");
-        String datas = APIQuery.QueryStringWithCity(cityName);
-        City city = new City(datas);
 
-        // Prediction time
-        System.out.print("Time : ");
-        System.out.println(LocalDateTime.ofEpochSecond(city.getWeatherNow().getTime() + city.getTimezone()
-                ,0, ZoneOffset.UTC));
-        // Weather
-        System.out.print("Weather : ");
-        System.out.println(city.getWeatherNow().getMain());
-        // Temperature Celsius
-        System.out.print("Temperature : ");
-        System.out.print(city.getWeatherNow().getTemp());
-        System.out.println("°C");
-        // Wind speed meter/sec
-        System.out.print("Wind : ");
-        System.out.print(city.getWeatherNow().getWindSpeed());
-        System.out.println("m/s");
+        //Favourite.deleteFavourite(cityName);
+
+        //System.out.println(cityName);
+
+
+
+    }
+
+
+    private static double KelvinToCelsius(double kelvin) {
+        return kelvin - 273.15;
     }
 }
 
