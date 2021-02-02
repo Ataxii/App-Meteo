@@ -1,6 +1,7 @@
 package app.appmeteo.controller;
 
 import java.io.*;
+import java.util.Locale;
 
 public class Favourite {
 
@@ -30,7 +31,7 @@ public class Favourite {
             String data = reader();
             String[] dataString = data.split("\n");
             for (int i = 0; i < dataString.length; i++) {
-                if (dataString[i].equals(favourite)){
+                if (dataString[i].equals(favourite.toLowerCase())){
                     dataString[i] = "";
                 }
             }
@@ -42,7 +43,7 @@ public class Favourite {
         String data = reader();
         String[] dataString = data.split("\n");
         for (String s : dataString) {
-            if (s.equals(fav)) {
+            if (s.equals(fav.toLowerCase())) {
                 return true;
             }
         }
@@ -51,10 +52,10 @@ public class Favourite {
 
     private static void writter (String[] data) throws IOException {
         //write the new favourite with data
-        BufferedWriter w = new BufferedWriter(new FileWriter("Favourite.txt"));
+        BufferedWriter w = new BufferedWriter(new FileWriter("src/test/java/app/appmeteo/controller/FavouriteTest/origin.txt"));
         for (String datum : data) {
             if (!datum.isEmpty()) {
-                w.append(datum);
+                w.append(datum.toLowerCase());
                 w.newLine();
             }
         }
@@ -62,7 +63,7 @@ public class Favourite {
 
     private static String reader() throws IOException {
         //recuperation of data in new reload program
-        BufferedReader r = new BufferedReader(new FileReader("favourite.txt"));
+        BufferedReader r = new BufferedReader(new FileReader("src/test/java/app/appmeteo/controller/FavouriteTest/origin.txt"));
         String lineRead;
         String data = "";
         while ((lineRead = r.readLine()) != null){
