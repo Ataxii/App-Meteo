@@ -1,6 +1,7 @@
 package app.appmeteo.controller;
 
-import app.appmeteo.model.City;
+import app.appmeteo.model.*;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -54,27 +55,27 @@ public class AppMeteoController implements Initializable {
 
                 }
             }else {
-                APIQuery.QueryWithCity(query.getParameter());
-                City city = new City("Data.json");
+                String datas = APIQuery.QueryStringWithCity(query.getParameter());
+                City city = new City(datas);
                 System.out.println(city.getName());
                 switch (query.getCommand()) {
                     case "temp":
-                        System.out.println("Temperature : " + (city.getWheatherNow().getTemp() - 273.15));
+                        System.out.println("Temperature : " + (city.getWeatherNow().getTemp() - 273.15));
                         break;
                     case "weather":
                         // Prediction time
                         System.out.println("Time : " + LocalDateTime.ofEpochSecond(
-                                city.getWheatherNow().getTime() + city.getTimezone(),
+                                city.getWeatherNow().getTime() + city.getTimezone(),
                                 0, ZoneOffset.UTC));
                         // Weather
-                        System.out.println("Weather : " + city.getWheatherNow().getMain());
+                        System.out.println("Weather : " + city.getWeatherNow().getMain());
                         // Temperature Celsius
-                        System.out.println("Temperature : " + (city.getWheatherNow().getTemp() - 273.15));
+                        System.out.println("Temperature : " + (city.getWeatherNow().getTemp() - 273.15));
                         // Wind speed meter/sec
-                        System.out.println("Wind speed (m/s) : " + city.getWheatherNow().getWindSpeed());
+                        System.out.println("Wind speed (m/s) : " + city.getWeatherNow().getWindSpeed());
                         break;
                     case "wind":
-                        System.out.println("Wind speed (m/s) : " + city.getWheatherNow().getWindSpeed());
+                        System.out.println("Wind speed (m/s) : " + city.getWeatherNow().getWindSpeed());
                         break;
 
                 }
