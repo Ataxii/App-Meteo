@@ -4,15 +4,22 @@ import java.io.*;
 
 public class Favourite {
 
-    public static void addFavourite(String favourite) throws IOException {
-        if (isFavourite(favourite)){
-            System.out.println("Is already in your favourite");
-        }else {
-            String data = reader();
-            data += favourite;
-            String[] dataString = data.split("\n");
-            writter(dataString);
-        }
+    public static boolean addFavourite(String favourite) throws IOException {
+       try{
+           APIQuery.QueryStringWithCity(favourite);
+       }
+       catch (FileNotFoundException e){
+           return false;
+       }
+       if (isFavourite(favourite)){
+           System.out.println("Is already in your favourite");
+       }else {
+           String data = reader();
+           data += favourite;
+           String[] dataString = data.split("\n");
+           writter(dataString);
+       }
+       return true;
     }
 
     public static void deleteFavourite(String favourite) throws IOException {
