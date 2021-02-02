@@ -40,7 +40,6 @@ public class UserQuery {
      */
     public void fixCommandline() {
         // before options
-        String com = "";
         ArrayList<String> newCommandLine = new ArrayList<String>();
 
         for (String s : query) {
@@ -55,6 +54,7 @@ public class UserQuery {
         query = newCommandLine.toArray(query);
     }
 
+    // this [Los Angeles 25/10/21, -temp, -wind] become this: [Los Angeles, 25/10/21, -temp, -wind]
     public void fixCommandDate() {
 
     }

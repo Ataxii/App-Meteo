@@ -4,6 +4,7 @@ import app.appmeteo.model.Weather;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import app.appmeteo.controller.Commands.*;
 import java.util.Date;
 
 public class CLIController {
@@ -29,7 +30,12 @@ public class CLIController {
 
     // fav help quit, YOAN
     private void treatCommandQuery() {
+        String command = query.getCommandType();
 
+        switch (command) {
+            case Commands.CommandType.FAV:
+
+        }
     }
 
     private void treatWeatherQuery() {
