@@ -1,26 +1,38 @@
 package app.appmeteo.controller;
 
-import javax.management.Query;
+import java.util.ArrayList;
 
 public class CLIController {
 
     // place each thing to display into that. it will be send to AppMeteoCLI for display on console
-    private String[] displayableDatas;
+    private ArrayList<String> displayableData;
+    private UserQuery query;
 
-    public static void treatQuery(Query query) {
-
+    public CLIController(UserQuery query) {
+        this.query = query;
     }
 
-    private boolean isWeatherQuery(Query query) {
+    public void treatQuery() {
+        if (!isWeatherQuery()) {
+            treatCommandQuery();
+        }
+        else treatWeatherQuery();
+    }
+
+    private boolean isWeatherQuery() {
         return false;
     }
 
     // fav help quit, YOAN
-    private static void treatCommandQuery(Query query) {
+    private void treatCommandQuery() {
 
     }
 
-    private static void treatWeatherQuery(Query query) {
+    private void treatWeatherQuery() {
 
+    }
+
+    private String getWindOrientation(int winddegree) {
+        return "";
     }
 }
