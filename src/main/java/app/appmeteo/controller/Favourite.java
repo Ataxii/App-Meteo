@@ -1,18 +1,17 @@
 package app.appmeteo.controller;
 
 import java.io.*;
-import java.util.Locale;
 
 public class Favourite {
 
     public static boolean addFavourite(String favourite) throws IOException {
-       try{
+       /*try{
            APIQuery.QueryStringWithCity(favourite);
        }
        catch (FileNotFoundException e){
            return false;
-       }
-       if (isFavourite(favourite)){
+       }*/
+       if (isFavourite(favourite.toLowerCase())){
            System.out.println("Is already in your favourite");
        }else {
            String data = reader();
@@ -55,10 +54,11 @@ public class Favourite {
         BufferedWriter w = new BufferedWriter(new FileWriter("src/test/java/app/appmeteo/controller/FavouriteTest/origin.txt"));
         for (String datum : data) {
             if (!datum.isEmpty()) {
-                w.append(datum.toLowerCase());
+                w.append(datum);
                 w.newLine();
             }
         }
+        w.close();
     }
 
     private static String reader() throws IOException {
@@ -69,6 +69,7 @@ public class Favourite {
         while ((lineRead = r.readLine()) != null){
             data = data + lineRead + "\n";
         }
+        r.close();
         return data;
     }
 
