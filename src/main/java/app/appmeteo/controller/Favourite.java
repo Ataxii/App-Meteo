@@ -22,11 +22,11 @@ public class Favourite {
         if (file.isDirectory()) throw new InvalidParameterException("specified file is a directory");
         boolean isNew = file.createNewFile();
         this.relatedFile = file;
+        this.favourites = new ArrayList<>();
 
         if (!isNew) {
             BufferedReader rdr = new BufferedReader(new FileReader(file));
             String line = "";
-            favourites = new ArrayList<>();
             while ((line = rdr.readLine()) != null) {
                 if (line.length() == 0) continue;
                 favourites.add(line);
