@@ -1,118 +1,32 @@
 package app.appmeteo.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
-
-import app.appmeteo.controller.Commands.*;
 
 public class CLIController {
 
     // ATTRIBUTES
-    private static ArrayList<String> displayableData;
-    private UserQuery query;
-
-    private boolean hasToStop;
-    private Favourite favourite;
-
-    // CONSTRUCTOR
-    public CLIController(UserQuery query) throws IOException {
-        this.query = query;
-        displayableData = new ArrayList<>();
-        hasToStop = false;
-        favourite = new Favourite();
-    }
-
-
-    // ACCESSORS
-    public boolean hasToStop() {
-        return hasToStop;
-    }
+    private static ArrayList<String> displayableData = new ArrayList<>();
 
     private static boolean displayListExist() {
         return displayableData != null;
     }
 
-    // MODIFY DATAS
+    // ADD DATAS
     public static void addDisplay(String s) {
         if (displayListExist())
             displayableData.add(s);
     }
 
-    // DISPLAY DATAS
-    public void displayData() {
+    // DISPLAY DATAS and clear it
+    public static void displayData() {
         for (String s : displayableData) {
             System.out.println(s);
         }
-        System.out.println();
-    }
-
-
-    // TREAT USER INPUTS
-    public void treatQuery() {
         displayableData.clear();
-        if (!isWeatherQuery()) treatCommandQuery();
-        else treatWeatherQuery();
     }
 
 
-    private boolean isWeatherQuery() {
-        return false;
-    }
-
-
-    private void treatCommandQuery() {
-        String command = query.getCommandType();
-
-        switch (command) {
-            case CommandType.FAV: {
-                treatFavCase();
-                return;
-            }
-            case CommandType.HELP: {
-
-            }
-            case CommandType.QUIT: {
-                treatQuitCase();
-                return;
-            }
-        }
-    }
-
-    private void treatFavCase() {
-        // case only fav -> display favorites list. at this point, it is asserted that query.getQuery[0] is "fav"
-        if (query.getQuery().length == 1) {
-            displayableData.addAll(favourite.getFavourites());
-            return;
-        }
-        String command = query.getQuery()[1];                               // get command
-
-        if (query.getQueryLength() == 2) {
-            displayableData.add("Sorry but you specified no town");
-            return;
-        }
-        String town = query.getQuery()[2];                                  // get town to add/del to/from favs
-
-        switch (command) {
-            case FavouritesCommands.ADD: {
-                favourite.addFavourite(town);
-                return;
-            }                                                               // process command
-            case FavouritesCommands.DEL: {
-                favourite.delFavourite(town);
-                return;
-            }
-        }
-    }
-
-    private void treatQuitCase() {
-        // call write favourites
-        hasToStop = true;
-    }
-
-    private void treatWeatherQuery() {
-
-    }
-
+    // TODO DEPLACER AU BON ENDROIT
     private String getWindOrientation(int winddegree) {
 
         if (winddegree >= 11 && winddegree < 34) {
