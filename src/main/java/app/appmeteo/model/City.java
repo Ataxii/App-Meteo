@@ -43,7 +43,7 @@ public class City {
         longitude = obj.get("coord").getAsJsonObject().get("lon").getAsDouble();
         latitude = obj.get("coord").getAsJsonObject().get("lat").getAsDouble();
         timezone = obj.get("timezone").getAsLong();
-        String APIresponse = APIQuery.QueryWithPos(longitude, latitude);
+        String APIresponse = APIQuery.QueryOneCallWithPos(longitude, latitude);
         weatherNow = new HourWeather(APIresponse);
 
         weatherPerHour = new ArrayList<>();
@@ -75,7 +75,7 @@ public class City {
         longitude = obj.get("coord").getAsJsonObject().get("lon").getAsDouble();
         latitude = obj.get("coord").getAsJsonObject().get("lat").getAsDouble();
         timezone = obj.get("timezone").getAsLong();
-        String APIresponse = APIQuery.QueryWithPos(longitude, latitude);
+        String APIresponse = APIQuery.QueryOneCallWithPos(longitude, latitude);
         weatherNow = new HourWeather(APIresponse);
 
         weatherPerHour = new ArrayList<>();

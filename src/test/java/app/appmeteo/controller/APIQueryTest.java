@@ -21,11 +21,17 @@ public class APIQueryTest {
         code = obj.get("cod").getAsInt();
         assertEquals(code, 200);
 
-        response = APIQuery.QueryWithPos(3.1195, 43.238);
+        response = APIQuery.QueryOneCallWithPos(3.1195, 43.238);
         System.out.println(response);
         obj = JsonParser.parseString(response).getAsJsonObject();
         double lat = obj.get("lat").getAsDouble();
         assertEquals(lat, 43.238);
+
+        response = APIQuery.QueryWeatherWithPos(3.1195, 43.238);
+        System.out.println(response);
+        obj = JsonParser.parseString(response).getAsJsonObject();
+        code = obj.get("cod").getAsInt();
+        assertEquals(code, 200);
 
         response = APIQuery.QueryWithZip("13005", "FR");
         obj = JsonParser.parseString(response).getAsJsonObject();

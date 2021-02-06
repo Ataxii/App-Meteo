@@ -136,17 +136,43 @@ public class APIQuery {
 
     /**
      * Creates a query for the API asking for weather in coordinates passed in parameter
-     * Creates and returns a string containing all .json infos from the API answer
+     * Creates and returns a string containing all .json infos from the API answer about 7 days forecast
      * @param longitude longitude of the city
      * @param latitude latitude of the city
      * @return a string containing all .json infos from the API answer
      * @throws IOException if the URL sent is not valid
      * @since 1.1
      */
-    public static String QueryWithPos(double longitude, double latitude) throws IOException {
+    public static String QueryOneCallWithPos(double longitude, double latitude) throws IOException {
         // API Query
         String StrUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude +
                 "&lon=" + longitude + "&exclude=minutely,alerts&appid=" + key;
+
+        URL url = new URL(StrUrl);
+        // URL connection
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+        // Buffer creation
+        InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
+        BufferedReader r = new BufferedReader(new InputStreamReader(inputStream));
+
+        // return string
+        return r.readLine();
+    }
+
+    /**
+     * Creates a query for the API asking for weather in coordinates passed in parameter
+     * Creates and returns a string containing all .json infos from the API answer about current weather
+     * @param longitude longitude of the city
+     * @param latitude latitude of the city
+     * @return a string containing all .json infos from the API answer
+     * @throws IOException if the URL sent is not valid
+     * @since 1.1
+     */
+    public static String QueryWeatherWithPos(double longitude, double latitude) throws IOException {
+        // API Query
+        String StrUrl = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude +
+                "&lon=" + longitude + "&appid=" + key;
 
         URL url = new URL(StrUrl);
         // URL connection
