@@ -34,6 +34,10 @@ public class User {
         return Arrays.copyOfRange(query, from, query.length);
     }
 
+    public void setQuery(int from) {
+        query = Arrays.copyOfRange(query, from, query.length);
+    }
+
     /**
      * This method is used to query a new command from the user thanks to the scanner instance
      */
