@@ -1,4 +1,4 @@
-package app.appmeteo.controller;
+package app.appmeteo.controller.CLI;
 
 import java.util.ArrayList;
 

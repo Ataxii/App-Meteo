@@ -1,7 +1,7 @@
 package app.appmeteo;
 
-import app.appmeteo.controller.MainSession;
-import app.appmeteo.controller.Session;
+import app.appmeteo.controller.CLI.session.MainSession;
+import app.appmeteo.controller.CLI.session.Session;
 
 import java.io.IOException;
 import java.util.Scanner;

@@ -1,9 +1,12 @@
-package app.appmeteo.controller;
+package app.appmeteo.controller.CLI.session;
+import app.appmeteo.controller.CLI.CLIController;
 import app.appmeteo.controller.Commands.*;
+import app.appmeteo.model.Favourite;
+import app.appmeteo.controller.User;
 
 import java.io.IOException;
 
-public class FavouriteSession extends Session{
+public class FavouriteSession extends Session {
 
     protected FavouriteSession(User usr) throws IOException {
         super(usr);

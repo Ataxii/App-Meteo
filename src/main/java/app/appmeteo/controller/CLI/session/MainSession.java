@@ -1,10 +1,11 @@
-package app.appmeteo.controller;
+package app.appmeteo.controller.CLI.session;
 import app.appmeteo.controller.Commands.*;
+import app.appmeteo.controller.User;
 
 import java.io.IOException;
 import java.util.Scanner;
 
-public class MainSession extends Session{
+public class MainSession extends Session {
 
     protected MainSession(User usr) throws IOException {
         super(usr);

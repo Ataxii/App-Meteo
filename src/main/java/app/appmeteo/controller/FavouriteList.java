@@ -1,5 +1,8 @@
 package app.appmeteo.controller;
 
+import app.appmeteo.controller.CLI.CLIController;
+import app.appmeteo.model.Favourite;
+
 import java.io.*;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
