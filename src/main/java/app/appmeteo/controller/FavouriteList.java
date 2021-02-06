@@ -6,6 +6,13 @@ import java.util.ArrayList;
 
 public class FavouriteList {
 
+
+    // TODO MODIFIER CLASSE POUR LIRE ET ECRIRE LE .TXT DES FAVORIS ET INCTANCIER LES FAVORIS A PARTIR DE CA
+    // TODO FORMAT : [ville, long, lat] ex : marseille 45 -23
+    // TODO AJOUTER METHODES DE MANIPULATION (ADD, DEL) A l'AIDE DE COMBINAISONS ATTRIBUTS
+
+
+
     private ArrayList<Favourite> favouriteList;
     private File relatedFile;
 
@@ -19,6 +26,9 @@ public class FavouriteList {
      * @throws InvalidParameterException if param file is a directory
      */
     public FavouriteList(File file) throws IOException {
+
+        // TODO INSTANCIATION FAVORIS AVEC NOM, LONG, LAT
+
         if (file.isDirectory()) throw new InvalidParameterException("specified file is a directory");
         boolean isNew = file.createNewFile();
         this.relatedFile = file;
@@ -94,13 +104,13 @@ public class FavouriteList {
         fav = fav.toLowerCase();
         try {
             Favourite newFav = new Favourite(fav);
-            if (favouriteList.contains(newFav)) CLIControllerBis.addDisplay(fav + " is already in your favourites");
+            if (favouriteList.contains(newFav)) CLIController.addDisplay(fav + " is already in your favourites");
             else {
                 favouriteList.add(newFav);
-                CLIControllerBis.addDisplay(fav + " was added to your favourites");
+                CLIController.addDisplay(fav + " was added to your favourites");
             }
         } catch (InvalidParameterException e) {
-            CLIControllerBis.addDisplay("specified city might not exist...");
+            CLIController.addDisplay("specified city might not exist...");
         }
     }
 
@@ -112,7 +122,7 @@ public class FavouriteList {
         }
         for (Favourite f: removeList) {
             boolean removed = favouriteList.remove(f);
-            if (removed) CLIControllerBis.addDisplay(f.getName() + " " + f.getId() + " was removed from your favourites");
+            if (removed) CLIController.addDisplay(f.getName() + " " + f.getId() + " was removed from your favourites");
         }
     }
 
@@ -124,7 +134,7 @@ public class FavouriteList {
         }
         for (Favourite f: removeList) {
             boolean removed = favouriteList.remove(f);
-            if (removed) CLIControllerBis.addDisplay(f.getName() + " " + f.getId() + " was removed from your favourites");
+            if (removed) CLIController.addDisplay(f.getName() + " " + f.getId() + " was removed from your favourites");
         }
     }
 
@@ -133,10 +143,13 @@ public class FavouriteList {
      */
     public void clearFavouriteList() throws IOException {
         favouriteList.clear();
-        CLIControllerBis.addDisplay("cleared favourites");
+        CLIController.addDisplay("cleared favourites");
     }
 
     public void write() throws IOException {
+
+        // TODO ECRITURE AU MEME FORMAT
+
         BufferedWriter wrt = new BufferedWriter(new FileWriter(relatedFile));
         for (Favourite f : favouriteList) {
             wrt.append(f.toString());

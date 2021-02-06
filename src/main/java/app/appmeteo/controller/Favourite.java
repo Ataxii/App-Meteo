@@ -6,6 +6,12 @@ import java.security.InvalidParameterException;
 
 public class Favourite {
 
+    // TODO ATTRIBUTS LONG LAT
+    // TODO SUPPRIMER ATTRRIBUT ID
+    // TODO COSNTRUCTEUR COUNTRY CODE + ZIP CODE
+    // TODO CONSTRUCTEUR COUNTRY CODE + CITY NAME
+
+
     public String getName() {
         return name;
     }
