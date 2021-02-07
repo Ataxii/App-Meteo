@@ -7,6 +7,26 @@ import app.appmeteo.controller.CLI.CLIController;
 import app.appmeteo.controller.Commands.*;
 import app.appmeteo.controller.User;
 
+
+/**
+ * <head>
+ *     <font size="5">
+ * </head>
+ * <body font-size="10px">
+ * A Session is basically what it's naming describes.
+ * It is a comprehensive abstract class that aims to logically merge and divide the work of this app.<br>
+ * Every Session can :
+ * <ul>
+ *     <li>give insight of how it works (abstract)</li>
+ *     <li>give its naming (abstract)</li>
+ *     <li>be left (not abstract)</li>
+ *     <li>be launched (not abstract)</li>
+ *     <li>treat a query (treated both abstractly and not abstractly)</li>
+ *     <li>treat other Session's specific queries! (not abstract)</li>
+ * </ul>
+ * But each different Session gives different way of treating a query
+ * </body>
+ */
 public abstract class Session{
 
     protected User user;
