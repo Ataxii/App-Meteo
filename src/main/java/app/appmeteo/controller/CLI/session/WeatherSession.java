@@ -27,7 +27,7 @@ public class WeatherSession extends Session {
     @Override
     public void treatQuery() throws IOException {
         super.treatQuery();
-        if(!this.user.hasDate()) {
+        if(!this.user.hasDate() && !this.isOver) {
             try {
                 City city = new City(APIQuery.QueryStringWithCity(user.getCommandType()));
                 treatWeatherOptions(city, this.user.getQuery(1));
@@ -51,17 +51,32 @@ public class WeatherSession extends Session {
     private void treatWeatherOptions(City city, String[] options){
         if(!this.user.hasDate()) {
             HourWeather weatherNow = city.getWeatherNow();
-            for(String option :options){
-                switch (option) {
-                case Commands.WeatherCommands.TEMP:
-                    CLIController.addDisplay(String.valueOf(weatherNow.getTemp()));
-                    break;
-                case Commands.WeatherCommands.WIND:
-                    CLIController.addDisplay(this.getWindOrientation(weatherNow.getWindDeg()) + " " + weatherNow.getWindSpeed());
-                    break;
+            if(options.length!=0){
+                for(String option :options){
+                    switch (option) {
+                    case Commands.WeatherCommands.TEMP:
+                        CLIController.addDisplay(String.valueOf(weatherNow.getTemp() - 273.15));
+                        break;
+                    case Commands.WeatherCommands.WIND:
+                        CLIController.addDisplay(this.getWindOrientation(weatherNow.getWindDeg()) + " " + weatherNow.getWindSpeed());
+                        break;
+                    }
+                }
+            }else{
+                CLIController.addDisplay(weatherNow.getMain());
+                CLIController.addDisplay(String.valueOf(weatherNow.getTemp() - 273.15));
+                CLIController.addDisplay(this.getWindOrientation(weatherNow.getWindDeg()) + " " + weatherNow.getWindSpeed());
+            }
+        } /*else{
+            ArrayList<DayWeather> weathers = city.getWeatherPerDay();
+            switch (option)$
+            long date;
+            for(DayWeather weather : weathers){
+                if(weather.getTime()==date){
+
                 }
             }
-        }
+        }*/
     }
 
     private String getWindOrientation(int winddegree) {
