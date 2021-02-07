@@ -19,6 +19,9 @@ public class Commands {
     public static class WeatherCommands {
         public static final String TEMP = "-temp";
         public static final String WIND = "-wind";
+        public static final String MORNING = "-mng";
+        public static final String EVENING = "-eng";
+        public static final String NIGHT = "-nght";
     }
 
     /**
