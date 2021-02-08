@@ -7,49 +7,75 @@ import java.security.InvalidParameterException;
 
 public class Favourite {
 
-        // TODO ATTRIBUTS LONG LAT
-        // TODO SUPPRIMER ATTRRIBUT ID
-        // TODO COSNTRUCTEUR COUNTRY CODE + ZIP CODE
-        // TODO CONSTRUCTEUR COUNTRY CODE + CITY NAME
+    public String getName() {
+        return name;
+    }
+
+    public String getLatLong() {
+        return LatLong;
+    }
 
 
-        public String getName() {
-            return name;
-        }
+    private String name;
+    private String LatLong;
 
-        public String getId() {
-            return id;
-        }
-
-        private String name;
-        private String id;
-
-        public Favourite(String name, String id) {
+    /**
+     * Constructor of favourite
+     * @param name name of city you want in Favourite
+     */
+    public Favourite(String name) {
+        try {
             this.name = name;
-            this.id = id;
+            City city = new City(APIQuery.QueryStringWithCity(name));
+            this.LatLong = city.getLongitude() + " " + city.getLatitude() ;
+        } catch (IOException e) {
+            throw new InvalidParameterException();
+        }
+    }
+
+    /**
+     * Constructor of favourite
+     * @param longitude longitude of city you want in Favourite
+     * @param latitude  latitude of city you want in Favourite
+     */
+    public Favourite(Double longitude, Double latitude){
+        try {
+            City city = new City((APIQuery.QueryWeatherWithPos(longitude, latitude)));
+            this.name = city.getName();
+
+            this.LatLong = city.getLatitude() + " " + city.getLongitude();
+        } catch (IOException e) {
+            throw new InvalidParameterException();
+        }
+    }
+
+    /**
+     * Constructor of favourite
+     * @param zip The postal address of city you want in Favourite
+     * @param country The country code of city you want in Favourite
+     */
+    public Favourite(String zip, String country){
+        try {
+            City city = new City((APIQuery.QueryWithZip(zip, country)));
+            this.name = city.getName();
+
+            this.LatLong = city.getLatitude() + " " + city.getLongitude();
+        } catch (IOException e) {
+            throw new InvalidParameterException();
+        }
+    }
+
+    @Override
+    public String toString() {
+            return name + " " + LatLong;
         }
 
-        public Favourite(String name) {
-            try {
-                this.name = name;
-                City city = new City((APIQuery.QueryStringWithCity(name)));
-                this.id = city.getId();
-            } catch (IOException e) {
-                throw new InvalidParameterException();
-            }
-        }
-
-        @Override
-        public String toString() {
-            return name + " " + id;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            Favourite other = (Favourite) obj;
-            if (name.equals(other.name) && !id.equals(other.id)) return false;
-            if (id.equals(other.id)) return true;
-            return super.equals(obj);
-        }
+    @Override
+    public boolean equals(Object obj) {
+        Favourite other = (Favourite) obj;
+        if (name.equals(other.name) && !LatLong.equals(other.LatLong)) return false;
+        if (LatLong.equals(other.LatLong)) return true;
+        return super.equals(obj);
+    }
 
 }

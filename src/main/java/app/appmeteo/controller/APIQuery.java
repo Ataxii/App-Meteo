@@ -1,5 +1,8 @@
 package app.appmeteo.controller;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -49,16 +52,21 @@ public class APIQuery {
         // API Query
         String StrUrl = "http://api.openweathermap.org/data/2.5/weather?q="+ city +"&units=metric&appid=" + key;
 
+
         URL url = new URL(StrUrl);
         // URL connection
+
+
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
 
         // Buffer creation
         InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
         BufferedReader r = new BufferedReader(new InputStreamReader(inputStream));
+        String data = r.readLine();
 
         // return string
-        return r.readLine();
+        return data;
     }
 
     /**

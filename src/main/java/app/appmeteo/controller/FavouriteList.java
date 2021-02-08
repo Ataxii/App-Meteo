@@ -9,13 +9,6 @@ import java.util.ArrayList;
 
 public class FavouriteList {
 
-
-    // TODO MODIFIER CLASSE POUR LIRE ET ECRIRE LE .TXT DES FAVORIS ET INCTANCIER LES FAVORIS A PARTIR DE CA
-    // TODO FORMAT : [ville, long, lat] ex : marseille 45 -23
-    // TODO AJOUTER METHODES DE MANIPULATION (ADD, DEL) A l'AIDE DE COMBINAISONS ATTRIBUTS
-
-
-
     private ArrayList<Favourite> favouriteList;
     private File relatedFile;
 
@@ -30,8 +23,6 @@ public class FavouriteList {
      */
     public FavouriteList(File file) throws IOException {
 
-        // TODO INSTANCIATION FAVORIS AVEC NOM, LONG, LAT
-
         if (file.isDirectory()) throw new InvalidParameterException("specified file is a directory");
         boolean isNew = file.createNewFile();
         this.relatedFile = file;
@@ -44,7 +35,7 @@ public class FavouriteList {
             while ((line = rdr.readLine()) != null) {
                 if (line.length() == 0) continue;
                 lineContent = line.split(" ");
-                favouriteList.add(new Favourite(lineContent[0], lineContent[1]));
+                favouriteList.add(new Favourite(lineContent[0]));
             }
             rdr.close();
         }
@@ -125,21 +116,22 @@ public class FavouriteList {
         }
         for (Favourite f: removeList) {
             boolean removed = favouriteList.remove(f);
-            if (removed) CLIController.addDisplay(f.getName() + " " + f.getId() + " was removed from your favourites");
+            if (removed) CLIController.addDisplay(f.getName() + " " + f.getLatLong() + " was removed from your favourites");
         }
     }
 
-    // safer with id
-    public void delFavouriteById(String id) {
+    public void delFavouriteByLongLat(String LongLat) {
         ArrayList<Favourite> removeList = new ArrayList<>();
         for (Favourite f: favouriteList) {
-            if (f.getId().equals(id)) removeList.add(f);
+            if (f.getLatLong().equals(LongLat)) removeList.add(f);
         }
         for (Favourite f: removeList) {
             boolean removed = favouriteList.remove(f);
-            if (removed) CLIController.addDisplay(f.getName() + " " + f.getId() + " was removed from your favourites");
+            if (removed) CLIController.addDisplay(f.getName() + " " + f.getLatLong() + " was removed from your favourites");
         }
     }
+
+
 
     /**
      * delete all favourites
