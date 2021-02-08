@@ -21,8 +21,7 @@ public class FavouriteSession extends Session {
                 break;
             }
             case FavouritesCommands.DEL: {
-                if (user.getQueryLength() == 3) user.favouriteList.delFavouriteById(user.getQuery()[2]);
-                else user.favouriteList.delFavouriteByName(user.getQuery()[1]);
+                user.favouriteList.delFavouriteByName(user.getQuery()[1]);
                 break;
             }
             case FavouritesCommands.LIST: {
