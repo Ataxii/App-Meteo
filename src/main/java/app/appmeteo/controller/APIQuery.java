@@ -63,10 +63,9 @@ public class APIQuery {
         // Buffer creation
         InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
         BufferedReader r = new BufferedReader(new InputStreamReader(inputStream));
-        String data = r.readLine();
 
         // return string
-        return data;
+        return r.readLine();
     }
 
     /**
@@ -154,7 +153,7 @@ public class APIQuery {
     public static String QueryOneCallWithPos(double longitude, double latitude) throws IOException {
         // API Query
         String StrUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude +
-                "&lon=" + longitude + "&exclude=minutely,alerts&appid=" + key;
+                "&lon=" + longitude + "&exclude=minutely,alerts&units=metric&appid=" + key;
 
         URL url = new URL(StrUrl);
         // URL connection
@@ -180,7 +179,7 @@ public class APIQuery {
     public static String QueryWeatherWithPos(double longitude, double latitude) throws IOException {
         // API Query
         String StrUrl = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude +
-                "&lon=" + longitude + "&appid=" + key;
+                "&lon=" + longitude + "&units=metric&appid=" + key;
 
         URL url = new URL(StrUrl);
         // URL connection
