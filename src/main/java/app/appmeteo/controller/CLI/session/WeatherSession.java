@@ -3,8 +3,7 @@ package app.appmeteo.controller.CLI.session;
 import java.io.IOException;
 import java.security.InvalidParameterException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 import app.appmeteo.controller.APIQuery;
 import app.appmeteo.controller.Commands;
@@ -27,15 +26,30 @@ public class WeatherSession extends Session {
     @Override
     public void treatQuery() throws IOException {
         super.treatQuery();
-        if(!this.user.hasDate() && !this.isOver) {
-            try {
-                City city = new City(APIQuery.QueryStringWithCity(user.getCommandType()));
-                treatWeatherOptions(city, this.user.getQuery(1));
-            } catch (IOException e) {
-                e.printStackTrace();
+        user.fixCommandline();
+        user.fixCommandDate();
+        if(!isOver) {
+            if (!this.user.hasDate()) {
+                try {
+                    City city = new City(APIQuery.QueryStringWithCity(user.getCommandType()));
+                    ArrayList<String> options = new ArrayList<>(Arrays.asList(this.user.getQuery(1)));
+                    if(options.size()!=0) treatWeatherOptionsWoutDate(city, options);
+                    else treatQueryWoutDate(city);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            else{
+                try{
+                    City city = new City(APIQuery.QueryStringWithCity(user.getCommandType()));
+                    ArrayList<String> options = new ArrayList<>(Arrays.asList(this.user.getQuery(2)));
+                    if(options.size()!=0) {treatWeatherOptionsWDate(city, options);}
+                    else{treatQueryWDate(city);}
+                }catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
-
     }
 
     @Override
@@ -48,36 +62,72 @@ public class WeatherSession extends Session {
         return "Weather Session";
     }
 
-    private void treatWeatherOptions(City city, String[] options){
-        if(!this.user.hasDate()) {
-            HourWeather weatherNow = city.getWeatherNow();
-            if(options.length!=0){
-                for(String option :options){
+    private void treatQueryWDate(City city) {
+        ArrayList<DayWeather> weathers = city.getWeatherPerDay();
+        for(DayWeather weather:weathers){
+            Date weatherDate = new Date(weather.getTime()*1000);
+            if (this.isSameDay(user.getDate(),weatherDate)){
+                CLIController.addDisplay(weather.getMain());
+                CLIController.addDisplay(String.valueOf(weather.getTempDay() - 273.15));
+                CLIController.addDisplay(this.getWindOrientation(weather.getWindDeg()) + " " + weather.getWindSpeed());
+            }
+        }
+
+    }
+
+    private void treatQueryWoutDate(City city) {
+        HourWeather weatherNow = city.getWeatherNow();
+        CLIController.addDisplay(weatherNow.getMain());
+        CLIController.addDisplay(String.valueOf(weatherNow.getTemp() - 273.15));
+        CLIController.addDisplay(this.getWindOrientation(weatherNow.getWindDeg()) + " " + weatherNow.getWindSpeed());
+    }
+
+
+
+    private void treatWeatherOptionsWoutDate(City city, ArrayList<String> options){
+        HourWeather weatherNow = city.getWeatherNow();
+        for(String option :options){
+            switch (option) {
+                case Commands.WeatherCommands.TEMP:
+                    CLIController.addDisplay(String.valueOf(weatherNow.getTemp() - 273.15));
+                    break;
+                case Commands.WeatherCommands.WIND:
+                    CLIController.addDisplay(this.getWindOrientation(weatherNow.getWindDeg()) + " " + weatherNow.getWindSpeed());
+                    break;
+            }
+        }
+
+    }
+
+    private void treatWeatherOptionsWDate(City city, ArrayList<String> options){
+
+        ArrayList<DayWeather> weathers = city.getWeatherPerDay();
+
+        for(DayWeather weather:weathers){
+            Date weatherDate = new Date(weather.getTime()*1000);
+
+            if (this.isSameDay(user.getDate(),weatherDate)){
+                for(String option : options){
                     switch (option) {
-                    case Commands.WeatherCommands.TEMP:
-                        CLIController.addDisplay(String.valueOf(weatherNow.getTemp() - 273.15));
-                        break;
-                    case Commands.WeatherCommands.WIND:
-                        CLIController.addDisplay(this.getWindOrientation(weatherNow.getWindDeg()) + " " + weatherNow.getWindSpeed());
-                        break;
+                        case Commands.WeatherCommands.TEMP:
+                            if(options.contains(Commands.WeatherCommands.MORNING)){
+                                CLIController.addDisplay(String.valueOf(weather.getTempMorning() - 273.15));
+                            } else if(options.contains(Commands.WeatherCommands.EVENING)){
+                                CLIController.addDisplay(String.valueOf(weather.getTempEvening() - 273.15));
+                            } else if(options.contains(Commands.WeatherCommands.NIGHT)){
+                                CLIController.addDisplay(String.valueOf(weather.getTempNight() - 273.15));
+                            } else CLIController.addDisplay(String.valueOf(weather.getTempDay() - 273.15));
+                            break;
+                        case Commands.WeatherCommands.WIND:
+                            CLIController.addDisplay(this.getWindOrientation(weather.getWindDeg()) + " " + weather.getWindSpeed());
+                            break;
                     }
                 }
-            }else{
-                CLIController.addDisplay(weatherNow.getMain());
-                CLIController.addDisplay(String.valueOf(weatherNow.getTemp() - 273.15));
-                CLIController.addDisplay(this.getWindOrientation(weatherNow.getWindDeg()) + " " + weatherNow.getWindSpeed());
             }
-        } /*else{
-            ArrayList<DayWeather> weathers = city.getWeatherPerDay();
-            switch (option)$
-            long date;
-            for(DayWeather weather : weathers){
-                if(weather.getTime()==date){
-
-                }
-            }
-        }*/
+        }
     }
+
+
 
     private String getWindOrientation(int winddegree) {
 
@@ -129,22 +179,11 @@ public class WeatherSession extends Session {
         return "N";
     }
 
-    private long getProperDate(String dayTime) {
-        Timestamp userDate;
-        switch(dayTime){
-            case "morning":
-                userDate = new Timestamp(this.user.getDate().get(2),this.user.getDate().get(1),this.user.getDate().get(0),8,0,0,0);
-                break;
-            case "afternoon":
-                userDate = new Timestamp(this.user.getDate().get(2),this.user.getDate().get(1),this.user.getDate().get(0),16,0,0,0);
-                break;
-            case "night":
-                userDate = new Timestamp(this.user.getDate().get(2),this.user.getDate().get(1),this.user.getDate().get(0),21,0,0,0);
-                break;
-            default:
-                userDate = new Timestamp(this.user.getDate().get(2),this.user.getDate().get(1),this.user.getDate().get(0),12,0,0,0);
-                break;
-        }
-        return userDate.getTime();
+    private boolean isSameDay(Date date, Date anotherDate){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        Calendar anotherCalendar = Calendar.getInstance();
+        anotherCalendar.setTime(anotherDate);
+        return calendar.get(Calendar.DAY_OF_MONTH) == anotherCalendar.get(Calendar.DAY_OF_MONTH);
     }
 }

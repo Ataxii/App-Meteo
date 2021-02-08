@@ -1,8 +1,11 @@
 package app.appmeteo.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -93,7 +96,6 @@ public class User {
         }
         newCommandLine.addAll(Arrays.asList(this.command).subList(1, this.command.length));
 
-        System.out.println(Arrays.deepToString(newCommandLine.toArray(this.command)));
         this.command = newCommandLine.toArray(this.command);
 
 
@@ -112,12 +114,12 @@ public class User {
         return hasDate;
     }
 
-    public ArrayList<Integer> getDate(){
-        ArrayList<Integer> date = new ArrayList<>();
-        if(hasDate()){
-           for(String data : this.command[1].split("/")){
-               date.add(Integer.parseInt(data));
-           }
+    public Date getDate(){
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("dd/MM/yyyy").parse(this.command[1]);
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         return date;
     }
