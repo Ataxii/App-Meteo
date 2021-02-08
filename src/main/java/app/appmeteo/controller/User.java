@@ -124,4 +124,12 @@ public class User {
         return date;
     }
 
+    public ArrayList<String> getOptions(){
+        ArrayList<String> options = new ArrayList<>();
+        for(String s:this.command){
+            if(s.charAt(0)=='-') options.add(s);
+        }
+        return options;
+    }
+
 }
