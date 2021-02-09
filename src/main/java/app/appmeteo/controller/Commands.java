@@ -31,6 +31,7 @@ public class Commands {
         public static final String ADD = "-add";
         public static final String DEL = "-del";
         public static final String LIST = "-list";
+        public static final String WEATHER = "-getW";
     }
 
 
