@@ -17,7 +17,7 @@ public class FavouriteSession extends Session {
         super.treatQuery();
         if (isOver) return;
 
-        switch (user.getQuery()[0]) {
+        switch (user.getQuery().getCommand()[0]) {
             case FavouritesCommands.WEATHER: {
                 treatWeatherQuery();
                 break;
@@ -44,17 +44,17 @@ public class FavouriteSession extends Session {
     private void treatWeatherQuery() throws IOException {
         Session fakeWeatherSession = new WeatherSession(new User(new String[1]));
 
-        if (user.getQueryLength() == 2) {
-            int index = Integer.parseInt(user.getQuery()[1]) - 1;
+        if (user.getQuery().getQueryLength() == 2) {
+            int index = Integer.parseInt(user.getQuery().getCommand()[1]) - 1;
             if (index > user.favouriteList.getFavouriteList().size() || index <= 0) {
                 CLIController.addDisplay("Specified Index is wrong");
                 return;
             }
-            fakeWeatherSession.user.getQuery()[0] = user.favouriteList.getFavouriteList().get(index).getName();
+            fakeWeatherSession.user.getQuery().getCommand()[0] = user.favouriteList.getFavouriteList().get(index).getName();
             treatOtherSessionQuery(fakeWeatherSession);
         } else {
             for (Favourite fav: user.favouriteList.getFavouriteList()) {
-                fakeWeatherSession.user.getQuery()[0] = fav.getName();
+                fakeWeatherSession.user.getQuery().getCommand()[0] = fav.getName();
                 treatOtherSessionQuery(fakeWeatherSession);
             }
         }
