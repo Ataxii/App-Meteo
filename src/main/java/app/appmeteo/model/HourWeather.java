@@ -1,6 +1,5 @@
 package app.appmeteo.model;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -12,40 +11,23 @@ import java.io.FileReader;
  * Represents a weather at a certain hour
  * Instantiated by City's constructor
  * @see City
- * @version 2.0
+ * @version 2.1
  */
 public class HourWeather {
     private final String id;
     private final String main;
     private final String description;
     private final String icon;
-    private final long time;
+    private final long date; // Date of forecast in seconds from 1970
     private final double temp;
     private final double tempFeelsLike;
     private final int humidity;
-    private final double windSpeed;
+    private final int windSpeed;
     private final int windDeg;
-
-
-    /**
-     * Only for tests, reads the JSON file in parameter and initializes all attributes
-     * @param filename the name of a JSON file returned by an API query
-     * @throws FileNotFoundException if wrong file name is passed in argument
-     * @since 1.0
-     */
-    public HourWeather(File filename) throws FileNotFoundException {
-        JsonObject obj = JsonParser.parseReader(new FileReader(filename)).getAsJsonObject();
-        id = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("id").getAsString();
-        main = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("main").getAsString();
-        description = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("description").getAsString();
-        icon = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").getAsString();
-        time = obj.get("dt").getAsLong();
-        temp = obj.get("main").getAsJsonObject().get("temp").getAsDouble();
-        tempFeelsLike = obj.get("main").getAsJsonObject().get("feels_like").getAsDouble();
-        humidity = obj.get("main").getAsJsonObject().get("humidity").getAsInt();
-        windSpeed = obj.get("wind").getAsJsonObject().get("speed").getAsDouble();
-        windDeg = obj.get("wind").getAsJsonObject().get("deg").getAsInt();
-    }
+    private final int pressure;
+    private final int visibility;
+    private final int cloudiness;
+    private int pop; // Probability of Precipitation in %
 
     /**
      * Called by City's constructor for current weather, parse the string in parameter and initializes all attributes
@@ -58,12 +40,15 @@ public class HourWeather {
         main = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("main").getAsString();
         description = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("description").getAsString();
         icon = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").getAsString();
-        time = obj.get("dt").getAsLong();
+        date = obj.get("dt").getAsLong();
         temp = obj.get("temp").getAsDouble();
         tempFeelsLike = obj.get("feels_like").getAsDouble();
         humidity = obj.get("humidity").getAsInt();
-        windSpeed = obj.get("wind_speed").getAsDouble();
+        pressure = obj.get("pressure").getAsInt();
+        visibility = obj.get("visibility").getAsInt();
+        windSpeed = (int) (obj.get("wind_speed").getAsDouble() * 3.6);
         windDeg = obj.get("wind_deg").getAsInt();
+        cloudiness = obj.get("clouds").getAsInt();
     }
 
     /**
@@ -76,12 +61,16 @@ public class HourWeather {
         main = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("main").getAsString();
         description = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("description").getAsString();
         icon = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").getAsString();
-        time = obj.get("dt").getAsLong();
+        date = obj.get("dt").getAsLong();
         temp = obj.get("temp").getAsDouble();
         tempFeelsLike = obj.get("feels_like").getAsDouble();
         humidity = obj.get("humidity").getAsInt();
-        windSpeed = obj.get("wind_speed").getAsDouble();
+        pressure = obj.get("pressure").getAsInt();
+        visibility = obj.get("visibility").getAsInt();
+        windSpeed = (int) (obj.get("wind_speed").getAsDouble() * 3.6);
         windDeg = obj.get("wind_deg").getAsInt();
+        pop = (int) (obj.get("pop").getAsDouble() * 100);
+        cloudiness = obj.get("clouds").getAsInt();
     }
 
     public String getId() {
@@ -108,7 +97,7 @@ public class HourWeather {
         return tempFeelsLike;
     }
 
-    public double getWindSpeed() {
+    public int getWindSpeed() {
         return windSpeed;
     }
 
@@ -120,7 +109,23 @@ public class HourWeather {
         return windDeg;
     }
 
-    public long getTime() {
-        return time;
+    public long getDate() {
+        return date;
+    }
+
+    public int getPop() {
+        return pop;
+    }
+
+    public int getPressure() {
+        return pressure;
+    }
+
+    public int getCloudiness() {
+        return cloudiness;
+    }
+
+    public int getVisibility() {
+        return visibility;
     }
 }

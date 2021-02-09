@@ -27,40 +27,6 @@ public class City {
     private final ArrayList<HourWeather> weatherPerHour;
     private final ArrayList<DayWeather> weatherPerDay;
 
-
-    /**
-     * Only for tests, reads the JSON file in parameter and initializes all attributes
-     * Creates a Weather object weatherNow corresponding to city's current weather
-     * @param file the JSON file returned by an API query
-     * @throws FileNotFoundException if wrong file name is passed in argument
-     * @since 1.0
-     */
-    public City(File file) throws IOException {
-        JsonObject obj = JsonParser.parseReader(new FileReader(file)).getAsJsonObject();
-        id = obj.get("id").getAsString();
-        name = obj.get("name").getAsString();
-        country = obj.get("sys").getAsJsonObject().get("country").getAsString();
-        longitude = obj.get("coord").getAsJsonObject().get("lon").getAsDouble();
-        latitude = obj.get("coord").getAsJsonObject().get("lat").getAsDouble();
-        timezone = obj.get("timezone").getAsLong();
-        String APIresponse = APIQuery.QueryOneCallWithPos(longitude, latitude);
-        weatherNow = new HourWeather(APIresponse);
-
-        weatherPerHour = new ArrayList<>();
-        JsonObject json = JsonParser.parseString(APIresponse).getAsJsonObject();
-        JsonArray arr = json.getAsJsonArray("hourly");
-        for (JsonElement e : arr) {
-            weatherPerHour.add(new HourWeather(e.getAsJsonObject()));
-        }
-
-        weatherPerDay = new ArrayList<>();
-        json = JsonParser.parseString(APIresponse).getAsJsonObject();
-        arr = json.getAsJsonArray("daily");
-        for (JsonElement e : arr) {
-            weatherPerDay.add(new DayWeather(e.getAsJsonObject()));
-        }
-    }
-
     /**
      * Reads the String in parameter and initializes all attributes
      * Creates a Weather object weatherNow corresponding to city's current weather

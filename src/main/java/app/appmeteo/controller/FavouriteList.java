@@ -7,10 +7,7 @@ import java.io.*;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
-
 public class FavouriteList {
-
-
 
     private ArrayList<Favourite> favouriteList;
     private File relatedFile;
