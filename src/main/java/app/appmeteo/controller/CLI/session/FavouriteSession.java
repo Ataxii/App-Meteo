@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class FavouriteSession extends Session {
 
-    protected FavouriteSession(User usr) throws IOException {
+    protected FavouriteSession(User usr) {
         super(usr);
     }
 
@@ -32,7 +32,7 @@ public class FavouriteSession extends Session {
             }
             case FavouritesCommands.LIST: {
                 int index = 1;
-                for (Favourite fav: user.favouriteList.getFavouriteList()) {
+                for (Favourite fav: user.favouriteList.getList()) {
                     CLIController.addDisplay( "(" + index + ") " + fav.toString());
                     index++;
                 }
@@ -46,14 +46,14 @@ public class FavouriteSession extends Session {
 
         if (user.getQuery().getQueryLength() == 2) {
             int index = Integer.parseInt(user.getQuery().getCommand()[1]) - 1;
-            if (index > user.favouriteList.getFavouriteList().size() || index <= 0) {
+            if (index > user.favouriteList.getList().size() || index <= 0) {
                 CLIController.addDisplay("Specified Index is wrong");
                 return;
             }
-            fakeWeatherSession.user.getQuery().getCommand()[0] = user.favouriteList.getFavouriteList().get(index).getName();
+            fakeWeatherSession.user.getQuery().getCommand()[0] = user.favouriteList.getList().get(index).getName();
             treatOtherSessionQuery(fakeWeatherSession);
         } else {
-            for (Favourite fav: user.favouriteList.getFavouriteList()) {
+            for (Favourite fav: user.favouriteList.getList()) {
                 fakeWeatherSession.user.getQuery().getCommand()[0] = fav.getName();
                 treatOtherSessionQuery(fakeWeatherSession);
             }

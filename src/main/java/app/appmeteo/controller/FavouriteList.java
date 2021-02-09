@@ -7,7 +7,10 @@ import java.io.*;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
+
 public class FavouriteList {
+
+
 
     private ArrayList<Favourite> favouriteList;
     private File relatedFile;
@@ -87,10 +90,18 @@ public class FavouriteList {
         return null;
     }
 
-    public ArrayList<Favourite> getFavouriteList() {
+
+    // ACCESSEURS
+    public ArrayList<Favourite> getList() {
         return favouriteList;
     }
 
+    public Favourite getFavouriteAtIndex(int index) {
+        if (0 > index || index >= favouriteList.size()) throw new InvalidParameterException();
+        return favouriteList.get(index);
+    }
+
+    // SETTEURS
     /**
      * @param fav the new favourite town to add. it will transformed to a lowercase version
      */
@@ -131,20 +142,12 @@ public class FavouriteList {
         }
     }
 
-
-
-    /**
-     * delete all favourites
-     */
     public void clearFavouriteList() throws IOException {
         favouriteList.clear();
         CLIController.addDisplay("cleared favourites");
     }
 
     public void write() throws IOException {
-
-        // TODO ECRITURE AU MEME FORMAT
-
         BufferedWriter wrt = new BufferedWriter(new FileWriter(relatedFile));
         for (Favourite f : favouriteList) {
             wrt.append(f.toString());

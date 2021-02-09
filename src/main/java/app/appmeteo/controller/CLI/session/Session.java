@@ -10,7 +10,7 @@ import app.appmeteo.model.User;
 
 /**
  * <head>
- *     <font size="5">
+ * <font size="5">
  * </head>
  * <body font-size="10px">
  * A Session is basically what it's naming describes.
@@ -27,7 +27,7 @@ import app.appmeteo.model.User;
  * But each different Session gives different way of treating a query
  * </body>
  */
-public abstract class Session{
+public abstract class Session {
 
     protected User user;
     protected boolean isOver;
@@ -42,44 +42,43 @@ public abstract class Session{
         isOver = false;
     }
 
-    public void launch() throws IOException {
+    public void launch() {
         while (!isOver) {
             System.out.println("\n" + toString() + " --- Please Input your command:");
             user.next();
             try {
                 treatQuery();
-            }catch(IOException e){
+            } catch (IOException e) {
                 CLIController.addDisplay("Oops... Something went wrong...");
-            }finally {
+            } finally {
                 CLIController.displayData();
             }
-
         }
     }
 
     public void treatQuery() throws IOException {
-        switch (this.user.getQuery().getCommand()[0]) {
+        switch (user.getCommandAtIndex(0)) {
             case CommandType.HELP: {
                 CLIController.addDisplay(getHelp());
                 break;
             }
             case CommandType.QUIT: {
                 CLIController.addDisplay("Leaving " + toString() + "...");
-                user.favouriteList.write();
+                user.getFavouriteList().write();
                 this.isOver = true;
                 break;
             }
             case CommandType.FAV: {
-                if (user.getQuery().getQueryLength() > 1) {
-                    user.setQuery(1);
+                if (user.getCommandLength() > 1) {
+                    user.setCommandFrom(1);
                     Session fastSession = new FavouriteSession(user);
                     treatOtherSessionQuery(fastSession);
                     break;
                 }
             }
             case CommandType.WEATHER: {
-                if (user.getQuery().getQueryLength() > 1) {
-                    user.setQuery(1);
+                if (user.getCommandLength() > 1) {
+                    user.setCommandFrom(1);
                     Session fastSession = new WeatherSession(user);
                     treatOtherSessionQuery(fastSession);
                     break;
@@ -93,6 +92,10 @@ public abstract class Session{
         CLIController.displayData();
     }
 
+    /**
+     * each Session extending class should give insight of how it is handling a query, because it can be very specific.
+     * @return a describing String of this Session way of treating a query.
+     */
     public abstract String getHelp();
 
     @Override
