@@ -1,1 +1,36 @@
-{"dt":1612267200,"sunrise":1612251430,"sunset":1612284673,"temp":{"day":284.19,"min":277.15,"max":286.05,"night":282.31,"eve":283.34,"morn":280.96},"feels_like":{"day":281.3,"night":276.53,"eve":278.82,"morn":278.61},"pressure":995,"humidity":78,"dew_point":280.52,"wind_speed":3.25,"wind_deg":240,"weather":[{"id":501,"main":"Rain","description":"moderate rain","icon":"10d"}],"clouds":75,"pop":1,"rain":5.99,"uvi":0.72}
+{
+  "dt": 1612267200,
+  "sunrise": 1612251430,
+  "sunset": 1612284673,
+  "temp": {
+    "day": 284.19,
+    "min": 277.15,
+    "max": 286.05,
+    "night": 282.31,
+    "eve": 283.34,
+    "morn": 280.96
+  },
+  "feels_like": {
+    "day": 281.3,
+    "night": 276.53,
+    "eve": 278.82,
+    "morn": 278.61
+  },
+  "pressure": 995,
+  "humidity": 78,
+  "dew_point": 280.52,
+  "wind_speed": 3.25,
+  "wind_deg": 240,
+  "weather": [
+    {
+      "id": 501,
+      "main": "Rain",
+      "description": "moderate rain",
+      "icon": "10d"
+    }
+  ],
+  "clouds": 75,
+  "pop": 1,
+  "rain": 5.99,
+  "uvi": 0.72
+}

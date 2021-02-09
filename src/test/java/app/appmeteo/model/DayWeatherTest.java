@@ -19,7 +19,9 @@ public class DayWeatherTest {
         String expectedMain = "Rain" ;
         String expectedDescription = "moderate rain";
         String expectedIcon = "10d" ;
-        long expectedTime = 1612267200;
+        long expectedDay = 1612267200;
+        long expectedSunrise = 1612251430;
+        long expectedSunset = 1612284673;
         double expectedTempDay = 284.19;
         double expectedTempMin = 277.15;
         double expectedTempMax = 286.05;
@@ -30,15 +32,20 @@ public class DayWeatherTest {
         double expectedTempFeelsLikeNight = 276.53;
         double expectedTempFeelsLikeEvening = 278.82;
         double expectedTempFeelsLikeMorning = 278.61;
+        int expectedPressure = 995;
         int expectedHumidity = 78;
-        double expectedWindSpeed = 3.25;
+        int expectedWindSpeed = (int) (3.25 * 3.6);
         int expectedWindDeg = 240;
+        int expectedCloudiness = 75;
+        int expectedPop = 100;
 
         assertEquals(expectedId, weather.getId());
         assertEquals(expectedMain, weather.getMain());
         assertEquals(expectedDescription, weather.getDescription());
         assertEquals(expectedIcon, weather.getIcon());
-        assertEquals(expectedTime, weather.getTime());
+        assertEquals(expectedDay, weather.getDate());
+        assertEquals(expectedSunrise, weather.getSunrise());
+        assertEquals(expectedSunset, weather.getSunset());
         assertEquals(expectedTempDay, weather.getTempDay());
         assertEquals(expectedTempMin, weather.getTempMin());
         assertEquals(expectedTempMax, weather.getTempMax());
@@ -50,7 +57,10 @@ public class DayWeatherTest {
         assertEquals(expectedTempFeelsLikeEvening, weather.getTempFeelsLikeEvening());
         assertEquals(expectedTempFeelsLikeMorning, weather.getTempFeelsLikeMorning());
         assertEquals(expectedHumidity,weather.getHumidity());
+        assertEquals(expectedPressure,weather.getPressure());
         assertEquals(expectedWindSpeed,weather.getWindSpeed());
         assertEquals(expectedWindDeg,weather.getWindDeg());
+        assertEquals(expectedCloudiness,weather.getCloudiness());
+        assertEquals(expectedPop,weather.getPop());
     }
 }
