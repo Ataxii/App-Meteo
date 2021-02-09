@@ -2,7 +2,7 @@ package app.appmeteo.controller.CLI.session;
 import app.appmeteo.controller.CLI.CLIController;
 import app.appmeteo.controller.Commands.*;
 import app.appmeteo.model.Favourite;
-import app.appmeteo.controller.User;
+import app.appmeteo.model.User;
 
 import java.io.IOException;
 
@@ -15,13 +15,13 @@ public class FavouriteSession extends Session {
     @Override
     public void treatQuery() throws IOException {
         super.treatQuery();
-        switch (user.getQuery()[0]) {
+        switch (user.getQuery().getCommandType()) {
             case FavouritesCommands.ADD: {
-                user.favouriteList.addFavourite(user.getQuery()[1]);
+                user.favouriteList.addFavourite(user.getQuery().getCommand()[1]);
                 break;
             }
             case FavouritesCommands.DEL: {
-                user.favouriteList.delFavouriteByName(user.getQuery()[1]);
+                user.favouriteList.delFavouriteByName(user.getQuery().getCommand()[1]);
                 break;
             }
             case FavouritesCommands.LIST: {

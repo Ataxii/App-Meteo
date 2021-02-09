@@ -1,6 +1,6 @@
 package app.appmeteo.controller.CLI.session;
 import app.appmeteo.controller.Commands.*;
-import app.appmeteo.controller.User;
+import app.appmeteo.model.User;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -18,7 +18,7 @@ public class MainSession extends Session {
     @Override
     public void treatQuery() throws IOException {
         super.treatQuery();
-        switch (user.getQuery()[0]) {
+        switch (user.getQuery().getCommand()[0]) {
             case CommandType.FAV: {
                 new FavouriteSession(user).launch();
                 break;

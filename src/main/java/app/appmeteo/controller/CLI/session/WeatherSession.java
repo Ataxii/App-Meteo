@@ -1,17 +1,15 @@
 package app.appmeteo.controller.CLI.session;
 
 import java.io.IOException;
-import java.security.InvalidParameterException;
-import java.sql.Timestamp;
 import java.util.*;
 
 import app.appmeteo.controller.APIQuery;
 import app.appmeteo.controller.Commands;
-import app.appmeteo.controller.User;
+import app.appmeteo.model.User;
 import app.appmeteo.model.City;
 import app.appmeteo.model.DayWeather;
 import app.appmeteo.model.HourWeather;
-import  app.appmeteo.controller.CLI.CLIController;
+import app.appmeteo.controller.CLI.CLIController;
 
 public class WeatherSession extends Session {
 
@@ -23,38 +21,26 @@ public class WeatherSession extends Session {
         super(scan);
     }
 
+    private City city;
+
     @Override
     public void treatQuery() throws IOException {
         super.treatQuery();
-        user.fixCommandline();
-        user.fixCommandDate();
-        if(!isOver && !user.getCommandType().equals(Commands.CommandType.HELP)) {
-            if (!this.user.hasDate()) {
-                try {
-                    City city = new City(APIQuery.QueryStringWithCity(user.getCommandType()));
-                    ArrayList<String> options = user.getOptions();
-                    CLIController.addDisplay(city.getName()
-                            + " "
-                            + "Today" + " : \n");
-                    if(options.size()!=0) treatWeatherOptionsWoutDate(city, options);
-                    else treatQueryWoutDate(city);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            else{
-                try{
-                    City city = new City(APIQuery.QueryStringWithCity(user.getCommandType()));
-                    ArrayList<String> options = user.getOptions();
-                    CLIController.addDisplay(city.getName()
-                            + " "
-                            + user.getDate() + " : \n");
-                    if(options.size()!=0) {treatWeatherOptionsWDate(city, options);}
-                    else{treatQueryWDate(city);}
-                }catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+        if (isOver) return;
+        if (user.getQuery().getCommandType().equals(Commands.CommandType.HELP)) return;
+
+        user.getQuery().fixCommandline();
+        ArrayList<String> options = user.getQuery().getOptions();
+        city = new City(APIQuery.QueryStringWithCity(user.getQuery().getCommandType()));
+
+        if (!this.user.getQuery().hasDate()) {
+            CLIController.addDisplay(city.getName() + " Today : \n" );
+            if (options.size() != 0) treatWeatherOptionsWoutDate(options);
+            else treatQueryWoutDate();
+        } else {
+            CLIController.addDisplay(city.getName() + " " + user.getQuery().getDate() + " : \n");
+            if (options.size() != 0) { treatWeatherOptionsWDate(options); }
+            else { treatQueryWDate(); }
         }
     }
 
@@ -77,23 +63,23 @@ public class WeatherSession extends Session {
         return "Weather Session";
     }
 
-    private void treatQueryWDate(City city) {
+    private void treatQueryWDate() {
         ArrayList<DayWeather> weathers = city.getWeatherPerDay();
-        for(DayWeather weather:weathers){
-            Date weatherDate = new Date(weather.getTime()*1000);
-            if (this.isSameDay(user.getDate(),weatherDate)){
+        for (DayWeather weather : weathers) {
+            Date weatherDate = new Date(weather.getTime() * 1000);
+            if (this.isSameDay(user.getQuery().getDate(), weatherDate)) {
                 CLIController.addDisplay(weather.getMain());
                 CLIController.addDisplay("Temperature : "
-                                            + weather.getTempDay() + "°C");
+                        + weather.getTempDay() + "°C");
                 CLIController.addDisplay("Wind : \n"
-                                            + "\tOrientation : " + this.getWindOrientation(weather.getWindDeg()) + "\n"
-                                            + "\tSpeed : " + weather.getWindSpeed() + " m/s");
+                        + "\tOrientation : " + this.getWindOrientation(weather.getWindDeg()) + "\n"
+                        + "\tSpeed : " + weather.getWindSpeed() + " m/s");
             }
         }
 
     }
 
-    private void treatQueryWoutDate(City city) {
+    private void treatQueryWoutDate() {
         HourWeather weatherNow = city.getWeatherNow();
         CLIController.addDisplay(weatherNow.getMain());
         CLIController.addDisplay("Temperature : "
@@ -104,14 +90,13 @@ public class WeatherSession extends Session {
     }
 
 
-
-    private void treatWeatherOptionsWoutDate(City city, ArrayList<String> options){
+    private void treatWeatherOptionsWoutDate(ArrayList<String> options) {
         HourWeather weatherNow = city.getWeatherNow();
-        for(String option :options){
+        for (String option : options) {
             switch (option) {
                 case Commands.WeatherCommands.TEMP:
                     CLIController.addDisplay("Temperature : "
-                            + weatherNow.getTemp() +"°C");
+                            + weatherNow.getTemp() + "°C");
                     break;
                 case Commands.WeatherCommands.WIND:
                     CLIController.addDisplay("Wind : \n"
@@ -123,23 +108,23 @@ public class WeatherSession extends Session {
 
     }
 
-    private void treatWeatherOptionsWDate(City city, ArrayList<String> options){
+    private void treatWeatherOptionsWDate(ArrayList<String> options) {
 
         ArrayList<DayWeather> weathers = city.getWeatherPerDay();
 
-        for(DayWeather weather:weathers){
-            Date weatherDate = new Date(weather.getTime()*1000);
+        for (DayWeather weather : weathers) {
+            Date weatherDate = new Date(weather.getTime() * 1000);
 
-            if (this.isSameDay(user.getDate(),weatherDate)){
-                for(String option : options){
+            if (this.isSameDay(user.getQuery().getDate(), weatherDate)) {
+                for (String option : options) {
                     switch (option) {
                         case Commands.WeatherCommands.TEMP:
                             CLIController.addDisplay("Temperature : \n");
-                            if(options.contains(Commands.WeatherCommands.MORNING)){
+                            if (options.contains(Commands.WeatherCommands.MORNING)) {
                                 CLIController.addDisplay("Morning : " + weather.getTempMorning() + "°C");
-                            } else if(options.contains(Commands.WeatherCommands.EVENING)){
+                            } else if (options.contains(Commands.WeatherCommands.EVENING)) {
                                 CLIController.addDisplay("Evening: " + weather.getTempEvening() + "°C");
-                            } else if(options.contains(Commands.WeatherCommands.NIGHT)){
+                            } else if (options.contains(Commands.WeatherCommands.NIGHT)) {
                                 CLIController.addDisplay("Night : " + weather.getTempNight() + "°C");
                             } else CLIController.addDisplay("Day : " + weather.getTempDay() + "°C");
                             break;
@@ -153,7 +138,6 @@ public class WeatherSession extends Session {
             }
         }
     }
-
 
 
     private String getWindOrientation(int winddegree) {
@@ -206,7 +190,7 @@ public class WeatherSession extends Session {
         return "N";
     }
 
-    private boolean isSameDay(Date date, Date anotherDate){
+    private boolean isSameDay(Date date, Date anotherDate) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         Calendar anotherCalendar = Calendar.getInstance();
