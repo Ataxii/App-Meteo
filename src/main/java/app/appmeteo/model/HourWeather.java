@@ -29,30 +29,6 @@ public class HourWeather {
     private final int cloudiness;
     private int pop; // Probability of Precipitation in %
 
-
-    /**
-     * Only for tests, reads the JSON file in parameter and initializes all attributes
-     * @param filename the name of a JSON file returned by an API query
-     * @throws FileNotFoundException if wrong file name is passed in argument
-     * @since 1.0
-     */
-    public HourWeather(File filename) throws FileNotFoundException {
-        JsonObject obj = JsonParser.parseReader(new FileReader(filename)).getAsJsonObject();
-        id = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("id").getAsString();
-        main = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("main").getAsString();
-        description = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("description").getAsString();
-        icon = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").getAsString();
-        date = obj.get("dt").getAsLong();
-        temp = obj.get("main").getAsJsonObject().get("temp").getAsDouble();
-        tempFeelsLike = obj.get("main").getAsJsonObject().get("feels_like").getAsDouble();
-        humidity = obj.get("main").getAsJsonObject().get("humidity").getAsInt();
-        pressure = obj.get("main").getAsJsonObject().get("pressure").getAsInt();
-        visibility = obj.get("visibility").getAsInt();
-        windSpeed = (int) (obj.get("wind").getAsJsonObject().get("speed").getAsDouble() * 3.6);
-        windDeg = obj.get("wind").getAsJsonObject().get("deg").getAsInt();
-        cloudiness = obj.get("clouds").getAsJsonObject().get("all").getAsInt();
-    }
-
     /**
      * Called by City's constructor for current weather, parse the string in parameter and initializes all attributes
      * @param data the string returned by an API query
