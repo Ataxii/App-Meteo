@@ -1,15 +1,15 @@
 package app.appmeteo.controller;
 
+
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UserQueryTest {
 
-    private User query;
+    private UserQuery query;
 
     // [Los, Angeles, -temp, -wind] -> [Los Angeles, -temp, -wind]
     @Test
@@ -21,26 +21,26 @@ public class UserQueryTest {
         testQuery[2] = "-temp";
         testQuery[3] = "-wind";
 
-        this.query = new User(testQuery);
+        this.query = new UserQuery(testQuery);
 
         String expectedfirst = "Los Angeles";
         String expectedSecond = "-temp";
         String expectedThird = "-wind";
 
         this.query.fixCommandline();
-        assertEquals(expectedfirst, this.query.getQuery()[0]);
-        assertEquals(expectedSecond, this.query.getQuery()[1]);
-        assertEquals(expectedThird, this.query.getQuery()[2]);
+        assertEquals(expectedfirst, this.query.getCommand()[0]);
+        assertEquals(expectedSecond, this.query.getCommand()[1]);
+        assertEquals(expectedThird, this.query.getCommand()[2]);
 
 
         // without option
         testQuery = new String[1];
         testQuery[0] = "Ville-finVille";
 
-        this.query = new User(testQuery);
+        this.query = new UserQuery(testQuery);
         expectedfirst = "Ville-finVille";
         this.query.fixCommandline();
-        assertEquals(expectedfirst, this.query.getQuery()[0]);
+        assertEquals(expectedfirst, this.query.getCommand()[0]);
 
     }
 
@@ -51,7 +51,7 @@ public class UserQueryTest {
         testQuery[1] = "-temp";
         testQuery[2] = "-wind";
 
-        this.query = new User(testQuery);
+        this.query = new UserQuery(testQuery);
 
         String expectedfirst = "Los Angeles";
         String expectedSecond = "31/02/2001";
@@ -59,10 +59,10 @@ public class UserQueryTest {
         String expectedFourth = "-wind";
 
         this.query.fixCommandDate();
-        assertEquals(expectedfirst, this.query.getQuery()[0]);
-        assertEquals(expectedSecond, this.query.getQuery()[1]);
-        assertEquals(expectedThird, this.query.getQuery()[2]);
-        assertEquals(expectedFourth, this.query.getQuery()[3]);
+        assertEquals(expectedfirst, this.query.getCommand()[0]);
+        assertEquals(expectedSecond, this.query.getCommand()[1]);
+        assertEquals(expectedThird, this.query.getCommand()[2]);
+        assertEquals(expectedFourth, this.query.getCommand()[3]);
 
 
 
@@ -70,12 +70,12 @@ public class UserQueryTest {
         testQuery = new String[1];
         testQuery[0] = "Ville-finVille 31/02/2001";
 
-        this.query = new User(testQuery);
+        this.query = new UserQuery(testQuery);
         expectedfirst = "Ville-finVille";
         expectedSecond = "31/02/2001";
         this.query.fixCommandDate();
-        assertEquals(expectedfirst, this.query.getQuery()[0]);
-        assertEquals(expectedSecond, this.query.getQuery()[1]);
+        assertEquals(expectedfirst, this.query.getCommand()[0]);
+        assertEquals(expectedSecond, this.query.getCommand()[1]);
 
         //without proper date but respecting format
         testQuery = new String[3];
@@ -84,17 +84,17 @@ public class UserQueryTest {
         testQuery[2] = "-wind";
 
 
-        this.query = new User(testQuery);
+        this.query = new UserQuery(testQuery);
         expectedfirst = "Los Angeles";
         expectedSecond = "12/45/6000";
         expectedThird = "-temp";
         expectedFourth = "-wind";
 
         this.query.fixCommandDate();
-        assertEquals(expectedfirst, this.query.getQuery()[0]);
-        assertEquals(expectedSecond, this.query.getQuery()[1]);
-        assertEquals(expectedThird, this.query.getQuery()[2]);
-        assertEquals(expectedFourth, this.query.getQuery()[3]);
+        assertEquals(expectedfirst, this.query.getCommand()[0]);
+        assertEquals(expectedSecond, this.query.getCommand()[1]);
+        assertEquals(expectedThird, this.query.getCommand()[2]);
+        assertEquals(expectedFourth, this.query.getCommand()[3]);
 
         //without date
         testQuery = new String[3];
@@ -103,15 +103,15 @@ public class UserQueryTest {
         testQuery[2] = "-wind";
 
 
-        this.query = new User(testQuery);
+        this.query = new UserQuery(testQuery);
         expectedfirst = "Los Angeles";
         expectedSecond = "-temp";
         expectedThird = "-wind";
 
         this.query.fixCommandDate();
-        assertEquals(expectedfirst, this.query.getQuery()[0]);
-        assertEquals(expectedSecond, this.query.getQuery()[1]);
-        assertEquals(expectedThird, this.query.getQuery()[2]);
+        assertEquals(expectedfirst, this.query.getCommand()[0]);
+        assertEquals(expectedSecond, this.query.getCommand()[1]);
+        assertEquals(expectedThird, this.query.getCommand()[2]);
 
         //without proper date not respecting format
         testQuery = new String[3];
@@ -120,15 +120,15 @@ public class UserQueryTest {
         testQuery[2] = "-wind";
 
 
-        this.query = new User(testQuery);
+        this.query = new UserQuery(testQuery);
         expectedfirst = "Los Angeles";
         expectedSecond = "-temp";
         expectedThird = "-wind";
 
         this.query.fixCommandDate();
-        assertEquals(expectedfirst, this.query.getQuery()[0]);
-        assertEquals(expectedSecond, this.query.getQuery()[1]);
-        assertEquals(expectedThird, this.query.getQuery()[2]);
+        assertEquals(expectedfirst, this.query.getCommand()[0]);
+        assertEquals(expectedSecond, this.query.getCommand()[1]);
+        assertEquals(expectedThird, this.query.getCommand()[2]);
 
 
     }

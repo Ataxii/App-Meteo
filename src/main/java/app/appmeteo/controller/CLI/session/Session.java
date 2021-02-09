@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 import app.appmeteo.controller.CLI.CLIController;
 import app.appmeteo.controller.Commands.*;
-import app.appmeteo.controller.User;
+import app.appmeteo.model.User;
 
 
 /**
@@ -46,13 +46,19 @@ public abstract class Session{
         while (!isOver) {
             System.out.println("\n" + toString() + " --- Please Input your command:");
             user.next();
-            treatQuery();
-            CLIController.displayData();
+            try {
+                treatQuery();
+            }catch(IOException e){
+                CLIController.addDisplay("Oops... Something went wrong...");
+            }finally {
+                CLIController.displayData();
+            }
+
         }
     }
 
     public void treatQuery() throws IOException {
-        switch (this.user.getQuery()[0]) {
+        switch (this.user.getQuery().getCommand()[0]) {
             case CommandType.HELP: {
                 CLIController.addDisplay(getHelp());
                 break;
@@ -64,7 +70,7 @@ public abstract class Session{
                 break;
             }
             case CommandType.FAV: {
-                if (user.getQueryLength() > 1) {
+                if (user.getQuery().getQueryLength() > 1) {
                     user.setQuery(1);
                     Session fastSession = new FavouriteSession(user);
                     treatOtherSessionQuery(fastSession);
@@ -72,7 +78,7 @@ public abstract class Session{
                 }
             }
             case CommandType.WEATHER: {
-                if (user.getQueryLength() > 1) {
+                if (user.getQuery().getQueryLength() > 1) {
                     user.setQuery(1);
                     Session fastSession = new WeatherSession(user);
                     treatOtherSessionQuery(fastSession);

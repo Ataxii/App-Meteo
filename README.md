@@ -12,6 +12,7 @@ Authors :
 </ul>
 
 ##CLI
+
 To run the CLI, use <b>gradlew runCLI</b> <br>
 You will then be asked to enter a city name.
 After collecting data from the API, the terminal will show current weather's main information of this city.
@@ -19,4 +20,5 @@ After collecting data from the API, the terminal will show current weather's mai
 
 
 ##GUI
+
 To be continued \**insert jojo music here*\*

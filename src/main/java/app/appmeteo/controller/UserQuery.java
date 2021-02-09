@@ -1,56 +1,30 @@
 package app.appmeteo.controller;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class User {
+public class UserQuery {
 
     private String[] command;
     private boolean hasDate;
-    private final Scanner scanner;
-    public FavouriteList favouriteList;
 
-    public User(Scanner scanner) throws IOException {
-        this.scanner = scanner;
-        this.favouriteList = new FavouriteList();
+
+    public UserQuery(String[] command) {
+        this.command = command;
     }
 
-    /**
-     * @param query the commands line
-     */
-    public User(String[] query) throws IOException {
-        this.command = query;
-        this.scanner = null;
-        this.favouriteList = new FavouriteList();
+    public void setCommand(String[] command) {
+        this.command = command;
     }
 
-    public String[] getQuery() {
+    public String[] getCommand() {
         return command;
     }
-
-    public String[] getQuery(int from) {
-        return Arrays.copyOfRange(command, from, command.length);
-    }
-
-    public void setQuery(int from) {
-        command = Arrays.copyOfRange(command, from, command.length);
-    }
-
-    /**
-     * This method is used to query a new command from the user thanks to the scanner instance
-     */
-    public void next(){
-        String line = this.scanner.nextLine();
-        this.command =  line.split(" ");
-    }
-
 
     /**
      * the goal of this function is to compact the String array received through the scanner into a logical new array
@@ -71,6 +45,7 @@ public class User {
             }
         }
         command = newCommandLine.toArray(new String[0]);
+        this.fixCommandDate();
     }
 
     // this [Los Angeles 25/10/21, -temp, -wind] become this: [Los Angeles, 25/10/21, -temp, -wind]
@@ -102,6 +77,7 @@ public class User {
 
     }
 
+
     public String getCommandType() {
         return command[0];
     }
@@ -112,6 +88,10 @@ public class User {
 
     public boolean hasDate() {
         return hasDate;
+    }
+
+    public void setHasDate(boolean hasDate) {
+        this.hasDate = hasDate;
     }
 
     public Date getDate(){
@@ -131,5 +111,4 @@ public class User {
         }
         return options;
     }
-
 }
