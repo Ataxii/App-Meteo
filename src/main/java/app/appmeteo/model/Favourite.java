@@ -25,8 +25,8 @@ public class Favourite {
      */
     public Favourite(String name) {
         try {
-            this.name = name;
             City city = new City(APIQuery.QueryStringWithCity(name));
+            this.name = city.getName().replace(' ', '_');
             this.LatLong = city.getLongitude() + " " + city.getLatitude() ;
         } catch (IOException e) {
             throw new InvalidParameterException();

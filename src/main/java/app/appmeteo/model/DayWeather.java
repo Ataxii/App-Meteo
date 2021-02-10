@@ -5,15 +5,18 @@ import com.google.gson.JsonObject;
 /**
  * Represents a weather at a certain day
  * Instantiated by City's constructor
+ * Dates are in seconds from 1970
  * @see City
- * @version 1.0
+ * @version 1.1
  */
 public class DayWeather {
     private final String id;
     private final String main;
     private final String description;
     private final String icon;
-    private final long time;
+    private final long date;
+    private final long sunrise;
+    private final long sunset;
     private final double tempDay;
     private final double tempMin;
     private final double tempMax;
@@ -25,8 +28,11 @@ public class DayWeather {
     private final double tempFeelsLikeEvening;
     private final double tempFeelsLikeMorning;
     private final int humidity;
-    private final double windSpeed;
+    private final int pressure;
+    private final int windSpeed;
     private final int windDeg;
+    private final int pop;
+    private final int cloudiness;
 
     /**
      * Called by City constructor, creates a DayWeather from the information in the JsonObject in parameter
@@ -38,7 +44,9 @@ public class DayWeather {
         main = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("main").getAsString();
         description = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("description").getAsString();
         icon = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").getAsString();
-        time = obj.get("dt").getAsLong();
+        date = obj.get("dt").getAsLong();
+        sunrise = obj.get("sunrise").getAsLong();
+        sunset = obj.get("sunset").getAsLong();
         tempDay = obj.get("temp").getAsJsonObject().get("day").getAsDouble();
         tempMin = obj.get("temp").getAsJsonObject().get("min").getAsDouble();
         tempMax = obj.get("temp").getAsJsonObject().get("max").getAsDouble();
@@ -50,8 +58,11 @@ public class DayWeather {
         tempFeelsLikeEvening = obj.get("feels_like").getAsJsonObject().get("eve").getAsDouble();
         tempFeelsLikeMorning = obj.get("feels_like").getAsJsonObject().get("morn").getAsDouble();
         humidity = obj.get("humidity").getAsInt();
-        windSpeed = obj.get("wind_speed").getAsDouble();
+        pressure = obj.get("pressure").getAsInt();
+        windSpeed = (int) (obj.get("wind_speed").getAsDouble() * 3.6);
         windDeg = obj.get("wind_deg").getAsInt();
+        pop = (int) (obj.get("pop").getAsDouble() * 100);
+        cloudiness = obj.get("clouds").getAsInt();
     }
 
     public String getId() {
@@ -66,7 +77,7 @@ public class DayWeather {
         return humidity;
     }
 
-    public double getWindSpeed() {
+    public int getWindSpeed() {
         return windSpeed;
     }
 
@@ -118,11 +129,31 @@ public class DayWeather {
         return tempNight;
     }
 
-    public long getTime() {
-        return time;
+    public long getDate() {
+        return date;
     }
 
     public String getMain() {
         return main;
+    }
+
+    public int getPop() {
+        return pop;
+    }
+
+    public long getSunrise() {
+        return sunrise;
+    }
+
+    public long getSunset() {
+        return sunset;
+    }
+
+    public int getPressure() {
+        return pressure;
+    }
+
+    public int getCloudiness() {
+        return cloudiness;
     }
 }

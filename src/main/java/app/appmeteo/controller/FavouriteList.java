@@ -143,8 +143,6 @@ public class FavouriteList {
 
     public void write() throws IOException {
 
-        // TODO ECRITURE AU MEME FORMAT
-
         BufferedWriter wrt = new BufferedWriter(new FileWriter(relatedFile));
         for (Favourite f : favouriteList) {
             wrt.append(f.toString());
