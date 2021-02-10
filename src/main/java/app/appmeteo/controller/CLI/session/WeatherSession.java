@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.*;
 
 import app.appmeteo.controller.APIQuery;
-import app.appmeteo.controller.Commands.*;
+import app.appmeteo.controller.Commands;
 import app.appmeteo.model.User;
 import app.appmeteo.model.City;
 import app.appmeteo.model.DayWeather;
@@ -27,7 +27,7 @@ public class WeatherSession extends Session {
     public void treatQuery() throws IOException {
         super.treatQuery();
         if (isOver) return;
-        if (user.getQuery().getCommandType().equals(CommandType.HELP)) return;
+        if (user.getQuery().getCommandType().equals(Commands.CommandType.HELP)) return;
 
         user.getQuery().fixCommandline();
         ArrayList<String> options = user.getQuery().getOptions();
@@ -94,11 +94,11 @@ public class WeatherSession extends Session {
         HourWeather weatherNow = city.getWeatherNow();
         for (String option : options) {
             switch (option) {
-                case WeatherCommands.TEMP:
+                case Commands.WeatherCommands.TEMP:
                     CLIController.addDisplay("Temperature : "
                             + weatherNow.getTemp() + "°C");
                     break;
-                case WeatherCommands.WIND:
+                case Commands.WeatherCommands.WIND:
                     CLIController.addDisplay("Wind : \n"
                             + "\tOrientation : " + this.getWindOrientation(weatherNow.getWindDeg()) + "\n"
                             + "\tSpeed : " + weatherNow.getWindSpeed() + " m/s");
@@ -118,20 +118,29 @@ public class WeatherSession extends Session {
             if (this.isSameDay(user.getQuery().getDate(), weatherDate)) {
                 for (String option : options) {
                     switch (option) {
-                        case WeatherCommands.TEMP:
+                        case Commands.WeatherCommands.TEMP:
                             CLIController.addDisplay("Temperature : \n");
-                            if (options.contains(WeatherCommands.MORNING)) {
+                            if (options.contains(Commands.WeatherCommands.MORNING)) {
                                 CLIController.addDisplay("Morning : " + weather.getTempMorning() + "°C");
-                            } else if (options.contains(WeatherCommands.EVENING)) {
+                            } else if (options.contains(Commands.WeatherCommands.EVENING)) {
                                 CLIController.addDisplay("Evening: " + weather.getTempEvening() + "°C");
-                            } else if (options.contains(WeatherCommands.NIGHT)) {
+                            } else if (options.contains(Commands.WeatherCommands.NIGHT)) {
                                 CLIController.addDisplay("Night : " + weather.getTempNight() + "°C");
                             } else CLIController.addDisplay("Day : " + weather.getTempDay() + "°C");
                             break;
-                        case WeatherCommands.WIND:
+                        case Commands.WeatherCommands.WIND:
                             CLIController.addDisplay("Wind : \n"
                                     + "\tOrientation : " + this.getWindOrientation(weather.getWindDeg()) + "\n"
                                     + "\tSpeed : " + weather.getWindSpeed() + " m/s");
+                            break;
+                        case Commands.WeatherCommands.MORNING:
+                            CLIController.addDisplay("It's the morning");
+                            break;
+                        case Commands.WeatherCommands.EVENING:
+                            CLIController.addDisplay("It's the evening");
+                            break;
+                        case Commands.WeatherCommands.NIGHT:
+                            CLIController.addDisplay("It's the night");
                             break;
                     }
                 }
