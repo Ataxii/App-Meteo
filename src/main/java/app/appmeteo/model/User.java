@@ -52,7 +52,7 @@ public class User {
     public void next(){
         String line = this.scanner.nextLine();
         this.query.setCommand(line.split(" "));
-        this.query.setHasDate(false);
+        this.query.setDate(null);
     }
 
 

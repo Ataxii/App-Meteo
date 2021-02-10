@@ -42,7 +42,7 @@ public abstract class Session{
         isOver = false;
     }
 
-    public void launch() throws IOException {
+    public void launch(){
         while (!isOver) {
             System.out.println("\n" + toString() + " --- Please Input your command:");
             user.next();

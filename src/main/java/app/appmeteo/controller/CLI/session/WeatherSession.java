@@ -120,18 +120,21 @@ public class WeatherSession extends Session {
                     switch (option) {
                         case Commands.WeatherCommands.TEMP:
                             CLIController.addDisplay("Temperature : \n");
-                            if (options.contains(Commands.WeatherCommands.MORNING)) {
-                                CLIController.addDisplay("Morning : " + weather.getTempMorning() + "°C");
-                            } else if (options.contains(Commands.WeatherCommands.EVENING)) {
-                                CLIController.addDisplay("Evening: " + weather.getTempEvening() + "°C");
-                            } else if (options.contains(Commands.WeatherCommands.NIGHT)) {
-                                CLIController.addDisplay("Night : " + weather.getTempNight() + "°C");
-                            } else CLIController.addDisplay("Day : " + weather.getTempDay() + "°C");
+                            CLIController.addDisplay("Day : " + weather.getTempDay() + "°C");
                             break;
                         case Commands.WeatherCommands.WIND:
                             CLIController.addDisplay("Wind : \n"
                                     + "\tOrientation : " + this.getWindOrientation(weather.getWindDeg()) + "\n"
                                     + "\tSpeed : " + weather.getWindSpeed() + " m/s");
+                            break;
+                        case Commands.WeatherCommands.MORNING:
+                            CLIController.addDisplay("It's the morning");
+                            break;
+                        case Commands.WeatherCommands.EVENING:
+                            CLIController.addDisplay("It's the evening");
+                            break;
+                        case Commands.WeatherCommands.NIGHT:
+                            CLIController.addDisplay("It's the night");
                             break;
                     }
                 }
