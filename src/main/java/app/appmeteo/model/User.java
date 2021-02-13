@@ -4,15 +4,13 @@ import app.appmeteo.controller.FavouriteList;
 import app.appmeteo.controller.UserQuery;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class User {
 
     private UserQuery query;
     private final Scanner scanner;
-    public FavouriteList favouriteList;
+    private FavouriteList favouriteList;
 
     public User(Scanner scanner) throws IOException {
         this.scanner = scanner;
@@ -20,43 +18,29 @@ public class User {
         this.query = new UserQuery(new String[0]);
     }
 
-    public User(String[] query) throws IOException {
-        this.query = new UserQuery(query);
+    /**
+     * @param commandLine the commands line
+     */
+    public User(String[] commandLine) throws IOException {
+        this.query = new UserQuery(commandLine);
         this.scanner = null;
         this.favouriteList = new FavouriteList();
     }
 
-    // ACCESSEURS
     public UserQuery getQuery() {
-        return query;
+        return this.query;
     }
 
-    public String[] getCommand() {
-        return query.getCommand();
-    }
-
-    public int getCommandLength() {
-        return query.getCommandLength();
-    }
-
-    public String getCommandAtIndex(int index) {
-        return query.getCommandAtIndex(index);
-    }
-
-    public String[] getCommandFrom(int from) {
-        return Arrays.copyOfRange(getCommand(), from, this.query.getQueryLength());
-    }
-
-    public boolean dateHasToBeTreated() {
-        return query.hasDate();
-    }
-
-    public void setCommandFrom(int from) {
-        this.query.setCommand(Arrays.copyOfRange(this.query.getCommand(), from, this.query.getQueryLength()));
+    public void setQuery(UserQuery query) {
+        this.query = query;
     }
 
     public FavouriteList getFavouriteList() {
         return favouriteList;
+    }
+
+    public void setFavouriteList(FavouriteList favouriteList) {
+        this.favouriteList = favouriteList;
     }
 
     /**
@@ -64,8 +48,9 @@ public class User {
      */
     public void next() {
         String line = this.scanner.nextLine();
-        this.query.setCommand(line.split(" "));
+        this.query.setCommandLine(line.split(" "));
         this.query.setDate(null);
     }
 
 }
+

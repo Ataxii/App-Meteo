@@ -19,15 +19,15 @@ public class FavouriteListTest {
         w.write(data);
         w.close();
         FavouriteList favList = new FavouriteList(file);
-        assertEquals("Miramas", favList.getFavouriteList().get(0).getName());
-        assertEquals("5.0 43.5833", favList.getFavouriteList().get(0).getLatLong());
-        assertEquals("Paris", favList.getFavouriteList().get(1).getName());
-        assertEquals("2.3488 48.8534", favList.getFavouriteList().get(1).getLatLong());
+        assertEquals("Miramas", favList.getFavouriteAtIndex(0).getName());
+        assertEquals("5.0 43.5833", favList.getFavouriteAtIndex(0).getLatLong());
+        assertEquals("Paris", favList.getFavouriteAtIndex(1).getName());
+        assertEquals("2.3488 48.8534", favList.getFavouriteAtIndex(1).getLatLong());
 
         favList.addFavourite("Marseille");
-        assertEquals(3, favList.getFavouriteList().size());
-        assertEquals("Arrondissement_de_Marseille", favList.getFavouriteList().get(2).getName());
-        assertEquals("5.5 43.3333", favList.getFavouriteList().get(2).getLatLong());
+        assertEquals(3, favList.getList().size());
+        assertEquals("Arrondissement_de_Marseille", favList.getFavouriteAtIndex(2).getName());
+        assertEquals("5.5 43.3333", favList.getFavouriteAtIndex(2).getLatLong());
 
         favList.write();
         BufferedReader r = new BufferedReader(new FileReader(file));
@@ -36,7 +36,7 @@ public class FavouriteListTest {
         assertEquals(expectedData, actualData);
 
         favList.delFavouriteByName("Arrondissement_de_Marseille");
-        assertEquals(2, favList.getFavouriteList().size());
+        assertEquals(2, favList.getList().size());
         favList.write();
     }
 

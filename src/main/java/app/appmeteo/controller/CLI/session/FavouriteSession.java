@@ -1,4 +1,5 @@
 package app.appmeteo.controller.CLI.session;
+
 import app.appmeteo.controller.CLI.CLIController;
 import app.appmeteo.controller.Commands.*;
 import app.appmeteo.model.Favourite;
@@ -7,6 +8,10 @@ import app.appmeteo.model.User;
 import java.io.IOException;
 
 public class FavouriteSession extends Session {
+
+    public static void main(String[] args) {
+        String[] salut = new String[]{"a", "b"};
+    }
 
     protected FavouriteSession(User usr) {
         super(usr);
@@ -17,23 +22,23 @@ public class FavouriteSession extends Session {
         super.treatQuery();
         if (isOver) return;
 
-        switch (user.getQuery().getCommand()[0]) {
+        switch (user.getQuery().getCommandLineOption(0)) {
             case FavouritesCommands.WEATHER: {
                 treatWeatherQuery();
                 break;
             }
             case FavouritesCommands.ADD: {
-                user.favouriteList.addFavourite(user.getQuery().getCommand()[1]);
+                user.getFavouriteList().addFavourite(user.getQuery().getCommandLineOption(1));
                 break;
             }
             case FavouritesCommands.DEL: {
-                user.favouriteList.delFavouriteByName(user.getQuery().getCommand()[1]);
+                user.getFavouriteList().delFavouriteByName(user.getQuery().getCommandLineOption(1));
                 break;
             }
             case FavouritesCommands.LIST: {
                 int index = 1;
-                for (Favourite fav: user.favouriteList.getList()) {
-                    CLIController.addDisplay( "(" + index + ") " + fav.toString());
+                for (Favourite fav : user.getFavouriteList().getList()) {
+                    CLIController.addDisplay("(" + index + ") " + fav.toString());
                     index++;
                 }
                 break;
@@ -42,21 +47,29 @@ public class FavouriteSession extends Session {
     }
 
     private void treatWeatherQuery() throws IOException {
-        Session fakeWeatherSession = new WeatherSession(new User(new String[1]));
-
-        if (user.getQuery().getQueryLength() == 2) {
-            int index = Integer.parseInt(user.getQuery().getCommand()[1]) - 1;
-            if (index > user.favouriteList.getList().size() || index <= 0) {
-                CLIController.addDisplay("Specified Index is wrong");
-                return;
-            }
-            fakeWeatherSession.user.getQuery().getCommand()[0] = user.favouriteList.getList().get(index).getName();
-            treatOtherSessionQuery(fakeWeatherSession);
+        if (user.getQuery().getCommandLineLength() == 2) {
+            displaySelectedFavouriteWeather();
         } else {
-            for (Favourite fav: user.favouriteList.getList()) {
-                fakeWeatherSession.user.getQuery().getCommand()[0] = fav.getName();
-                treatOtherSessionQuery(fakeWeatherSession);
-            }
+            displayAllFavouritesWeather();
+        }
+    }
+
+    private void displaySelectedFavouriteWeather() throws IOException {
+
+        int index = Integer.parseInt(user.getQuery().getCommandLineOption(1)) - 1;
+        if (index > user.getFavouriteList().getList().size() || index <= 0) {
+            CLIController.addDisplay("Specified Index is wrong");
+            return;
+        }
+        Session fakeWeatherSession = new WeatherSession(new User(new String[]{user.getFavouriteList().getFavouriteAtIndex(index).getName()}));
+        treatOtherSessionQuery(fakeWeatherSession);
+    }
+
+    private void displayAllFavouritesWeather() throws IOException {
+        Session fakeWeatherSession = new WeatherSession(new User(new String[1]));
+        for (Favourite fav : user.getFavouriteList().getList()) {
+            fakeWeatherSession.user.getQuery().setCommandLineOption(0, fav.getName());
+            treatOtherSessionQuery(fakeWeatherSession);
         }
     }
 

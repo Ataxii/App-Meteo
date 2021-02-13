@@ -1,6 +1,7 @@
 package app.appmeteo.controller.CLI.session;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import app.appmeteo.controller.CLI.CLIController;
@@ -10,7 +11,7 @@ import app.appmeteo.model.User;
 
 /**
  * <head>
- *     <font size="5">
+ * <font size="5">
  * </head>
  * <body font-size="10px">
  * A Session is basically what it's naming describes.
@@ -27,7 +28,7 @@ import app.appmeteo.model.User;
  * But each different Session gives different way of treating a query
  * </body>
  */
-public abstract class Session{
+public abstract class Session {
 
     protected User user;
     protected boolean isOver;
@@ -42,15 +43,15 @@ public abstract class Session{
         isOver = false;
     }
 
-    public void launch(){
+    public void launch() {
         while (!isOver) {
             System.out.println("\n" + toString() + " --- Please Input your command:");
             user.next();
             try {
                 treatQuery();
-            }catch(IOException e){
+            } catch (IOException e) {
                 CLIController.addDisplay("Oops... Something went wrong...");
-            }finally {
+            } finally {
                 CLIController.displayData();
             }
 
@@ -58,28 +59,30 @@ public abstract class Session{
     }
 
     public void treatQuery() throws IOException {
-        switch (this.user.getQuery().getCommand()[0]) {
+        switch (this.user.getQuery().getCommandLine()[0]) {
             case CommandType.HELP: {
                 CLIController.addDisplay(getHelp());
                 break;
             }
             case CommandType.QUIT: {
                 CLIController.addDisplay("Leaving " + toString() + "...");
-                user.favouriteList.write();
+                user.getFavouriteList().write();
                 this.isOver = true;
                 break;
             }
             case CommandType.FAV: {
-                if (user.getQuery().getQueryLength() > 1) {
-                    user.setQuery(1);
+                if (user.getQuery().getCommandLineLength() > 1) {
+                    String[] fastQuery = Arrays.copyOfRange(user.getQuery().getCommandLine(), 1, user.getQuery().getCommandLineLength());
+                    user.getQuery().setCommandLine(fastQuery);
                     Session fastSession = new FavouriteSession(user);
                     treatOtherSessionQuery(fastSession);
                     break;
                 }
             }
             case CommandType.WEATHER: {
-                if (user.getQuery().getQueryLength() > 1) {
-                    user.setQuery(1);
+                if (user.getQuery().getCommandLineLength() > 1) {
+                    String[] fastQuery = Arrays.copyOfRange(user.getQuery().getCommandLine(), 1, user.getQuery().getCommandLineLength());
+                    user.getQuery().setCommandLine(fastQuery);
                     Session fastSession = new WeatherSession(user);
                     treatOtherSessionQuery(fastSession);
                     break;

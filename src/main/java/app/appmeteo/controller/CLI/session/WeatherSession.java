@@ -36,14 +36,14 @@ public class WeatherSession extends Session {
 
         super.treatQuery();
         if (isOver) return;
-        if (user.getQuery().getCommandType().equals(Commands.CommandType.HELP)) return;
+        if (user.getQuery().getCommandLineOption(0).equals(Commands.CommandType.HELP)) return;
 
         user.getQuery().fixCommandline();
         ArrayList<String> options = user.getQuery().getOptions();
-        city = new City(APIQuery.QueryStringWithCity(user.getQuery().getCommandType()));
+        city = new City(APIQuery.QueryStringWithCity(user.getQuery().getCommandLineOption(0)));
 
-        if (!this.user.getQuery().hasDate()) {
-            CLIController.addDisplay("Weather in " + city.getName() + " :\n" );
+        if (!user.getQuery().hasDate()) {
+            CLIController.addDisplay("Weather in " + city.getName() + " :\n");
             displayTodayWeather(options);
         } else {
             CLIController.addDisplay("Weather in " + city.getName() + " on " + sdf.format(user.getQuery().getDate()) + " : \n");
@@ -77,6 +77,7 @@ public class WeatherSession extends Session {
     /**
      * Displays weather information asked by the user. Only called if the user didn't ask for a specific date
      * See displayDayWeather to know what happens when the user asks for a specific date
+     *
      * @param options ArrayList of query options
      */
     private void displayTodayWeather(ArrayList<String> options) {
@@ -91,7 +92,7 @@ public class WeatherSession extends Session {
             CLIController.addDisplay("Cloud cover : " + cloudinessAppreciation(weatherNow.getCloudiness()));
             CLIController.addDisplay("Probability of Precipitation : " + city.getWeatherPerHour().get(0).getPop() + "%");
             CLIController.addDisplay("Wind : \n"
-                    + "\tOrientation : " + this.getWindOrientation(weatherNow.getWindDeg()) + "\n"
+                    + "\tOrientation : " + getWindOrientation(weatherNow.getWindDeg()) + "\n"
                     + "\tSpeed : " + weatherNow.getWindSpeed() + " km/h");
         } else {
             // Options' info display
@@ -106,7 +107,7 @@ public class WeatherSession extends Session {
                         break;
                     case Commands.WeatherCommands.WIND:
                         CLIController.addDisplay("Wind : \n"
-                                + "\tOrientation : " + this.getWindOrientation(weatherNow.getWindDeg()) + "\n"
+                                + "\tOrientation : " + getWindOrientation(weatherNow.getWindDeg()) + "\n"
                                 + "\tSpeed : " + weatherNow.getWindSpeed() + " km/h");
                         break;
                     case Commands.WeatherCommands.MORNING:
@@ -117,7 +118,7 @@ public class WeatherSession extends Session {
                         CLIController.addDisplay("Cloud cover : " + cloudinessAppreciation(weatherToday.getCloudiness()));
                         CLIController.addDisplay("Probability of Precipitation : " + weatherToday.getPop() + "%");
                         CLIController.addDisplay("Wind : \n"
-                                + "\tOrientation : " + this.getWindOrientation(weatherToday.getWindDeg()) + "\n"
+                                + "\tOrientation : " + getWindOrientation(weatherToday.getWindDeg()) + "\n"
                                 + "\tSpeed : " + weatherToday.getWindSpeed() + " km/h");
                         return;
                     case Commands.WeatherCommands.EVENING:
@@ -128,7 +129,7 @@ public class WeatherSession extends Session {
                         CLIController.addDisplay("Cloud cover : " + cloudinessAppreciation(weatherToday.getCloudiness()));
                         CLIController.addDisplay("Probability of Precipitation : " + weatherToday.getPop() + "%");
                         CLIController.addDisplay("Wind : \n"
-                                + "\tOrientation : " + this.getWindOrientation(weatherToday.getWindDeg()) + "\n"
+                                + "\tOrientation : " + getWindOrientation(weatherToday.getWindDeg()) + "\n"
                                 + "\tSpeed : " + weatherToday.getWindSpeed() + " km/h");
                         return;
                     case Commands.WeatherCommands.NIGHT:
@@ -139,7 +140,7 @@ public class WeatherSession extends Session {
                         CLIController.addDisplay("Cloud cover : " + cloudinessAppreciation(weatherToday.getCloudiness()));
                         CLIController.addDisplay("Probability of Precipitation : " + weatherToday.getPop() + "%");
                         CLIController.addDisplay("Wind : \n"
-                                + "\tOrientation : " + this.getWindOrientation(weatherToday.getWindDeg()) + "\n"
+                                + "\tOrientation : " + getWindOrientation(weatherToday.getWindDeg()) + "\n"
                                 + "\tSpeed : " + weatherToday.getWindSpeed() + " km/h");
                         return;
                 }
@@ -150,6 +151,7 @@ public class WeatherSession extends Session {
     /**
      * Displays weather information asked by the user. Only called if the user asked for the weather at a specific Date
      * See displayTodayWeather to know what happens when the user doesn't ask for a specific date
+     *
      * @param options ArrayList of query options
      */
     private void displayDateWeather(ArrayList<String> options) {
@@ -159,7 +161,7 @@ public class WeatherSession extends Session {
         // Search for correct DayWeather
         for (DayWeather w : city.getWeatherPerDay()) {
             Date weatherDate = new Date(w.getDate() * 1000);
-            if (this.isSameDay(user.getQuery().getDate(), weatherDate)) {
+            if (isSameDay(user.getQuery().getDate(), weatherDate)) {
                 weather = w;
             }
         }
@@ -186,7 +188,7 @@ public class WeatherSession extends Session {
             CLIController.addDisplay("Cloud cover : " + cloudinessAppreciation(weather.getCloudiness()));
             CLIController.addDisplay("Probability of Precipitation : " + weather.getPop() + "%");
             CLIController.addDisplay("Wind : \n"
-                    + "\tOrientation : " + this.getWindOrientation(weather.getWindDeg()) + "\n"
+                    + "\tOrientation : " + getWindOrientation(weather.getWindDeg()) + "\n"
                     + "\tSpeed : " + weather.getWindSpeed() + " km/h");
         } else {
             // Options' info display
@@ -201,7 +203,7 @@ public class WeatherSession extends Session {
                         break;
                     case Commands.WeatherCommands.WIND:
                         CLIController.addDisplay("Wind : \n"
-                                + "\tOrientation : " + this.getWindOrientation(weather.getWindDeg()) + "\n"
+                                + "\tOrientation : " + getWindOrientation(weather.getWindDeg()) + "\n"
                                 + "\tSpeed : " + weather.getWindSpeed() + " m/s");
                         break;
                     case Commands.WeatherCommands.MORNING:
@@ -212,7 +214,7 @@ public class WeatherSession extends Session {
                         CLIController.addDisplay("Cloud cover : " + cloudinessAppreciation(weather.getCloudiness()));
                         CLIController.addDisplay("Probability of Precipitation : " + weather.getPop() + "%");
                         CLIController.addDisplay("Wind : \n"
-                                + "\tOrientation : " + this.getWindOrientation(weather.getWindDeg()) + "\n"
+                                + "\tOrientation : " + getWindOrientation(weather.getWindDeg()) + "\n"
                                 + "\tSpeed : " + weather.getWindSpeed() + " km/h");
                         return;
                     case Commands.WeatherCommands.EVENING:
@@ -223,7 +225,7 @@ public class WeatherSession extends Session {
                         CLIController.addDisplay("Cloud cover : " + cloudinessAppreciation(weather.getCloudiness()));
                         CLIController.addDisplay("Probability of Precipitation : " + weather.getPop() + "%");
                         CLIController.addDisplay("Wind : \n"
-                                + "\tOrientation : " + this.getWindOrientation(weather.getWindDeg()) + "\n"
+                                + "\tOrientation : " + getWindOrientation(weather.getWindDeg()) + "\n"
                                 + "\tSpeed : " + weather.getWindSpeed() + " km/h");
                         return;
                     case Commands.WeatherCommands.NIGHT:
@@ -234,7 +236,7 @@ public class WeatherSession extends Session {
                         CLIController.addDisplay("Cloud cover : " + cloudinessAppreciation(weather.getCloudiness()));
                         CLIController.addDisplay("Probability of Precipitation : " + weather.getPop() + "%");
                         CLIController.addDisplay("Wind : \n"
-                                + "\tOrientation : " + this.getWindOrientation(weather.getWindDeg()) + "\n"
+                                + "\tOrientation : " + getWindOrientation(weather.getWindDeg()) + "\n"
                                 + "\tSpeed : " + weather.getWindSpeed() + " km/h");
                         return;
                 }
@@ -244,6 +246,7 @@ public class WeatherSession extends Session {
 
     /**
      * Transform a wind degree into a more likeable direction
+     *
      * @param degree the wind degree
      * @return a simple String describing wind's orientation
      */
@@ -299,6 +302,7 @@ public class WeatherSession extends Session {
 
     /**
      * Appreciates the weather's cloudiness based on a percentage
+     *
      * @param percentage the percentage of cloudiness
      * @return a simple String describing the weather's cloudiness
      */
@@ -318,7 +322,8 @@ public class WeatherSession extends Session {
 
     /**
      * Returns weather or not two dates are on the same day
-     * @param date of type Date
+     *
+     * @param date        of type Date
      * @param anotherDate of type Date
      * @return true if the two dates are on the same day
      */

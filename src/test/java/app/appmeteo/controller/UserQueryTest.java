@@ -4,7 +4,6 @@ package app.appmeteo.controller;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -29,9 +28,9 @@ public class UserQueryTest {
         String expectedThird = "-wind";
 
         this.query.fixCommandline();
-        assertEquals(expectedfirst, this.query.getCommand()[0]);
-        assertEquals(expectedSecond, this.query.getCommand()[1]);
-        assertEquals(expectedThird, this.query.getCommand()[2]);
+        assertEquals(expectedfirst, this.query.getCommandLine()[0]);
+        assertEquals(expectedSecond, this.query.getCommandLine()[1]);
+        assertEquals(expectedThird, this.query.getCommandLine()[2]);
 
 
         // with options and date
@@ -52,11 +51,11 @@ public class UserQueryTest {
         String expectedFifth = "-wind";
 
         this.query.fixCommandline();
-        assertEquals(expectedfirst, this.query.getCommand()[0]);
-        assertEquals(expectedSecond, this.query.getCommand()[1]);
-        assertEquals(expectedThird, this.query.getCommand()[2]);
-        assertEquals(expectedFourth, this.query.getCommand()[3]);
-        assertEquals(expectedFifth, this.query.getCommand()[4]);
+        assertEquals(expectedfirst, this.query.getCommandLine()[0]);
+        assertEquals(expectedSecond, this.query.getCommandLine()[1]);
+        assertEquals(expectedThird, this.query.getCommandLine()[2]);
+        assertEquals(expectedFourth, this.query.getCommandLine()[3]);
+        assertEquals(expectedFifth, this.query.getCommandLine()[4]);
 
 
     }

@@ -2,6 +2,7 @@ package app.appmeteo.controller;
 
 import app.appmeteo.controller.CLI.CLIController;
 
+import java.security.InvalidParameterException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,49 +11,56 @@ import java.util.Date;
 
 public class UserQuery {
 
-    private String[] command;
+    private String[] commandLine;
     private Date date;
 
 
-    public UserQuery(String[] command) {
-        this.command = command;
+    public UserQuery(String[] commandLine) {
+        this.commandLine = commandLine;
         this.date = null;
     }
 
-    public void setCommand(String[] command) {
-        this.command = command;
+
+    public void setCommandLine(String[] commandLine) {
+        this.commandLine = commandLine;
     }
 
-    public String[] getCommand() {
-        return command;
-    }
-
-
-    public String getCommandType() {
-        return command[0];
-    }
-
-    public int getQueryLength() {
-        return command.length;
-    }
-
-    public boolean hasDate() {
-        return this.date!=null;
-    }
-
-
-    public Date getDate(){
-        return this.date;
+    public void setCommandLineOption(int index, String newOption) {
+        if (0 > index || index > commandLine.length) throw new InvalidParameterException();
+        commandLine[index] = newOption;
     }
 
     public void setDate(Date date) {
         this.date = date;
     }
 
-    public ArrayList<String> getOptions(){
+
+    public String[] getCommandLine() {
+        return commandLine;
+    }
+
+    public String getCommandLineOption(int index) {
+        if (0 > index || index > commandLine.length) throw new InvalidParameterException();
+        return commandLine[index];
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public boolean hasDate() {
+        return date != null;
+    }
+
+    public int getCommandLineLength() {
+        return commandLine.length;
+    }
+
+
+    public ArrayList<String> getOptions() {
         ArrayList<String> options = new ArrayList<>();
-        for(String s:this.command){
-            if(s.charAt(0)=='-') options.add(s);
+        for (String s : commandLine) {
+            if (s.charAt(0) == '-') options.add(s);
         }
         return options;
     }
@@ -66,52 +74,50 @@ public class UserQuery {
         // before options
         ArrayList<String> newCommandLine = new ArrayList<String>();
 
-        for (String s : command) {
+        for (String s : commandLine) {
             if (s.charAt(0) == '-') {
                 newCommandLine.add(s);
-            }
-            else {
+            } else {
                 if (newCommandLine.size() == 0) newCommandLine.add(s);
                 else newCommandLine.set(0, newCommandLine.get(0) + " " + s);
             }
         }
-        command = newCommandLine.toArray(new String[0]);
-        this.fixCommandSelectors();
-        this.fixDate();
+        commandLine = newCommandLine.toArray(new String[0]);
+        fixCommandSelectors();
+        fixDate();
     }
 
     // this [Los Angeles 25/10/21, -temp, -wind] become this: [Los Angeles, 25/10/21, -temp, -wind]
     public void fixDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        for(int index = 0; index<command.length; index++){
-            if(command[index].contains(String.valueOf('/'))){
+        for (int index = 0; index < commandLine.length; index++) {
+            if (commandLine[index].contains(String.valueOf('/'))) {
                 try {
-                    this.setDate(sdf.parse(command[index]));
+                    setDate(sdf.parse(commandLine[index]));
                     sdf.setLenient(false);
                 } catch (ParseException e) {
                     CLIController.addDisplay("Oops... Date Invalid...  ");
                 }
-                command[index] = this.date.toString();
+                commandLine[index] = date.toString();
             }
         }
 
     }
 
-    public void fixCommandSelectors(){
+    public void fixCommandSelectors() {
         ArrayList<String> newCommandLine = new ArrayList<>();
-        String commandType = this.getCommandType();
-        int prevIndex=0;
-        for(int index = 0; index<commandType.length(); index++){
-            if(commandType.charAt(index)==' ' && Character.isDigit(commandType.charAt(index+1))){
-                newCommandLine.add(commandType.substring(prevIndex,index));
-                prevIndex = index+1;
+        String commandType = commandLine[0];
+        int prevIndex = 0;
+        for (int index = 0; index < commandType.length(); index++) {
+            if (commandType.charAt(index) == ' ' && Character.isDigit(commandType.charAt(index + 1))) {
+                newCommandLine.add(commandType.substring(prevIndex, index));
+                prevIndex = index + 1;
             }
         }
         newCommandLine.add(commandType.substring(prevIndex));
-        newCommandLine.addAll(Arrays.asList(this.command).subList(1, this.command.length));
-        this.command = newCommandLine.toArray(this.command);
+        newCommandLine.addAll(Arrays.asList(commandLine).subList(1, commandLine.length));
+        commandLine = newCommandLine.toArray(commandLine);
     }
-
 
 
 }
