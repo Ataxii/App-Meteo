@@ -24,6 +24,7 @@ public class Commands {
         public static final String MORNING = "-morning";
         public static final String EVENING = "-evening";
         public static final String NIGHT = "-night";
+        public static final String PRECISE = "-precise";
     }
 
     /**

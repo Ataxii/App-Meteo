@@ -66,7 +66,8 @@ public class WeatherSession extends Session {
                 + "     '-wind'      displays wind speed and wind orientation\n"
                 + "     '-morning'   displays weather during the morning\n"
                 + "     '-evening'   displays weather during the evening\n"
-                + "     '-night'     displays weather during the night\n";
+                + "     '-night'     displays weather during the night\n"
+                + "     '-precise'   displays more info such as humidity and pressure\n";
     }
 
     @Override
@@ -142,6 +143,23 @@ public class WeatherSession extends Session {
                         CLIController.addDisplay("Wind : \n"
                                 + "\tOrientation : " + getWindOrientation(weatherToday.getWindDeg()) + "\n"
                                 + "\tSpeed : " + weatherToday.getWindSpeed() + " km/h");
+                        return;
+                    case Commands.WeatherCommands.PRECISE:
+                        CLIController.addDisplay("\t" + weatherNow.getDescription());
+                        CLIController.addDisplay("Temperature : \n"
+                                + "\tNow : " + weatherNow.getTemp() + "°C (Feels like " + weatherNow.getTempFeelsLike() + "°C)\n"
+                                + "\tMin : " + weatherToday.getTempMin() + "°C   Max : " + weatherToday.getTempMax() + "°C\n"
+                                + "\tMorning : " + weatherToday.getTempMorning() + "°C (Feels like " + weatherToday.getTempFeelsLikeMorning() + "°C)\n"
+                                + "\tEvening : " + weatherToday.getTempEvening() + "°C (Feels like " + weatherToday.getTempFeelsLikeEvening() + "°C)\n"
+                                + "\tNight : " + weatherToday.getTempNight() + "°C (Feels like " + weatherToday.getTempFeelsLikeNight() + "°C)");
+                        CLIController.addDisplay("Cloud cover : " + cloudinessAppreciation(weatherNow.getCloudiness()));
+                        CLIController.addDisplay("Probability of Precipitation : " + city.getWeatherPerHour().get(0).getPop() + "%");
+                        CLIController.addDisplay("Humidity : " + weatherNow.getHumidity() + "%");
+                        CLIController.addDisplay("Pressure : " + weatherNow.getPressure() + " hPa");
+                        CLIController.addDisplay("Visibility : " + weatherNow.getVisibility() + "m");
+                        CLIController.addDisplay("Wind : \n"
+                                + "\tOrientation : " + getWindOrientation(weatherNow.getWindDeg()) + "\n"
+                                + "\tSpeed : " + weatherNow.getWindSpeed() + " km/h");
                         return;
                 }
             }
@@ -235,6 +253,22 @@ public class WeatherSession extends Session {
                         CLIController.addDisplay("Feels Like : " + weather.getTempFeelsLikeNight() + "°C");
                         CLIController.addDisplay("Cloud cover : " + cloudinessAppreciation(weather.getCloudiness()));
                         CLIController.addDisplay("Probability of Precipitation : " + weather.getPop() + "%");
+                        CLIController.addDisplay("Wind : \n"
+                                + "\tOrientation : " + getWindOrientation(weather.getWindDeg()) + "\n"
+                                + "\tSpeed : " + weather.getWindSpeed() + " km/h");
+                        return;
+                    case Commands.WeatherCommands.PRECISE:
+                        CLIController.addDisplay("\t" + weather.getDescription());
+                        CLIController.addDisplay("Temperature : \n"
+                                + "\tMin : " + weather.getTempMin() + "°C   Max : " + weather.getTempMax() + "°C\n"
+                                + "\tMorning : " + weather.getTempMorning() + "°C (Feels like " + weather.getTempFeelsLikeMorning() + "°C)\n"
+                                + "\tEvening : " + weather.getTempEvening() + "°C (Feels like " + weather.getTempFeelsLikeEvening() + "°C)\n"
+                                + "\tNight : " + weather.getTempNight() + "°C (Feels like " + weather.getTempFeelsLikeNight() + "°C)\n");
+
+                        CLIController.addDisplay("Cloud cover : " + cloudinessAppreciation(weather.getCloudiness()));
+                        CLIController.addDisplay("Probability of Precipitation : " + city.getWeatherPerHour().get(0).getPop() + "%");
+                        CLIController.addDisplay("Humidity : " + weather.getHumidity() + "%");
+                        CLIController.addDisplay("Pressure : " + weather.getPressure() + " hPa");
                         CLIController.addDisplay("Wind : \n"
                                 + "\tOrientation : " + getWindOrientation(weather.getWindDeg()) + "\n"
                                 + "\tSpeed : " + weather.getWindSpeed() + " km/h");
