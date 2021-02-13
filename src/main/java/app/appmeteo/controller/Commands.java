@@ -1,7 +1,9 @@
 package app.appmeteo.controller;
 
+/**
+ * Contains every type of command a user can possibly do
+ */
 public class Commands {
-
     /**
      * Commands types, first thing to check when the user does a query
      * if a command type does not begin with one of those, then it's a weather query
@@ -19,13 +21,13 @@ public class Commands {
     public static class WeatherCommands {
         public static final String TEMP = "-temp";
         public static final String WIND = "-wind";
-        public static final String MORNING = "-mng";
-        public static final String EVENING = "-eng";
-        public static final String NIGHT = "-nght";
+        public static final String MORNING = "-morning";
+        public static final String EVENING = "-evening";
+        public static final String NIGHT = "-night";
     }
 
     /**
-     * favourites
+     * favourites related commands
      */
     public static class FavouritesCommands {
         public static final String ADD = "-add";
