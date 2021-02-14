@@ -1,5 +1,6 @@
 package app.appmeteo.controller.CLI.session;
 
+import app.appmeteo.controller.CLI.CLIController;
 import app.appmeteo.controller.Commands.*;
 import app.appmeteo.model.User;
 
@@ -8,7 +9,7 @@ import java.util.Scanner;
 
 public class MainSession extends Session {
 
-    protected MainSession(User usr) throws IOException {
+    protected MainSession(User usr) {
         super(usr);
     }
 
@@ -28,6 +29,10 @@ public class MainSession extends Session {
                 new WeatherSession(user).launch();
                 break;
             }
+            default:
+                if (!user.getQuery().getCommandLineOption(0).equals(CommandType.QUIT)
+                && !user.getQuery().getCommandLineOption(0).equals(CommandType.HELP))
+                CLIController.addDisplay("Couldn't recognize this command, try command 'help' !");
         }
     }
 
