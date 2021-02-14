@@ -9,10 +9,6 @@ import java.io.IOException;
 
 public class FavouriteSession extends Session {
 
-    public static void main(String[] args) {
-        String[] salut = new String[]{"a", "b"};
-    }
-
     protected FavouriteSession(User usr) {
         super(usr);
     }
@@ -57,7 +53,7 @@ public class FavouriteSession extends Session {
     private void displaySelectedFavouriteWeather() throws IOException {
 
         int index = Integer.parseInt(user.getQuery().getCommandLineOption(1)) - 1;
-        if (index > user.getFavouriteList().getList().size() || index <= 0) {
+        if (index > user.getFavouriteList().getList().size() || index < 0) {
             CLIController.addDisplay("Specified Index is wrong");
             return;
         }

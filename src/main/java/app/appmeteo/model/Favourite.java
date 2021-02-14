@@ -8,7 +8,7 @@ import java.security.InvalidParameterException;
 public class Favourite {
 
     public String getName() {
-        return name;
+        return name.replace("_", " ");
     }
 
     public String getLatLong() {
@@ -26,7 +26,7 @@ public class Favourite {
     public Favourite(String name) {
         try {
             City city = new City(APIQuery.QueryStringWithCity(name));
-            this.name = city.getName().replace(' ', '_');
+            this.name = city.getName().replace(" ", "_");
             this.LatLong = city.getLongitude() + " " + city.getLatitude() ;
         } catch (IOException e) {
             throw new InvalidParameterException();
@@ -41,8 +41,7 @@ public class Favourite {
     public Favourite(Double longitude, Double latitude){
         try {
             City city = new City((APIQuery.QueryWeatherWithPos(longitude, latitude)));
-            this.name = city.getName();
-
+            this.name = city.getName().replace(" ", "_");
             this.LatLong = city.getLatitude() + " " + city.getLongitude();
         } catch (IOException e) {
             throw new InvalidParameterException();
@@ -57,8 +56,7 @@ public class Favourite {
     public Favourite(String zip, String country){
         try {
             City city = new City((APIQuery.QueryWithZip(zip, country)));
-            this.name = city.getName();
-
+            this.name = city.getName().replace(" ", "_");
             this.LatLong = city.getLatitude() + " " + city.getLongitude();
         } catch (IOException e) {
             throw new InvalidParameterException();
@@ -67,7 +65,7 @@ public class Favourite {
 
     @Override
     public String toString() {
-            return name + " " + LatLong;
+            return name.replace("_", " ");
         }
 
     @Override

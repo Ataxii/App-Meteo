@@ -53,13 +53,14 @@ public abstract class Session {
                 CLIController.addDisplay("Oops... Something went wrong...");
             } finally {
                 CLIController.displayData();
+                System.out.println();
             }
 
         }
     }
 
     public void treatQuery() throws IOException {
-        switch (this.user.getQuery().getCommandLine()[0]) {
+        switch (this.user.getQuery().getCommandLineOption(0)) {
             case CommandType.HELP: {
                 CLIController.addDisplay(getHelp());
                 break;
