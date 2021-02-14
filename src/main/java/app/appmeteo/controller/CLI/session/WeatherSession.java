@@ -42,7 +42,7 @@ public class WeatherSession extends Session {
         ArrayList<String> options = user.getQuery().getOptions();
 
         try {
-            city = new City(APIQuery.QueryStringWithCity(user.getQuery().getCommandLineOption(0)));
+            city = new City(APIQuery.QueryWithCity(user.getQuery().getCommandLineOption(0)));
         } catch (IOException ex) {
             CLIController.addDisplay("The city " + user.getQuery().getCommandLineOption(0) + " was not found");
             return;

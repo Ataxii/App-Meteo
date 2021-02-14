@@ -8,7 +8,7 @@ import java.security.InvalidParameterException;
 public class Favourite {
 
     public String getName() {
-        return name.replace("_", " ");
+        return name;
     }
 
     public String getLatLong() {
