@@ -38,7 +38,7 @@ public class APIQueryTest {
         code = obj.get("cod").getAsInt();
         assertEquals(code, 200);
 
-        response = APIQuery.QueryStringWithCity("London");
+        response = APIQuery.QueryWithCity("London");
         obj = JsonParser.parseString(response).getAsJsonObject();
         code = obj.get("cod").getAsInt();
         assertEquals(code, 200);
