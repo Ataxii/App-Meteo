@@ -29,10 +29,6 @@ public class MainSession extends Session {
                 new WeatherSession(user).launch();
                 break;
             }
-            default:
-                if (!user.getQuery().getCommandLineOption(0).equals(CommandType.QUIT)
-                && !user.getQuery().getCommandLineOption(0).equals(CommandType.HELP))
-                CLIController.addDisplay("Couldn't recognize this command, try command 'help' !");
         }
     }
 

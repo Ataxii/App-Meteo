@@ -43,10 +43,6 @@ public class FavouriteSession extends Session {
                 }
                 break;
             }
-            default:
-                if (!user.getQuery().getCommandLineOption(0).equals(CommandType.QUIT)
-                        && !user.getQuery().getCommandLineOption(0).equals(CommandType.HELP))
-                    CLIController.addDisplay("Couldn't recognize this command, try command 'help' !");
         }
     }
 
