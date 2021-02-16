@@ -25,7 +25,7 @@ public class Favourite {
      */
     public Favourite(String cityName) {
         try {
-            City city = new City(APIQuery.QueryWithCity(cityName));
+            City city = new City(APIQuery.QueryWithCity(cityName.replace("_", " ")));
             name = cityName.toLowerCase().replace(" ", "_");
             countryCode = city.getCountry();
         } catch (IOException e) {
@@ -40,7 +40,7 @@ public class Favourite {
      */
     public Favourite(String cityName, String country){
         try {
-            City city = new City((APIQuery.QueryWithCountryCode(cityName, country)));
+            City city = new City((APIQuery.QueryWithCountryCode(cityName.replace("_", " "), country)));
             name = cityName.toLowerCase().replace(" ", "_");
             countryCode = city.getCountry();
         } catch (IOException e) {

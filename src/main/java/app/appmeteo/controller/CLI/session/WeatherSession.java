@@ -50,10 +50,10 @@ public class WeatherSession extends Session {
         }
 
         if (!user.getQuery().hasDate()) {
-            CLIController.addDisplay("Weather in " + city.getName() + " :\n");
+            CLIController.addDisplay("Weather in " + city.getName() + " " + city.getCountry() + " :\n");
             displayTodayWeather(options);
         } else {
-            CLIController.addDisplay("Weather in " + city.getName() + " on " + sdf.format(user.getQuery().getDate()) + " : \n");
+            CLIController.addDisplay("Weather in " + city.getName() + " " + city.getCountry() + " on " + sdf.format(user.getQuery().getDate()) + " : \n");
             displayDateWeather(options);
         }
     }

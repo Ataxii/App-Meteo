@@ -36,7 +36,7 @@ public class FavouriteList {
             while ((line = rdr.readLine()) != null) {
                 if (line.length() == 0) continue;
                 lineContent = line.split(" ");
-                favouriteList.add(new Favourite(lineContent[0]));
+                favouriteList.add(new Favourite(lineContent[0], lineContent[1]));
             }
             rdr.close();
         }
@@ -110,7 +110,7 @@ public class FavouriteList {
             if (favouriteList.contains(newFav)) CLIController.addDisplay(cityName + " is already in your favourites");
             else {
                 favouriteList.add(newFav);
-                CLIController.addDisplay(cityName + " was added to your favourites");
+                CLIController.addDisplay(newFav.toString() + " was added to your favourites");
             }
         } catch (InvalidParameterException e) {
             CLIController.addDisplay("specified city might not exist...");
@@ -124,7 +124,7 @@ public class FavouriteList {
             if (favouriteList.contains(newFav)) CLIController.addDisplay(cityName + " is already in your favourites");
             else {
                 favouriteList.add(newFav);
-                CLIController.addDisplay(cityName + " was added to your favourites");
+                CLIController.addDisplay(newFav.toString() + " was added to your favourites");
             }
         } catch (InvalidParameterException e) {
             CLIController.addDisplay("specified city might not exist...");
@@ -138,7 +138,7 @@ public class FavouriteList {
         }
         for (Favourite f: removeList) {
             boolean removed = favouriteList.remove(f);
-            if (removed) CLIController.addDisplay(f.getName() + " " + f.getCountryCode() + " was removed from your favourites");
+            if (removed) CLIController.addDisplay(f.toString() + " was removed from your favourites");
         }
     }
 

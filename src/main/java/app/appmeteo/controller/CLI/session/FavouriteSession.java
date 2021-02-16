@@ -64,11 +64,14 @@ public class FavouriteSession extends Session {
             CLIController.addDisplay("Specified Index is wrong");
             return;
         }
-        // change command line option to city name instead of index
-        user.getQuery().setCommandLineOption(1, user.getFavouriteList().getFavouriteAtIndex(index).getName());
+        // change command line option to city name + country code
+        String[] weatherCommand = new String[user.getQuery().getCommandLineLength()];
+        weatherCommand[0] = user.getFavouriteList().getFavouriteAtIndex(index).getName();
+        weatherCommand[1] = user.getFavouriteList().getFavouriteAtIndex(index).getCountryCode();
 
-        // get complete command line
-        String[] weatherCommand = Arrays.copyOfRange(user.getQuery().getCommandLine(), 1, user.getQuery().getCommandLineLength());
+        for (int i = 2; i < weatherCommand.length; i++) {
+            weatherCommand[i] = user.getQuery().getCommandLineOption(i);
+        }
 
         // treat query
         Session fakeWeatherSession = new WeatherSession(new User(weatherCommand));
@@ -76,9 +79,11 @@ public class FavouriteSession extends Session {
     }
 
     private void displayAllFavouritesWeather() throws IOException {
-        Session fakeWeatherSession = new WeatherSession(new User(new String[1]));
+        String[] weatherCommand = new String[2];
+        Session fakeWeatherSession = new WeatherSession(new User(weatherCommand));
         for (Favourite fav : user.getFavouriteList().getList()) {
             fakeWeatherSession.user.getQuery().setCommandLineOption(0, fav.getName());
+            fakeWeatherSession.user.getQuery().setCommandLineOption(1, fav.getCountryCode());
             treatOtherSessionQuery(fakeWeatherSession);
             System.out.println();
         }
@@ -87,9 +92,10 @@ public class FavouriteSession extends Session {
     @Override
     public String getHelp() {
         return "Use command:\n"
-                + "'-getw' + [index] + [weather options (use weather help for infos)]\n"
-                + "                                 to get the weather of all your favourites or a specific one\n"
-                + "'-add' + 'existing town name' + [country code (FR, US...)\n"
+                + "'-getw' + 'index' (use '-list' for infos) + [weather options (use 'weather help' for infos)]\n"
+                + "                                 to get the weather of specified favourite\n"
+                + "'-getw' to get the today weather of all your favourites\n"
+                + "'-add' + 'existing town name' + [country code (FR, US...)]\n"
                 + "                                 to add a town to your favorites\n"
                 + "'-del' + 'favourite name'        to delete a town from your favorites\n"
                 + "'-list'                          to get a display of all your current favourites\n"
