@@ -45,7 +45,7 @@ public class WeatherSession extends Session {
         try {
             city = this.getCity();
         } catch (IOException ex) {
-            CLIController.addDisplay("The city " + user.getQuery().getCommandLineOption(0) + " was not found");
+            CLIController.addDisplay("The city you requested was not found");
             return;
         }
 
