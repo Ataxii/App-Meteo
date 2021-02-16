@@ -50,6 +50,8 @@ public class User {
         String line = this.scanner.nextLine();
         this.query.setCommandLine(line.split(" "));
         this.query.setDate(null);
+        this.query.setZipCode(0);
+        this.query.setCountryCode("");
     }
 
 }

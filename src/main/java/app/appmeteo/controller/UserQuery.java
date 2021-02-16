@@ -13,11 +13,15 @@ public class UserQuery {
 
     private String[] commandLine;
     private Date date;
+    private String countryCode;
+    private int zipCode;
 
 
     public UserQuery(String[] commandLine) {
         this.commandLine = commandLine;
         this.date = null;
+        this.countryCode = "";
+        this.zipCode = 0;
     }
 
 
@@ -30,11 +34,6 @@ public class UserQuery {
         commandLine[index] = newOption;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-
     public String[] getCommandLine() {
         return commandLine;
     }
@@ -42,6 +41,14 @@ public class UserQuery {
     public String getCommandLineOption(int index) {
         if (0 > index || index > commandLine.length) throw new InvalidParameterException();
         return commandLine[index];
+    }
+
+    public int getCommandLineLength() {
+        return commandLine.length;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Date getDate() {
@@ -52,10 +59,17 @@ public class UserQuery {
         return date != null;
     }
 
-    public int getCommandLineLength() {
-        return commandLine.length;
-    }
+    public String getCountryCode() { return countryCode; }
 
+    public int getZipCode() { return zipCode; }
+
+    public void setCountryCode(String countryCode) { this.countryCode = countryCode; }
+
+    public void setZipCode(int zipCode) { this.zipCode = zipCode; }
+
+    public boolean hasCountryCode(){ return !this.countryCode.equals(""); }
+
+    public boolean hasZipCode(){ return !(this.zipCode==0); }
 
     public ArrayList<String> getOptions() {
         ArrayList<String> options = new ArrayList<>();
@@ -71,23 +85,15 @@ public class UserQuery {
      * it is currently public for testing purpose
      */
     public void fixCommandline() {
-        // before options
-        ArrayList<String> newCommandLine = new ArrayList<String>();
-
-        for (String s : commandLine) {
-            if (s.charAt(0) == '-') {
-                newCommandLine.add(s);
-            } else {
-                if (newCommandLine.size() == 0) newCommandLine.add(s);
-                else newCommandLine.set(0, newCommandLine.get(0) + " " + s);
-            }
+        for (int index = 0; index<getCommandLineLength(); index++) {
+            String s = commandLine[index];
+            if(s.contains(String.valueOf('_'))) commandLine[index] = s.replace('_',' ');
         }
-        commandLine = newCommandLine.toArray(new String[0]);
         fixCommandSelectors();
         fixDate();
+        System.out.println(Arrays.toString(commandLine));
     }
 
-    // this [Los Angeles 25/10/21, -temp, -wind] become this: [Los Angeles, 25/10/21, -temp, -wind]
     public void fixDate() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         for (int index = 0; index < commandLine.length; index++) {
@@ -105,19 +111,13 @@ public class UserQuery {
     }
 
     public void fixCommandSelectors() {
-        ArrayList<String> newCommandLine = new ArrayList<>();
-        String commandType = commandLine[0];
-        int prevIndex = 0;
-        for (int index = 0; index < commandType.length(); index++) {
-            if (commandType.charAt(index) == ' ' && Character.isDigit(commandType.charAt(index + 1))) {
-                newCommandLine.add(commandType.substring(prevIndex, index));
-                prevIndex = index + 1;
-            }
+        for (int index = 0; index < this.getCommandLineLength(); index++) {
+            String s = commandLine[index];
+            if(s.length()==2){ this.setCountryCode(s); }
+            if(Character.isDigit(s.charAt(0)) && !s.contains(String.valueOf('/'))){ this.setZipCode(Integer.parseInt(s)); }
         }
-        newCommandLine.add(commandType.substring(prevIndex));
-        newCommandLine.addAll(Arrays.asList(commandLine).subList(1, commandLine.length));
-        commandLine = newCommandLine.toArray(commandLine);
     }
+
 
 
 }

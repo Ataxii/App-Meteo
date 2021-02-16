@@ -6,6 +6,7 @@ import java.util.*;
 
 import app.appmeteo.controller.APIQuery;
 import app.appmeteo.controller.Commands;
+import app.appmeteo.controller.UserQuery;
 import app.appmeteo.model.User;
 import app.appmeteo.model.City;
 import app.appmeteo.model.DayWeather;
@@ -42,7 +43,7 @@ public class WeatherSession extends Session {
         ArrayList<String> options = user.getQuery().getOptions();
 
         try {
-            city = new City(APIQuery.QueryWithCity(user.getQuery().getCommandLineOption(0)));
+            city = this.getCity();
         } catch (IOException ex) {
             CLIController.addDisplay("The city " + user.getQuery().getCommandLineOption(0) + " was not found");
             return;
@@ -373,5 +374,17 @@ public class WeatherSession extends Session {
         Calendar anotherCalendar = Calendar.getInstance();
         anotherCalendar.setTime(anotherDate);
         return calendar.get(Calendar.DAY_OF_MONTH) == anotherCalendar.get(Calendar.DAY_OF_MONTH);
+    }
+
+    private City getCity() throws IOException {
+        UserQuery query = user.getQuery();
+        if (query.hasCountryCode() && query.hasZipCode()) {
+            city = new City(APIQuery.QueryWithZip(String.valueOf(query.getZipCode()), query.getCountryCode()));
+        } else if (!query.hasZipCode() && query.hasCountryCode()) {
+            city = new City(APIQuery.QueryWithCountryCode(query.getCommandLine()[0], query.getCountryCode()));
+        } else if (!query.hasZipCode() && !query.hasCountryCode()) {
+            city = new City(APIQuery.QueryWithCity(query.getCommandLine()[0]));
+        }
+        return city;
     }
 }
