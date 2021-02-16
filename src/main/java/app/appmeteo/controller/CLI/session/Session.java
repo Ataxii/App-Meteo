@@ -55,7 +55,6 @@ public abstract class Session {
                 CLIController.displayData();
                 System.out.println();
             }
-
         }
     }
 

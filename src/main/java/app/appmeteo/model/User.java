@@ -23,7 +23,7 @@ public class User {
      */
     public User(String[] commandLine) throws IOException {
         this.query = new UserQuery(commandLine);
-        this.scanner = null;
+        this.scanner = new Scanner(System.in);
         this.favouriteList = new FavouriteList();
     }
 
