@@ -19,14 +19,14 @@ public class FavouriteListTest {
         w.close();
         FavouriteList favList = new FavouriteList(file);
         assertEquals("Miramas", favList.getFavouriteAtIndex(0).getName());
-        assertEquals("5.0 43.5833", favList.getFavouriteAtIndex(0).getLatLong());
+        assertEquals("FR", favList.getFavouriteAtIndex(0).getCountryCode());
         assertEquals("Paris", favList.getFavouriteAtIndex(1).getName());
-        assertEquals("2.3488 48.8534", favList.getFavouriteAtIndex(1).getLatLong());
+        assertEquals("FR", favList.getFavouriteAtIndex(1).getCountryCode());
 
         favList.addFavouriteByCityName("Marseille");
         assertEquals(3, favList.getList().size());
         assertEquals("Arrondissement_de_Marseille", favList.getFavouriteAtIndex(2).getName());
-        assertEquals("5.5 43.3333", favList.getFavouriteAtIndex(2).getLatLong());
+        assertEquals("FR", favList.getFavouriteAtIndex(2).getCountryCode());
 
         favList.write();
         BufferedReader r = new BufferedReader(new FileReader(file));

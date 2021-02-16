@@ -15,9 +15,6 @@ public class FavouriteTest {
 
         Favourite favZip = new Favourite("13140","FR");
         assertEquals("Miramas",favZip.getName());
-
-        Favourite favLL = new Favourite(5.002927, 43.588271);
-        assertEquals("Miramas",favLL.getName());
     }
 
 

@@ -91,7 +91,6 @@ public class UserQuery {
         }
         fixCommandSelectors();
         fixDate();
-        System.out.println(Arrays.toString(commandLine));
     }
 
     public void fixDate() {

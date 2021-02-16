@@ -4,6 +4,7 @@ import app.appmeteo.controller.APIQuery;
 
 import java.io.IOException;
 import java.security.InvalidParameterException;
+import java.util.Locale;
 
 public class Favourite {
 
@@ -11,40 +12,21 @@ public class Favourite {
         return name;
     }
 
-    public String getLatLong() {
-        return LatLong;
-    }
+    public String getCountryCode() { return countryCode; }
 
 
     private String name;
-    private String LatLong;
     private String countryCode;
 
-    /**
-     * Constructor of favourite
-     * @param name name of city you want in Favourite
-     */
-    public Favourite(String name) {
-        try {
-            City city = new City(APIQuery.QueryWithCity(name));
-            this.name = city.getName().replace(" ", "_");
-            LatLong = city.getLongitude() + " " + city.getLatitude() ;
-            countryCode = city.getCountry();
-        } catch (IOException e) {
-            throw new InvalidParameterException();
-        }
-    }
 
     /**
      * Constructor of favourite
-     * @param longitude longitude of city you want in Favourite
-     * @param latitude  latitude of city you want in Favourite
+     * @param cityName name of city you want in Favourite
      */
-    public Favourite(Double longitude, Double latitude){
+    public Favourite(String cityName) {
         try {
-            City city = new City((APIQuery.QueryWeatherWithPos(longitude, latitude)));
-            name = city.getName().replace(" ", "_");
-            LatLong = city.getLatitude() + " " + city.getLongitude();
+            City city = new City(APIQuery.QueryWithCity(cityName));
+            name = cityName.toLowerCase().replace(" ", "_");
             countryCode = city.getCountry();
         } catch (IOException e) {
             throw new InvalidParameterException();
@@ -59,8 +41,7 @@ public class Favourite {
     public Favourite(String cityName, String country){
         try {
             City city = new City((APIQuery.QueryWithCountryCode(cityName, country)));
-            name = city.getName().replace(" ", "_");
-            LatLong = city.getLatitude() + " " + city.getLongitude();
+            name = cityName.toLowerCase().replace(" ", "_");
             countryCode = city.getCountry();
         } catch (IOException e) {
             throw new InvalidParameterException();
@@ -75,9 +56,7 @@ public class Favourite {
     @Override
     public boolean equals(Object obj) {
         Favourite other = (Favourite) obj;
-        if (name.equals(other.name) && !LatLong.equals(other.LatLong)) return false;
-        if (LatLong.equals(other.LatLong)) return true;
-        return super.equals(obj);
+        return name.equals(other.name) && countryCode.equals(other.countryCode);
     }
 
 }

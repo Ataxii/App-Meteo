@@ -131,7 +131,6 @@ public class FavouriteList {
         }
     }
 
-    // not safe with name
     public void delFavouriteByName(String name) {
         ArrayList<Favourite> removeList = new ArrayList<>();
         for (Favourite f: favouriteList) {
@@ -139,18 +138,7 @@ public class FavouriteList {
         }
         for (Favourite f: removeList) {
             boolean removed = favouriteList.remove(f);
-            if (removed) CLIController.addDisplay(f.getName() + " " + f.getLatLong() + " was removed from your favourites");
-        }
-    }
-
-    public void delFavouriteByLongLat(String LongLat) {
-        ArrayList<Favourite> removeList = new ArrayList<>();
-        for (Favourite f: favouriteList) {
-            if (f.getLatLong().equals(LongLat)) removeList.add(f);
-        }
-        for (Favourite f: removeList) {
-            boolean removed = favouriteList.remove(f);
-            if (removed) CLIController.addDisplay(f.getName() + " " + f.getLatLong() + " was removed from your favourites");
+            if (removed) CLIController.addDisplay(f.getName() + " " + f.getCountryCode() + " was removed from your favourites");
         }
     }
 
@@ -162,7 +150,7 @@ public class FavouriteList {
     public void write() throws IOException {
         BufferedWriter wrt = new BufferedWriter(new FileWriter(relatedFile));
         for (Favourite f : favouriteList) {
-            wrt.append(f.toString());
+            wrt.append(f.getName()).append(" ").append(f.getCountryCode());
             wrt.newLine();
         }
         wrt.close();
