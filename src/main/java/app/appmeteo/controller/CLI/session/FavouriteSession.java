@@ -72,6 +72,7 @@ public class FavouriteSession extends Session {
         for (Favourite fav : user.getFavouriteList().getList()) {
             fakeWeatherSession.user.getQuery().setCommandLineOption(0, fav.getName());
             treatOtherSessionQuery(fakeWeatherSession);
+            System.out.println();
         }
     }
 
