@@ -1,6 +1,5 @@
 package app.appmeteo.controller;
 
-import app.appmeteo.model.Favourite;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
@@ -24,7 +23,7 @@ public class FavouriteListTest {
         assertEquals("Paris", favList.getFavouriteAtIndex(1).getName());
         assertEquals("2.3488 48.8534", favList.getFavouriteAtIndex(1).getLatLong());
 
-        favList.addFavourite("Marseille");
+        favList.addFavouriteByCityName("Marseille");
         assertEquals(3, favList.getList().size());
         assertEquals("Arrondissement_de_Marseille", favList.getFavouriteAtIndex(2).getName());
         assertEquals("5.5 43.3333", favList.getFavouriteAtIndex(2).getLatLong());

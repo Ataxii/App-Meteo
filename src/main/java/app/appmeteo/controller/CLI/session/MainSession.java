@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class MainSession extends Session {
 
-    protected MainSession(User usr) {
+    public MainSession(User usr) {
         super(usr);
     }
 

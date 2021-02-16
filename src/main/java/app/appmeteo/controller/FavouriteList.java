@@ -6,6 +6,7 @@ import app.appmeteo.model.Favourite;
 import java.io.*;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class FavouriteList {
 
@@ -100,16 +101,30 @@ public class FavouriteList {
 
     // SETTEURS
     /**
-     * @param fav the new favourite town to add. it will transformed to a lowercase version
+     * @param cityName the new favourite town to add. it will transformed to a lowercase version
      */
-    public void addFavourite(String fav) {
-        fav = fav.toLowerCase();
+    public void addFavouriteByCityName(String cityName) {
+        cityName = cityName.toLowerCase();
         try {
-            Favourite newFav = new Favourite(fav);
-            if (favouriteList.contains(newFav)) CLIController.addDisplay(fav + " is already in your favourites");
+            Favourite newFav = new Favourite(cityName);
+            if (favouriteList.contains(newFav)) CLIController.addDisplay(cityName + " is already in your favourites");
             else {
                 favouriteList.add(newFav);
-                CLIController.addDisplay(fav + " was added to your favourites");
+                CLIController.addDisplay(cityName + " was added to your favourites");
+            }
+        } catch (InvalidParameterException e) {
+            CLIController.addDisplay("specified city might not exist...");
+        }
+    }
+
+    public void addFavouriteByCityAndCountryCode(String cityName, String countryCode) {
+        cityName = cityName.toLowerCase();
+        try {
+            Favourite newFav = new Favourite(cityName, countryCode);
+            if (favouriteList.contains(newFav)) CLIController.addDisplay(cityName + " is already in your favourites");
+            else {
+                favouriteList.add(newFav);
+                CLIController.addDisplay(cityName + " was added to your favourites");
             }
         } catch (InvalidParameterException e) {
             CLIController.addDisplay("specified city might not exist...");

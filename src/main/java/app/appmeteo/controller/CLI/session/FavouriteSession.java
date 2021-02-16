@@ -24,7 +24,13 @@ public class FavouriteSession extends Session {
                 break;
             }
             case FavouritesCommands.ADD: {
-                user.getFavouriteList().addFavourite(user.getQuery().getCommandLineOption(1));
+                if (user.getQuery().getCommandLineLength() == 2) {
+                    user.getFavouriteList().addFavouriteByCityName(user.getQuery().getCommandLineOption(1));
+                }
+                if (user.getQuery().getCommandLineLength() == 3) {
+                    user.getFavouriteList().addFavouriteByCityAndCountryCode(user.getQuery().getCommandLineOption(1),
+                            user.getQuery().getCommandLineOption(2));
+                }
                 break;
             }
             case FavouritesCommands.DEL: {
