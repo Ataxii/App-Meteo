@@ -47,16 +47,8 @@ public class UserQuery {
         return commandLine.length;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     public Date getDate() {
         return date;
-    }
-
-    public boolean hasDate() {
-        return date != null;
     }
 
     public String getCountryCode() { return countryCode; }
@@ -67,9 +59,17 @@ public class UserQuery {
 
     public void setZipCode(int zipCode) { this.zipCode = zipCode; }
 
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     public boolean hasCountryCode(){ return !this.countryCode.equals(""); }
 
     public boolean hasZipCode(){ return !(this.zipCode==0); }
+
+    public boolean hasDate() {
+        return date != null;
+    }
 
     public ArrayList<String> getOptions() {
         ArrayList<String> options = new ArrayList<>();
@@ -102,7 +102,7 @@ public class UserQuery {
                     setDate(sdf.parse(commandLine[index]));
                     sdf.setLenient(false);
                 } catch (ParseException e) {
-                    CLIController.addDisplay("Oops... Date Invalid...  ");
+                    CLIController.addDisplay("Oops... Invalid Date...  ");
                 }
                 commandLine[index] = date.toString();
             }
