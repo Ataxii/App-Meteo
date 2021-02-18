@@ -38,6 +38,10 @@ public class WeatherSession extends Session {
         super.treatQuery();
         if (isOver) return;
         if (user.getQuery().getCommandLineOption(0).equals(Commands.CommandType.HELP)) return;
+        if (user.getQuery().getCommandLineOption(0).equals(Commands.FavouritesCommands.LIST)) return;
+        if (user.getQuery().getCommandLineOption(0).equals(Commands.FavouritesCommands.WEATHER)) return;
+        if (user.getQuery().getCommandLineOption(0).equals(Commands.FavouritesCommands.ADD)) return;
+        if (user.getQuery().getCommandLineOption(0).equals(Commands.FavouritesCommands.DEL)) return;
 
         user.getQuery().fixCommandline();
         ArrayList<String> options = user.getQuery().getOptions();
