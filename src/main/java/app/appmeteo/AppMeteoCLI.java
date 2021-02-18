@@ -1,11 +1,12 @@
 package app.appmeteo;
 
-import app.appmeteo.controller.APIQuery;
-import app.appmeteo.model.City;
+import app.appmeteo.controller.CLI.session.FavouriteSession;
+import app.appmeteo.controller.CLI.session.MainSession;
+import app.appmeteo.controller.CLI.session.Session;
+import app.appmeteo.model.User;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -13,38 +14,25 @@ import java.util.Scanner;
  * Asks user for a city's name and prints this city's current weather
  */
 public class AppMeteoCLI {
+
     public static void main(String[] args) throws IOException {
         System.out.println("Welcome to the weather app");
 
-//        System.out.println("You requested command '" + args[0] + "' with parameter '" + args[1] + "'");
-//
-//        System.out.println("Input your command: ");
-        System.out.println("What's the weather like in : ");
-        Scanner scanner = new Scanner(System.in);
-        String cityName = scanner.nextLine();
-        scanner.close();
+        // TRY GET WEATHER OF LAST ADDED FAVOURITE
+        User user = new User(new String[] { "weather" + "" + ""});
 
+        if (!user.getFavouriteList().getList().isEmpty()) {
+            String city = user.getFavouriteList().getFavouriteAtIndex(user.getFavouriteList().getList().size()-1).getName();
+            String countryCode = user.getFavouriteList().getFavouriteAtIndex(user.getFavouriteList().getList().size()-1).getCountryCode();
+            user.getQuery().setCommandLineOption(1, city);
+            user.getQuery().setCommandLineOption(2, countryCode);
+            System.out.println(Arrays.toString(user.getQuery().getCommandLine()));
+        }
 
-        // APIQuery.QueryWithCity(cityName);
-        // City city = new City("Data.json");
-        String datas = APIQuery.QueryStringWithCity(cityName);
-        City city = new City(datas);
-
-        // Prediction time
-        System.out.print("Time : ");
-        System.out.println(LocalDateTime.ofEpochSecond(city.getWeatherNow().getTime() + city.getTimezone()
-                ,0, ZoneOffset.UTC));
-        // Weather
-        System.out.print("Weather : ");
-        System.out.println(city.getWeatherNow().getMain());
-        // Temperature Celsius
-        System.out.print("Temperature : ");
-        System.out.print(city.getWeatherNow().getTemp());
-        System.out.println("°C");
-        // Wind speed meter/sec
-        System.out.print("Wind : ");
-        System.out.print(city.getWeatherNow().getWindSpeed());
-        System.out.println("m/s");
+        Session session = new MainSession(user);
+        session.treatQuery();
+        session.launch();
     }
+
 }
 
