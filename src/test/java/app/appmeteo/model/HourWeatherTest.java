@@ -45,10 +45,10 @@ public class HourWeatherTest {
         String expectedId = "500";
         String expectedMain = "Rain" ;
         String expectedDescription = "light rain";
-        String expectedIcon = "10d" ;
+        String expectedIcon = "app/appmeteo/images/10d.png" ;
         long expectedTime = 1612274400;
-        double expectedTemp = 286.05;
-        double expectedTempFeelsLike = 282.62;
+        int expectedTemp = 286;
+        int expectedTempFeelsLike = 283;
         int expectedHumidity = 71;
         int expectedWindSpeed = (int) (4.16 * 3.6);
         int expectedWindDeg = 227;
@@ -78,10 +78,10 @@ public class HourWeatherTest {
         String expectedId = "500";
         String expectedMain = "Rain" ;
         String expectedDescription = "light rain";
-        String expectedIcon = "10d" ;
+        String expectedIcon = "app/appmeteo/images/10d.png" ;
         long expectedTime = 1612274400;
-        double expectedTemp = 286.05;
-        double expectedTempFeelsLike = 282.62;
+        int expectedTemp = 286;
+        int expectedTempFeelsLike = 283;
         int expectedHumidity = 71;
         int expectedWindSpeed = (int) (4.16 * 3.6);
         int expectedWindDeg = 227;

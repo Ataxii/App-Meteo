@@ -1,9 +1,8 @@
 package app.appmeteo.controller;
 
 
+import app.appmeteo.model.UserQuery;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -13,7 +12,7 @@ public class UserQueryTest {
 
     // [Los, Angeles, -temp, -wind] -> [Los Angeles, -temp, -wind]
     @Test
-    public void testFixCommandLine() throws IOException {
+    public void testFixCommandLine() {
         // with options (specified with a hyphen) and no date or codes
         String[] testQuery = new String[3];
         testQuery[0] = "Los_Angeles";
@@ -77,8 +76,6 @@ public class UserQueryTest {
         assertEquals(expectedThird, this.query.getCommandLine()[2]);
         assertEquals(expectedFourth, this.query.getCommandLine()[3]);
         assertEquals(expectedFifth, this.query.getCommandLine()[4]);
-
-
 
     }
 

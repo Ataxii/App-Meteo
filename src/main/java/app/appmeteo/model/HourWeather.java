@@ -3,15 +3,12 @@ package app.appmeteo.model;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-
 /**
  * Represents a weather at a certain hour
  * Instantiated by City's constructor
- * @see City
+ *
  * @version 2.1
+ * @see City
  */
 public class HourWeather {
     private final String id;
@@ -19,8 +16,8 @@ public class HourWeather {
     private final String description;
     private final String icon;
     private final long date; // Date of forecast in seconds from 1970
-    private final double temp;
-    private final double tempFeelsLike;
+    private final int temp;
+    private final int tempFeelsLike;
     private final int humidity;
     private final int windSpeed;
     private final int windDeg;
@@ -31,6 +28,7 @@ public class HourWeather {
 
     /**
      * Called by City's constructor for current weather, parse the string in parameter and initializes all attributes
+     *
      * @param data the string returned by an API query
      * @since 1.0
      */
@@ -39,10 +37,10 @@ public class HourWeather {
         id = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("id").getAsString();
         main = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("main").getAsString();
         description = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("description").getAsString();
-        icon = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").getAsString();
+        icon = "app/appmeteo/images/" + obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").getAsString() + ".png";
         date = obj.get("dt").getAsLong();
-        temp = obj.get("temp").getAsDouble();
-        tempFeelsLike = obj.get("feels_like").getAsDouble();
+        temp = (int) Math.round(obj.get("temp").getAsDouble());
+        tempFeelsLike = (int) Math.round(obj.get("feels_like").getAsDouble());
         humidity = obj.get("humidity").getAsInt();
         pressure = obj.get("pressure").getAsInt();
         visibility = obj.get("visibility").getAsInt();
@@ -53,6 +51,7 @@ public class HourWeather {
 
     /**
      * Called by City constructor for 48hours forecast, creates a HourWeather from the information in the JsonObject in parameter
+     *
      * @param obj a JsonObject containing weather's information for a certain hour
      * @since 2.0
      */
@@ -60,10 +59,10 @@ public class HourWeather {
         id = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("id").getAsString();
         main = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("main").getAsString();
         description = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("description").getAsString();
-        icon = obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").getAsString();
+        icon = "app/appmeteo/images/" + obj.getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").getAsString() + ".png";
         date = obj.get("dt").getAsLong();
-        temp = obj.get("temp").getAsDouble();
-        tempFeelsLike = obj.get("feels_like").getAsDouble();
+        temp = (int) Math.round(obj.get("temp").getAsDouble());
+        tempFeelsLike = (int) Math.round(obj.get("feels_like").getAsDouble());
         humidity = obj.get("humidity").getAsInt();
         pressure = obj.get("pressure").getAsInt();
         visibility = obj.get("visibility").getAsInt();
@@ -89,11 +88,11 @@ public class HourWeather {
         return icon;
     }
 
-    public double getTemp() {
+    public int getTemp() {
         return temp;
     }
 
-    public double getTempFeelsLike() {
+    public int getTempFeelsLike() {
         return tempFeelsLike;
     }
 

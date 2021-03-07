@@ -1,13 +1,10 @@
 package app.appmeteo;
 
-import app.appmeteo.controller.CLI.session.FavouriteSession;
-import app.appmeteo.controller.CLI.session.MainSession;
-import app.appmeteo.controller.CLI.session.Session;
+import app.appmeteo.controller.CLI.WeatherSession;
+import app.appmeteo.controller.GUI.GUIUtilities;
 import app.appmeteo.model.User;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Scanner;
 
 /**
  * Invoked by gradlew runCLI
@@ -16,21 +13,31 @@ import java.util.Scanner;
 public class AppMeteoCLI {
 
     public static void main(String[] args) throws IOException {
-        System.out.println("Welcome to the weather app");
+        System.out.println("Welcome to the weather app!\n");
 
         // TRY GET WEATHER OF LAST ADDED FAVOURITE
-        User user = new User(new String[] { "weather" + "" + ""});
+        User user = new User(new String[]{"", ""});
+
+        String city;
+        String countryCode;
+        String[] lastResearch = GUIUtilities.getAppState()[0].split(" ");
 
         if (!user.getFavouriteList().getList().isEmpty()) {
-            String city = user.getFavouriteList().getFavouriteAtIndex(user.getFavouriteList().getList().size()-1).getName();
-            String countryCode = user.getFavouriteList().getFavouriteAtIndex(user.getFavouriteList().getList().size()-1).getCountryCode();
-            user.getQuery().setCommandLineOption(1, city);
-            user.getQuery().setCommandLineOption(2, countryCode);
-            System.out.println(Arrays.toString(user.getQuery().getCommandLine()));
+            System.out.println("Displaying current weather of last added favourite....");
+            city = user.getFavouriteList().getFavouriteAtIndex(user.getFavouriteList().getList().size() - 1).getName();
+            countryCode = user.getFavouriteList().getFavouriteAtIndex(user.getFavouriteList().getList().size() - 1).getCountryCode();
+        } else{
+            System.out.println("Displaying current weather of last research/default town....");
+            city = lastResearch[0];
+            countryCode = lastResearch[1];
         }
 
-        Session session = new MainSession(user);
+        user.getQuery().setCommandLineOption(0, city);
+        user.getQuery().setCommandLineOption(1, countryCode);
+
+        WeatherSession session = new WeatherSession(user);
         session.treatQuery();
+        System.out.println();
         session.launch();
     }
 

@@ -1,51 +1,153 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.paint.Paint?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.Blend?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.AnchorPane?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:controller="app.appmeteo.controller.AppMeteoController" maxHeight="-Infinity" maxWidth="-Infinity"
-            minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0"
-            style="-fx-background-color: #3b3b3b;" xmlns="http://javafx.com/javafx/15.0.1"
-            xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300" minWidth="600" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #f3eae4; " xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.appmeteo.controller.GUI.GUIController">
     <children>
-        <HBox layoutX="72.0" layoutY="67.0" prefHeight="215.0" prefWidth="463.0"
-              style="-fx-background-color: #5e5e5e; -fx-background-radius: 10;"/>
-        <HBox layoutX="72.0" layoutY="348.0" prefHeight="209.0" prefWidth="463.0"
-              style="-fx-background-color: #5e5e5e; -fx-background-radius: 10;"/>
-        <TextField fx:id="Reseach" layoutX="778.0" layoutY="22.0"
-                   style="-fx-background-color: #666666; -fx-border-width: 1; -fx-border-color: white;
-                    -fx-border-radius: 2em; -fx-background-radius: 2em;"/>
-        <HBox layoutX="607.0" layoutY="67.0" prefHeight="490.0" prefWidth="341.0"
-              style="-fx-background-color: #5e5e5e; -fx-background-radius: 10;"/>
-        <Pane fx:id="menu" layoutX="-21.0" opacity="0.79" prefHeight="600.0" prefWidth="231.0"
-              style="-fx-background-color: #2b2b2b; -fx-background-radius: 20;" AnchorPane.rightAnchor="790.0"
-              AnchorPane.topAnchor="0.0">
-            <effect>
-                <Blend mode="ADD" opacity="0.82"/>
-            </effect>
-            <children>
-                <Button fx:id="closeButton" layoutX="174.0" layoutY="14.0" mnemonicParsing="false"
-                        onMouseClicked="#menuclose" rotate="180.0" style="-fx-background-color: 0;"
-                        styleClass="closeButton" text="X" textAlignment="CENTER" textFill="WHITE">
-                    <font>
-                        <Font name="Bowlby One SC Regular" size="13.0"/>
-                    </font>
-                </Button>
-            </children>
-        </Pane>
-        <Button fx:id="openMenu" layoutX="38.0" layoutY="21.0" lineSpacing="1.0" mnemonicParsing="false"
-                style="-fx-background-color: 0;" text="|||" textFill="WHITE" onMouseClicked="#menuOpen">
+
+        <Pane fx:id="moreInfoPane" blendMode="SRC_ATOP" prefHeight="190.0" prefWidth="200.0" style="-fx-background-radius: 10px; -fx-border-radius: 10px; -fx-background-color: GRAY;" visible="false" AnchorPane.rightAnchor="358.0" AnchorPane.topAnchor="0.0">
+         <effect>
+            <DropShadow />
+         </effect></Pane>
+
+        <ImageView fx:id="backgroundImage" fitHeight="794.0" fitWidth="1280.0" opacity="0.70" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../images/rain.png" />
+            </image>
+        </ImageView>
+        <TextField fx:id="searchBar" layoutX="557.0" layoutY="52.0" onKeyPressed="#searchForCity" prefHeight="34.0" prefWidth="344.0" promptText="ex : Marseille, Paris US, 84000 FR" style="-fx-border-radius: 10px; -fx-background-radius: 50px;" AnchorPane.rightAnchor="99.0" AnchorPane.topAnchor="52.0">
             <font>
-                <Font name="System Bold" size="14.0"/>
+                <Font size="15.0" />
             </font>
-        </Button>
+        </TextField>
+        <AnchorPane fx:id="dayWeatherPane" layoutX="637.0" layoutY="140.0" prefHeight="472.0" prefWidth="311.0" style="-fx-background-radius: 10px; -fx-border-radius: 10px; -fx-background-color: #ebddd2;" AnchorPane.bottomAnchor="38.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="140.0">
+            <children>
+                <GridPane fx:id="dayWeatherGrid" layoutY="18.0" prefHeight="454.0" prefWidth="281.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="253.60015869140625" minWidth="10.0" prefWidth="203.199951171875" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="149.5999755859375" minWidth="10.0" prefWidth="77.60004882812501" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                </GridPane>
+            </children>
+        </AnchorPane>
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+        <AnchorPane fx:id="hourWeatherPane" layoutX="48.0" layoutY="140.0" prefHeight="472.0" prefWidth="543.0" style="-fx-background-color: #ebddd2; -fx-background-radius: 10px; -fx-border-radius: 10px;" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="380.0" AnchorPane.topAnchor="140.0">
+            <ImageView fx:id="favouriteIndicator" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#updateFavouriteFromCurrentCityOnClick" onMouseEntered="#showCursorHand" onMouseExited="#showCursorDefault" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                <image>
+                    <Image url="@../images/addFav.png" />
+                </image>
+                <viewport>
+                    <Rectangle2D />
+                </viewport>
+            </ImageView>
+            <ImageView fx:id="hourWeatherGridLeftArrow" fitWidth="40.0" layoutY="445.0" onMouseClicked="#onHourWeatherPaneLeftArrowClicked" onMouseEntered="#onHourWeatherPaneLeftArrowMouseEntered" onMouseExited="#showCursorDefault" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="125.0" AnchorPane.leftAnchor="15.0">
+                <image>
+                    <Image url="@../images/larrowoff.png" />
+                </image>
+            </ImageView>
+            <ImageView fx:id="hourWeatherGridRightArrow" fitWidth="40.0" layoutX="75.0" layoutY="570.0" onMouseClicked="#onHourWeatherPaneRightArrowClicked" onMouseEntered="#onHourWeatherPaneRightArrowMouseEntered" onMouseExited="#showCursorDefault" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="125.0" AnchorPane.rightAnchor="15.0">
+                <image>
+                    <Image url="@../images/rarrowon.png" />
+                </image>
+            </ImageView>
+            <children>
+                <ScrollPane fx:id="hourWeatherScrollPane" hbarPolicy="NEVER" layoutX="68.0" layoutY="379.0" prefHeight="200.0" prefWidth="715.0" style="-fx-background-color: transparent; -fx-border-color: transparent;" vbarPolicy="NEVER" AnchorPane.bottomAnchor="42.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0">
+                    <content>
+                        <GridPane fx:id="hourWeatherGrid" focusTraversable="true" prefHeight="198.0" prefWidth="710.0" style="-fx-background-color: #ebddd2;">
+                            <rowConstraints>
+                                <RowConstraints maxHeight="56.00003662109375" minHeight="10.0" prefHeight="55.00001220703125" vgrow="SOMETIMES" />
+                                <RowConstraints maxHeight="105.60001220703126" minHeight="10.0" prefHeight="87.79998779296876" vgrow="SOMETIMES" />
+                                <RowConstraints maxHeight="61.600012207031256" minHeight="10.0" prefHeight="56.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
+                        </GridPane>
+                    </content>
+                </ScrollPane>
+                <GridPane fx:id="weatherInfoGrid" gridLinesVisible="true" hgap="10.0" prefHeight="301.0" prefWidth="750.0" vgap="5.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="369.39996337890625" minWidth="10.0" prefWidth="225.80003662109374" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="456.60003662109375" minWidth="10.0" prefWidth="133.79999999999998" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="456.60003662109375" minWidth="10.0" prefWidth="82.19999999999999" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="456.60003662109375" minWidth="10.0" prefWidth="98.60001220703123" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="456.60003662109375" minWidth="10.0" prefWidth="199.39998779296877" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints maxHeight="99.79999389648438" minHeight="10.0" prefHeight="54.999996948242185" valignment="TOP" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="207.19998779296876" minHeight="10.0" prefHeight="96.0" valignment="CENTER" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="192.99998779296874" minHeight="10.0" prefHeight="141.59999999999997" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                </GridPane>
+            </children>
+        </AnchorPane>
+
+        <ImageView fx:id="themeButton" fitHeight="40.0" fitWidth="40.0" layoutX="10" layoutY="10" onMouseClicked="#onThemeModeButtonClicked" onMouseEntered="#showCursorHand" onMouseExited="#showCursorDefault" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <image>
+                <Image url="@../images/luminosity.png" />
+            </image>
+        </ImageView>
+        <AnchorPane fx:id="favouriteAnchorPane" layoutY="231.0" maxWidth="0.0" minWidth="0.0" prefHeight="650.0" prefWidth="0.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="75.0">
+            <children>
+                <BorderPane fx:id="favouriteBorderPane" cache="true" cacheHint="SPEED" prefHeight="550.0" prefWidth="450.0" translateX="-420.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <right>
+                        <AnchorPane minWidth="-Infinity" prefHeight="650.0" prefWidth="30.0" BorderPane.alignment="CENTER">
+                            <children>
+                                <Polygon fx:id="favouriteDragger" fill="GREY" onMouseClicked="#translateFavouritePanelOnClick" onMouseEntered="#makeFavouriteArrowVisible" onMouseExited="#makeFavouriteArrowInvisible" points="431.0, 161.05078125, 431.0, 425.05078125, 400.0, 454.05078125, 400.0, 129.05078125" stroke="TRANSPARENT" strokeType="INSIDE" translateX="-5.0" AnchorPane.bottomAnchor="125.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="150.0" />
+                                <Text fill="WHITE" onMouseClicked="#translateFavouritePanelOnClick" onMouseEntered="#showCursorHand" onMouseExited="#showCursorDefault" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.2" text="FAVOURITES" textAlignment="CENTER" wrappingWidth="1.0" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="223.0">
+                                    <font>
+                                        <Font name="Tahoma" size="15.0" />
+                                    </font>
+                                </Text>
+                                <ImageView fx:id="upFavouriteArrow" cache="true" cacheHint="SCALE_AND_ROTATE" fitHeight="10.0" fitWidth="15.0" layoutX="5.0" layoutY="190.0" onMouseClicked="#translateFavouritePanelOnClick" opacity="0.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="190.0">
+                                    <image>
+                                        <Image url="@../images/rarrowon.png" />
+                                    </image>
+                                </ImageView>
+                                <ImageView fx:id="downFavouriteArrow" cache="true" cacheHint="SCALE_AND_ROTATE" fitHeight="10.0" fitWidth="15.0" layoutX="6.0" layoutY="415.0" onMouseClicked="#translateFavouritePanelOnClick" opacity="0.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="420.0">
+                                    <image>
+                                        <Image url="@../images/rarrowon.png" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </AnchorPane>
+                    </right>
+                    <center>
+                        <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="650" prefWidth="400.0" style="-fx-background-color: gray; -fx-background-radius: 0px 10px 10px 0px; -fx-border-radius: 0px 10px 10px 0px;" BorderPane.alignment="CENTER">
+                            <children>
+                                <ScrollPane hbarPolicy="NEVER" layoutX="50.0" layoutY="50.0" style="-fx-background: transparent; -fx-background-color: transparent; -fx-border-color: transparent;" vbarPolicy="NEVER" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+                                    <content>
+                                        <GridPane fx:id="favouriteGrid" gridLinesVisible="false" prefHeight="549.0" prefWidth="325.0">
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="171.0" minWidth="10.0" prefWidth="171.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="101.0" minWidth="10.0" prefWidth="79.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="98.0" minWidth="10.0" prefWidth="69.0" />
+                                            </columnConstraints>
+                                        </GridPane>
+                                    </content>
+                                </ScrollPane>
+                            </children>
+                        </AnchorPane>
+                    </center>
+                    <effect>
+                        <DropShadow />
+                    </effect>
+                </BorderPane>
+            </children>
+        </AnchorPane>
+        <Text fx:id="errorText" fill="#f50606" layoutX="860.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" />
     </children>
 </AnchorPane>

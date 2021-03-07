@@ -6,17 +6,18 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.text.Normalizer;
 import java.util.ArrayList;
 
 /**
  * Represents a city
+ *
  * @version 1.1
  */
 public class City {
+
     private final String id;
     private final String name;
     private final String country;
@@ -30,13 +31,22 @@ public class City {
     /**
      * Reads the String in parameter and initializes all attributes
      * Creates a Weather object weatherNow corresponding to city's current weather
+     *
      * @param data the string returned by an API query
      * @since 1.0
      */
     public City(String data) throws IOException {
         JsonObject obj = JsonParser.parseString(data).getAsJsonObject();
         id = obj.get("id").getAsString();
-        name = obj.get("name").getAsString();
+        String cityName;
+        if (obj.get("name").getAsString().contains("Arrondissement de")) {
+            cityName = obj.get("name").getAsString().substring(18);
+        } else if (obj.get("name").getAsString().contains("Arrondissement d'")) {
+            cityName = obj.get("name").getAsString().substring(17);
+        } else {
+            cityName = obj.get("name").getAsString();
+        }
+        name = new String(cityName.getBytes(), StandardCharsets.UTF_8);
         country = obj.get("sys").getAsJsonObject().get("country").getAsString();
         longitude = obj.get("coord").getAsJsonObject().get("lon").getAsDouble();
         latitude = obj.get("coord").getAsJsonObject().get("lat").getAsDouble();
@@ -76,7 +86,7 @@ public class City {
     }
 
     public String getName() {
-        return name;
+        return Normalizer.normalize(name, Normalizer.Form.NFD).replaceAll("[\u0300-\u036F]", "");
     }
 
     public long getTimezone() {
