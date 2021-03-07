@@ -1,7 +1,5 @@
 package app.appmeteo.model;
 
-import app.appmeteo.controller.FavouriteList;
-import app.appmeteo.controller.UserQuery;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -26,7 +24,5 @@ public class UserTest {
         user.setFavouriteList(new FavouriteList(new File("bonsoir")));
         assertEquals(user.getFavouriteList().getList(), new FavouriteList(new File("bonsoir")).getList());
         assertEquals(user.getQuery().getCommandLine(), new UserQuery(testQuery).getCommandLine());
-
-
     }
 }

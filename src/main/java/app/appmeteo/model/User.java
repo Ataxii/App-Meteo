@@ -1,8 +1,5 @@
 package app.appmeteo.model;
 
-import app.appmeteo.controller.FavouriteList;
-import app.appmeteo.controller.UserQuery;
-
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -12,14 +9,9 @@ public class User {
     private final Scanner scanner;
     private FavouriteList favouriteList;
 
-    public User(Scanner scanner) throws IOException {
-        this.scanner = scanner;
-        this.favouriteList = new FavouriteList();
-        this.query = new UserQuery(new String[0]);
-    }
-
     /**
      * @param commandLine the commands line
+     * @throws IOException
      */
     public User(String[] commandLine) throws IOException {
         this.query = new UserQuery(commandLine);
@@ -31,8 +23,8 @@ public class User {
         return this.query;
     }
 
-    public void setQuery(UserQuery query) {
-        this.query = query;
+    public void setQuery(String[] command) {
+        query = new UserQuery(command);
     }
 
     public FavouriteList getFavouriteList() {

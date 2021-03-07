@@ -14,6 +14,8 @@ public class AppMeteo extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/app/appmeteo/view/appmeteo.fxml"));
         primaryStage.setTitle("AppMeteo");
         primaryStage.setScene(new Scene(root));
+        primaryStage.setMinHeight(700);
+        primaryStage.setMinWidth(1100);
         primaryStage.show();
     }
 
