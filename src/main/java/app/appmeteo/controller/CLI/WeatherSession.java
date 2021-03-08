@@ -18,12 +18,14 @@ import app.appmeteo.model.HourWeather;
  */
 public class WeatherSession extends Session {
 
-    public WeatherSession(User usr) {
-        super(usr);
-    }
-
     private City city; // city of user's query, initialised in treatQuery
     SimpleDateFormat hourOnly = new SimpleDateFormat("HH:mm");
+
+
+    public WeatherSession(User usr) {
+        super(usr);
+        hourOnly.setTimeZone(TimeZone.getTimeZone("London"));
+    }
 
     /**
      * Initialises City object and calls for correct function depending on user's query
@@ -110,7 +112,6 @@ public class WeatherSession extends Session {
     private void displayTodayWeather(ArrayList<String> options) {
         HourWeather weatherNow = city.getWeatherNow();
         DayWeather weatherToday = city.getWeatherPerDay().get(0);
-        hourOnly.setTimeZone(TimeZone.getTimeZone("London"));
 
         // Raw Call
         if (options.size() == 0) {
@@ -247,7 +248,6 @@ public class WeatherSession extends Session {
     private void displayDateWeather(ArrayList<String> options) {
         DayWeather weather = null;
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        hourOnly.setTimeZone(TimeZone.getTimeZone("London"));
 
         // Search for correct DayWeather
         for (DayWeather w : city.getWeatherPerDay()) {
@@ -473,7 +473,7 @@ public class WeatherSession extends Session {
     }
 
     /**
-     * Returns whether two dates are on the same day
+     * Returns whether or not two dates are on the same day
      *
      * @param date        of type Date
      * @param anotherDate of type Date
@@ -488,7 +488,7 @@ public class WeatherSession extends Session {
     }
 
     /**
-     * Return the result of an API query depending on User query properties
+     * Returns the result of an API query depending on User query properties
      *
      * @return an instance of city
      * @throws IOException if API query is not valid
