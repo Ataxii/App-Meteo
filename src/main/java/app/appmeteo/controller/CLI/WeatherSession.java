@@ -23,6 +23,7 @@ public class WeatherSession extends Session {
     }
 
     private City city; // city of user's query, initialised in treatQuery
+    SimpleDateFormat hourOnly = new SimpleDateFormat("HH:mm");
 
     /**
      * Initialises City object and calls for correct function depending on user's query
@@ -109,20 +110,21 @@ public class WeatherSession extends Session {
     private void displayTodayWeather(ArrayList<String> options) {
         HourWeather weatherNow = city.getWeatherNow();
         DayWeather weatherToday = city.getWeatherPerDay().get(0);
+        hourOnly.setTimeZone(TimeZone.getTimeZone("London"));
 
         // Raw Call
         if (options.size() == 0) {
             System.out.print(
-                    "Main Infos :\n"
+                    "Main Info :\n"
                             + "\t" + "Main : " + weatherNow.getMain() + "\n"
                             + "\t" + "Cloud cover : " + cloudinessAppreciation(weatherNow.getCloudiness()) + "\n"
                             + "\t" + "Probability of precipitation : " + city.getWeatherPerHour().get(0).getPop() + "%" + "\n"
-                            + "\t" + "Sunrise : " + new SimpleDateFormat("HH:mm").format(new Date(weatherToday.getSunrise() * 1000)) + "\n"
-                            + "\t" + "Sunset : " + new SimpleDateFormat("HH:mm").format(new Date(weatherToday.getSunset() * 1000)) + "\n"
-                            + "Wind Infos :\n"
+                            + "\t" + "Sunrise : " + hourOnly.format(new Date(weatherToday.getSunrise() * 1000 + city.getTimezone() * 1000)) + "\n"
+                            + "\t" + "Sunset : " + hourOnly.format(new Date(weatherToday.getSunset() * 1000 + city.getTimezone() * 1000)) + "\n"
+                            + "Wind Info :\n"
                             + "\t" + "Orientation : " + getWindOrientation(weatherNow.getWindDeg()) + "\n"
                             + "\t" + "Speed : " + weatherNow.getWindSpeed() + " km/h" + "\n"
-                            + "Temperature Infos :\n"
+                            + "Temperature Info :\n"
                             + "\t" + "Day :\n"
                             + "\t\t" + "Temperature : " + weatherNow.getTemp() + "°C" + "\n"
                             + "\t\t" + "Feels like : " + weatherNow.getTempFeelsLike() + "°C" + "\n"
@@ -133,7 +135,7 @@ public class WeatherSession extends Session {
                 switch (option) {
                     case WeatherCommands.TEMP:
                         System.out.print(
-                                "Temperature Infos :\n"
+                                "Temperature Info :\n"
                                         + "\t" + "Day Temperature :\n"
                                         + "\t\t" + "Temperature Min : " + weatherToday.getTempMin() + "°C" + "\n"
                                         + "\t\t" + "Temperature Max : " + weatherToday.getTempMax() + "°C" + "\n"
@@ -150,21 +152,21 @@ public class WeatherSession extends Session {
                         break;
                     case WeatherCommands.WIND:
                         System.out.print(
-                                "Wind Infos :\n"
+                                "Wind Info :\n"
                                         + "\t" + "Orientation : " + getWindOrientation(weatherNow.getWindDeg()) + "\n"
                                         + "\t" + "Speed : " + weatherNow.getWindSpeed() + " km/h" + "\n"
                         );
                         break;
                     case WeatherCommands.MORNING:
                         System.out.print(
-                                "Main Infos :\n"
+                                "Main Info :\n"
                                         + "\t" + "Main : " + weatherToday.getMain() + "\n"
                                         + "\t" + "Cloud cover : " + cloudinessAppreciation(weatherToday.getCloudiness()) + "\n"
                                         + "\t" + "Probability of precipitation : " + city.getWeatherPerHour().get(0).getPop() + "%" + "\n"
-                                        + "Wind Infos :\n"
+                                        + "Wind Info :\n"
                                         + "\t" + "Orientation : " + getWindOrientation(weatherToday.getWindDeg()) + "\n"
                                         + "\t" + "Speed : " + weatherToday.getWindSpeed() + " km/h" + "\n"
-                                        + "Temperature Infos :\n"
+                                        + "Temperature Info :\n"
                                         + "\t" + "Morning :\n"
                                         + "\t\t" + "Temperature : " + weatherToday.getTempMorning() + "°C" + "\n"
                                         + "\t\t" + "Feels like : " + weatherToday.getTempFeelsLikeMorning() + "°C" + "\n"
@@ -172,14 +174,14 @@ public class WeatherSession extends Session {
                         break;
                     case WeatherCommands.EVENING:
                         System.out.print(
-                                "Main Infos :\n"
+                                "Main Info :\n"
                                         + "\t" + "Main : " + weatherToday.getMain() + "\n"
                                         + "\t" + "Cloud cover : " + cloudinessAppreciation(weatherToday.getCloudiness()) + "\n"
                                         + "\t" + "Probability of precipitation : " + city.getWeatherPerHour().get(0).getPop() + "%" + "\n"
-                                        + "Wind Infos :\n"
+                                        + "Wind Info :\n"
                                         + "\t" + "Orientation : " + getWindOrientation(weatherToday.getWindDeg()) + "\n"
                                         + "\t" + "Speed : " + weatherToday.getWindSpeed() + " km/h" + "\n"
-                                        + "Temperature Infos :\n"
+                                        + "Temperature Info :\n"
                                         + "\t" + "Evening :\n"
                                         + "\t\t" + "Temperature : " + weatherToday.getTempEvening() + "°C" + "\n"
                                         + "\t\t" + "Feels like : " + weatherToday.getTempFeelsLikeEvening() + "°C" + "\n"
@@ -187,14 +189,14 @@ public class WeatherSession extends Session {
                         break;
                     case WeatherCommands.NIGHT:
                         System.out.print(
-                                "Main Infos :\n"
+                                "Main Info :\n"
                                         + "\t" + "Main : " + weatherToday.getMain() + "\n"
                                         + "\t" + "Cloud cover : " + cloudinessAppreciation(weatherToday.getCloudiness()) + "\n"
                                         + "\t" + "Probability of precipitation : " + city.getWeatherPerHour().get(0).getPop() + "%" + "\n"
-                                        + "Wind Infos :\n"
+                                        + "Wind Info :\n"
                                         + "\t" + "Orientation : " + getWindOrientation(weatherToday.getWindDeg()) + "\n"
                                         + "\t" + "Speed : " + weatherToday.getWindSpeed() + " km/h" + "\n"
-                                        + "Temperature Infos :\n"
+                                        + "Temperature Info :\n"
                                         + "\t" + "Night :\n"
                                         + "\t\t" + "Temperature : " + weatherToday.getTempNight() + "°C" + "\n"
                                         + "\t\t" + "Feels like : " + weatherToday.getTempFeelsLikeNight() + "°C" + "\n"
@@ -202,19 +204,19 @@ public class WeatherSession extends Session {
                         break;
                     case WeatherCommands.PRECISE:
                         System.out.print(
-                                "Main Infos :\n"
+                                "Main Info :\n"
                                         + "\t" + "Description : " + weatherNow.getDescription() + "\n"
                                         + "\t" + "Cloud cover : " + cloudinessAppreciation(weatherNow.getCloudiness()) + "\n"
                                         + "\t" + "Probability of precipitation : " + city.getWeatherPerHour().get(0).getPop() + "%" + "\n"
                                         + "\t" + "Humidity : " + weatherNow.getHumidity() + "%" + "\n"
                                         + "\t" + "Pressure : " + weatherNow.getPressure() + " hPa" + "\n"
                                         + "\t" + "Visibility : " + weatherNow.getVisibility() + "m" + "\n"
-                                        + "\t" + "Sunrise : " + new SimpleDateFormat("HH:mm").format(new Date(weatherToday.getSunrise() * 1000)) + "\n"
-                                        + "\t" + "Sunset : " + new SimpleDateFormat("HH:mm").format(new Date(weatherToday.getSunset() * 1000)) + "\n"
-                                        + "Wind Infos :\n"
+                                        + "\t" + "Sunrise : " + hourOnly.format(new Date(weatherToday.getSunrise() * 1000 + city.getTimezone() * 1000)) + "\n"
+                                        + "\t" + "Sunset : " + hourOnly.format(new Date(weatherToday.getSunset() * 1000 + city.getTimezone() * 1000)) + "\n"
+                                        + "Wind Info :\n"
                                         + "\t" + "Orientation : " + getWindOrientation(weatherNow.getWindDeg()) + "\n"
                                         + "\t" + "Speed : " + weatherNow.getWindSpeed() + " km/h" + "\n"
-                                        + "Temperature Infos :\n"
+                                        + "Temperature Info :\n"
                                         + "\t" + "Day :\n"
                                         + "\t\t" + "Temperature : " + weatherNow.getTemp() + "°C" + "\n"
                                         + "\t\t" + "Feels like : " + weatherNow.getTempFeelsLike() + "°C" + "\n"
@@ -245,6 +247,7 @@ public class WeatherSession extends Session {
     private void displayDateWeather(ArrayList<String> options) {
         DayWeather weather = null;
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        hourOnly.setTimeZone(TimeZone.getTimeZone("London"));
 
         // Search for correct DayWeather
         for (DayWeather w : city.getWeatherPerDay()) {
@@ -267,16 +270,16 @@ public class WeatherSession extends Session {
         // Raw call
         if (options.size() == 0) {
             System.out.print(
-                    "Main Infos :\n"
+                    "Main Info :\n"
                             + "\t" + "Main : " + weather.getMain() + "\n"
                             + "\t" + "Cloud cover : " + cloudinessAppreciation(weather.getCloudiness()) + "\n"
                             + "\t" + "Probability of precipitation : " + weather.getPop() + "%" + "\n"
-                            + "\t" + "Sunrise : " + new SimpleDateFormat("HH:mm").format(new Date(weather.getSunrise() * 1000)) + "\n"
-                            + "\t" + "Sunset : " + new SimpleDateFormat("HH:mm").format(new Date(weather.getSunset() * 1000)) + "\n"
-                            + "Wind Infos :\n"
+                            + "\t" + "Sunrise : " + hourOnly.format(new Date(weather.getSunrise() * 1000 + city.getTimezone() * 1000)) + "\n"
+                            + "\t" + "Sunset : " + hourOnly.format(new Date(weather.getSunset() * 1000 + city.getTimezone() * 1000)) + "\n"
+                            + "Wind Info :\n"
                             + "\t" + "Orientation : " + getWindOrientation(weather.getWindDeg()) + "\n"
                             + "\t" + "Speed : " + weather.getWindSpeed() + " km/h" + "\n"
-                            + "Temperature Infos :\n"
+                            + "Temperature Info :\n"
                             + "\t" + "Morning :\n"
                             + "\t\t" + "Temperature : " + weather.getTempMorning() + "°C" + "\n"
                             + "\t\t" + "Feels like : " + weather.getTempFeelsLikeMorning() + "°C" + "\n"
@@ -293,7 +296,7 @@ public class WeatherSession extends Session {
                 switch (option) {
                     case WeatherCommands.TEMP:
                         System.out.print(
-                                "Temperature Infos :\n"
+                                "Temperature Info :\n"
                                         + "\t" + "Day Temperature :\n"
                                         + "\t\t" + "Temperature Min : " + weather.getTempMin() + "°C" + "\n"
                                         + "\t\t" + "Temperature Max : " + weather.getTempMax() + "°C" + "\n"
@@ -310,21 +313,21 @@ public class WeatherSession extends Session {
                         break;
                     case WeatherCommands.WIND:
                         System.out.print(
-                                "Wind Infos :\n"
+                                "Wind Info :\n"
                                         + "\t" + "Orientation : " + getWindOrientation(weather.getWindDeg()) + "\n"
                                         + "\t" + "Speed : " + weather.getWindSpeed() + " km/h" + "\n"
                         );
                         break;
                     case WeatherCommands.MORNING:
                         System.out.print(
-                                "Main Infos :\n"
+                                "Main Info :\n"
                                         + "\t" + "Main : " + weather.getMain() + "\n"
                                         + "\t" + "Cloud cover : " + cloudinessAppreciation(weather.getCloudiness()) + "\n"
                                         + "\t" + "Probability of precipitation : " + weather.getPop() + "%"
-                                        + "Wind Infos :\n"
+                                        + "Wind Info :\n"
                                         + "\t" + "Orientation : " + getWindOrientation(weather.getWindDeg()) + "\n"
                                         + "\t" + "Speed : " + weather.getWindSpeed() + " km/h" + "\n"
-                                        + "Temperature Infos :\n"
+                                        + "Temperature Info :\n"
                                         + "\t" + "Morning :\n"
                                         + "\t\t" + "Temperature : " + weather.getTempMorning() + "°C" + "\n"
                                         + "\t\t" + "Feels like : " + weather.getTempFeelsLikeMorning() + "°C" + "\n"
@@ -332,14 +335,14 @@ public class WeatherSession extends Session {
                         break;
                     case WeatherCommands.EVENING:
                         System.out.print(
-                                "Main Infos :\n"
+                                "Main Info :\n"
                                         + "\t" + "Main : " + weather.getMain() + "\n"
                                         + "\t" + "Cloud cover : " + cloudinessAppreciation(weather.getCloudiness()) + "\n"
                                         + "\t" + "Probability of precipitation : " + weather.getPop() + "%" + "\n"
-                                        + "Wind Infos :\n"
+                                        + "Wind Info :\n"
                                         + "\t" + "Orientation : " + getWindOrientation(weather.getWindDeg()) + "\n"
                                         + "\t" + "Speed : " + weather.getWindSpeed() + " km/h" + "\n"
-                                        + "Temperature Infos :\n"
+                                        + "Temperature Info :\n"
                                         + "\t" + "Evening :\n"
                                         + "\t\t" + "Temperature : " + weather.getTempEvening() + "°C" + "\n"
                                         + "\t\t" + "Feels like : " + weather.getTempFeelsLikeEvening() + "°C" + "\n"
@@ -347,14 +350,14 @@ public class WeatherSession extends Session {
                         break;
                     case WeatherCommands.NIGHT:
                         System.out.print(
-                                "Main Infos :\n"
+                                "Main Info :\n"
                                         + "\t" + "Main : " + weather.getMain() + "\n"
                                         + "\t" + "Cloud cover : " + cloudinessAppreciation(weather.getCloudiness()) + "\n"
                                         + "\t" + "Probability of precipitation : " + weather.getPop() + "%" + "\n"
-                                        + "Wind Infos :\n"
+                                        + "Wind Info :\n"
                                         + "\t" + "Orientation : " + getWindOrientation(weather.getWindDeg()) + "\n"
                                         + "\t" + "Speed : " + weather.getWindSpeed() + " km/h" + "\n"
-                                        + "Temperature Infos :\n"
+                                        + "Temperature Info :\n"
                                         + "\t" + "Night :\n"
                                         + "\t\t" + "Temperature : " + weather.getTempNight() + "°C" + "\n"
                                         + "\t\t" + "Feels like : " + weather.getTempFeelsLikeNight() + "°C" + "\n"
@@ -362,18 +365,18 @@ public class WeatherSession extends Session {
                         break;
                     case WeatherCommands.PRECISE:
                         System.out.print(
-                                "Main Infos :\n"
+                                "Main Info :\n"
                                         + "\t" + "Description : " + weather.getDescription() + "\n"
                                         + "\t" + "Cloud cover : " + cloudinessAppreciation(weather.getCloudiness()) + "\n"
                                         + "\t" + "Probability of precipitation : " + weather.getPop() + "%" + "\n"
                                         + "\t" + "Humidity : " + weather.getHumidity() + "%" + "\n"
                                         + "\t" + "Pressure : " + weather.getPressure() + " hPa" + "\n"
-                                        + "\t" + "Sunrise : " + new SimpleDateFormat("HH:mm").format(new Date(weather.getSunrise() * 1000)) + "\n"
-                                        + "\t" + "Sunset : " + new SimpleDateFormat("HH:mm").format(new Date(weather.getSunset() * 1000)) + "\n"
-                                        + "Wind Infos :\n"
+                                        + "\t" + "Sunrise : " + hourOnly.format(new Date(weather.getSunrise() * 1000 + city.getTimezone() * 1000)) + "\n"
+                                        + "\t" + "Sunset : " + hourOnly.format(new Date(weather.getSunset() * 1000 + city.getTimezone() * 1000)) + "\n"
+                                        + "Wind Info :\n"
                                         + "\t" + "Orientation : " + getWindOrientation(weather.getWindDeg()) + "\n"
                                         + "\t" + "Speed : " + weather.getWindSpeed() + " km/h" + "\n"
-                                        + "Temperature Infos :\n"
+                                        + "Temperature Info :\n"
                                         + "\t" + "Day Temperature :\n"
                                         + "\t\t" + "Temperature Min : " + weather.getTempMin() + "°C" + "\n"
                                         + "\t\t" + "Temperature Max : " + weather.getTempMax() + "°C" + "\n"
