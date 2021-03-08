@@ -101,7 +101,14 @@ public class FavouriteList {
     }
 
     public void addFavourite(Favourite favourite) {
-        if (!favouriteList.contains(favourite)) favouriteList.add(favourite);
+        if (!favouriteList.contains(favourite)) {
+            favouriteList.add(favourite);
+            try {
+                write();
+            } catch (IOException e) {
+                System.err.println("Error : failed to write");
+            }
+        }
     }
 
     /**
@@ -114,7 +121,14 @@ public class FavouriteList {
         Favourite newFav = new Favourite(cityName);
         if (favouriteList.contains(newFav))
             throw new InvalidParameterException("Error : specified city already in your favourites... try to specify country code");
-        else favouriteList.add(newFav);
+        else {
+            favouriteList.add(newFav);
+            try {
+                write();
+            } catch (IOException e) {
+                System.err.println("Error : failed to write");
+            }
+        }
     }
 
     /**
@@ -129,13 +143,25 @@ public class FavouriteList {
         Favourite newFav = new Favourite(cityName, countryCode);
         if (favouriteList.contains(newFav))
             throw new InvalidParameterException("Error : specified city already in your favourites...");
-        else favouriteList.add(newFav);
+        else {
+            favouriteList.add(newFav);
+            try {
+                write();
+            } catch (IOException e) {
+                System.err.println("Error : failed to write");
+            }
+        }
     }
 
     public void removeFavourite(int index) throws IndexOutOfBoundsException {
         if (0 > index || index >= favouriteList.size())
             throw new IndexOutOfBoundsException("Error : specified index is wrong");
         favouriteList.remove(index);
+        try {
+            write();
+        } catch (IOException e) {
+            System.err.println("Error : failed to write");
+        }
     }
 
     public void write() throws IOException {

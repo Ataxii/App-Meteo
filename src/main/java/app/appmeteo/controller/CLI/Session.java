@@ -1,7 +1,5 @@
 package app.appmeteo.controller.CLI;
 
-import java.io.IOException;
-
 import app.appmeteo.model.Commands.*;
 import app.appmeteo.model.User;
 
@@ -45,12 +43,6 @@ public abstract class Session {
                 break;
             }
             case CommandType.QUIT: {
-                System.out.println("Leaving " + toString() + "...");
-                try {
-                    user.getFavouriteList().write();
-                } catch (IOException e) {
-                    System.out.println("Error : failed to write into your favourites");
-                }
                 isOver = true;
                 break;
             }
