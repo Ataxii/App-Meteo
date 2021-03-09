@@ -38,6 +38,8 @@ public class City {
     public City(String data) throws IOException {
         JsonObject obj = JsonParser.parseString(data).getAsJsonObject();
         id = obj.get("id").getAsString();
+
+        // City name normalization
         String cityName;
         if (obj.get("name").getAsString().contains("Arrondissement de")) {
             cityName = obj.get("name").getAsString().substring(18);
@@ -46,6 +48,11 @@ public class City {
         } else {
             cityName = obj.get("name").getAsString();
         }
+        cityName = cityName.replaceAll("[0-9]","");
+        if (cityName.charAt(cityName.length() - 1) == ' ') {
+            cityName = cityName.substring(0, cityName.length() - 1);
+        }
+
         name = new String(cityName.getBytes(), StandardCharsets.UTF_8);
         country = obj.get("sys").getAsJsonObject().get("country").getAsString();
         longitude = obj.get("coord").getAsJsonObject().get("lon").getAsDouble();
